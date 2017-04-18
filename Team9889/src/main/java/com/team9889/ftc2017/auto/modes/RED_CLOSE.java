@@ -12,7 +12,7 @@ public class RED_CLOSE extends AutoModeBase{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForBaseStart(hardwareMap, this);
+        waitForTeamStart(hardwareMap, this);
 
         runAction(new DriveStraightAction(15, Constants.kDriveMinSpeed), this);
 

@@ -147,6 +147,10 @@ public class Drive extends Subsystem {
         return gyro_.getHeading();
     }
 
+    public double getUltrasonic(){
+        return ultrasonic.getUltrasonicLevel();
+    }
+
     @Override
     public void zeroSensors() {
         leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
