@@ -18,6 +18,11 @@ import com.team9889.ftc2017.subsystems.Intake;
  */
 public abstract class AutoModeBase extends Team9889LinearOpMode{
 
+    /**
+     *
+     * @param action
+     * @param opMode just type in "this"
+     */
     public void runAction(Action action, LinearOpMode opMode){
         action.start();
         while (!action.isFinished() && opMode.opModeIsActive()){

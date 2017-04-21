@@ -139,11 +139,11 @@ public class Drive extends Subsystem {
         return ticks/Constants.CountsPerInch;
     }
 
-    private int getGyroAngle(){
+    public int getGyroAngle(){
         return gyro_.getIntegratedZValue();
     }
 
-    public int geGyroHeading(){
+    public int getGyroHeading(){
         return gyro_.getHeading();
     }
 

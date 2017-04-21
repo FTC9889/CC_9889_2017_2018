@@ -1,5 +1,6 @@
 package com.team9889.ftc2017.auto.modes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.team9889.ftc2017.Constants;
 import com.team9889.ftc2017.auto.AutoModeBase;
 import com.team9889.ftc2017.auto.actions.*;
@@ -8,6 +9,7 @@ import com.team9889.ftc2017.auto.actions.*;
  * Created by Joshua H on 4/10/2017.
  */
 
+@Autonomous(name = "Red Close")
 public class RED_CLOSE extends AutoModeBase{
 
     @Override
@@ -16,7 +18,7 @@ public class RED_CLOSE extends AutoModeBase{
 
         runAction(new DriveStraightAction(15, Constants.kDriveMinSpeed), this);
 
-        runAction(new TurnToAngle(90, Constants.kDriveMinSpeed), this);
+        runAction(new ShootAction(2), this);
 
         finalAction(this);
     }

@@ -34,9 +34,7 @@ public class DriveUntilInRangeAction implements Action {
 
     @Override
     public void update(LinearOpMode linearOpMode) {
-        while (linearOpMode.opModeIsActive()){
 
-        }
     }
 
     @Override

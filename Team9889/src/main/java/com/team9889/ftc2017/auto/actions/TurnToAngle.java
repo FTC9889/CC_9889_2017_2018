@@ -8,14 +8,21 @@ import com.team9889.ftc2017.subsystems.Drive;
  */
 
 public class TurnToAngle implements Action {
-    private int initAngle;
+    private int currentAngle;
     private int wantedAngle;
     private int mError;
 
     private double mSpeed;
 
-    Drive mDrive = Drive.getInstance();
+    private Drive mDrive = Drive.getInstance();
 
+    /**
+     *
+     * @param angle Desired angle
+     *              Positive angle is right
+     *              Negative angle is left
+     * @param speed Speed of turn
+     */
     public TurnToAngle(int angle, double speed){
         wantedAngle = angle;
         mSpeed = speed;
@@ -25,10 +32,11 @@ public class TurnToAngle implements Action {
     public boolean isFinished() {
         boolean finished = false;
         if(mError < 0){
-            mDrive.setLeftRightPower(-mSpeed, mSpeed);
+            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
         }else if(mError > 0){
-            mDrive.setLeftRightPower(mSpeed, -mSpeed);
+            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
         }else{
+            mDrive.setLeftRightPower(0,0);
             finished = true;
         }
 
@@ -44,15 +52,13 @@ public class TurnToAngle implements Action {
 
     @Override
     public void update(LinearOpMode linearOpMode) {
-        mError = wantedAngle - initAngle;
-
-
-
+        currentAngle = mDrive.getGyroAngle();
+        mError = wantedAngle - currentAngle;
     }
 
     @Override
     public void start() {
+        mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
-        initAngle = mDrive.geGyroHeading();
     }
 }
