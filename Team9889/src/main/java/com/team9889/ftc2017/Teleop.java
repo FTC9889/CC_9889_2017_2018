@@ -1,9 +1,7 @@
 package com.team9889.ftc2017;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.ftc2017.subsystems.Beacon;
-import com.team9889.ftc2017.subsystems.Flywheel;
-import com.team9889.ftc2017.subsystems.Intake;
+import com.team9889.ftc2017.subsystems.*;
 
 /**
  * Created by joshua on 4/17/17.
