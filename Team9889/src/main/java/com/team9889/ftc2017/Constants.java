@@ -19,27 +19,27 @@ public class Constants {
     public final static double kIntakeServoSpeedWait = 1.0;
 
     //Settings for Flywheel class
-    public static final String kFlywheelMotorId = "flywheel";
+    public final static String kFlywheelMotorId = "flywheel";
 
     //Settings for Drivetrain class
-    public static final String kLeftDriveMasterId = "LDrive1";
-    public static final String kLeftDriveSlaveId = "LDrive2";
-    public static final String kRightDriveMasterId = "RDrive1";
-    public static final String kRightDriveSlaveId = "RDrive2";
+    public final static String kLeftDriveMasterId = "LDrive1";
+    public final static String kLeftDriveSlaveId = "LDrive2";
+    public final static String kRightDriveMasterId = "RDrive1";
+    public final static String kRightDriveSlaveId = "RDrive2";
 
-    public static final String kOpticalDistanceSensor1Id = "OD1";
-    public static final String kOpticalDistanceSensor2Id = "OD2";
+    public final static String kOpticalDistanceSensor1Id = "OD1";
+    public final static String kOpticalDistanceSensor2Id = "OD2";
 
-    public static final String kGyroId = "gyro";
+    public final static String kGyroId = "gyro";
 
-    public static final String kLegoUltrasonicSensor1Id = "ultra";
+    public final static String kLegoUltrasonicSensor1Id = "ultra";
 
-    public static final String kCoreDeviceInterfaceModule1Id = "CDI";
+    public final static String kCoreDeviceInterfaceModule1Id = "CDI";
 
     //DcMotor Encoders
-    private static final float EncoderCounts=1120;
-    private static final float WheelDiameter=4;
-    public static final double CountsPerInch=EncoderCounts/(WheelDiameter*Math.PI);
+    private final static float EncoderCounts=1120;
+    private final static float WheelDiameter=4;
+    public final static double CountsPerInch=EncoderCounts/(WheelDiameter*Math.PI);
 
     //Max and min speeds for drivetrain
     public final static double kDriveMaxSpeed = 1.0;
@@ -49,13 +49,13 @@ public class Constants {
     public final double WhiteLineValue = 0.6;
 
     //Settings for Beacon Pressers
-    public static final String kRightBeaconPresserId = "RBump";
-    public static final String kLeftBeaconPresserId = "LBump";
+    public final static String kRightBeaconPresserId = "RBump";
+    public final static String kLeftBeaconPresserId = "LBump";
 
-    public static final String kColorSensorId = "colorsensor";
+    public final static String kColorSensorId = "colorsensor";
 
-    public static final double kDeployedBeaconPresser = 0.4;
-    public static final double kRetractedBeaconPresser = 0.4;
+    public final static double kDeployedBeaconPresser = 0.4;
+    public final static double kRetractedBeaconPresser = 0.4;
 
     //Settings Autonomous Mode
     public enum AutonSetting {
