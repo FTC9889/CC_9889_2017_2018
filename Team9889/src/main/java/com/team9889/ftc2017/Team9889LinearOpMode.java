@@ -3,6 +3,7 @@ package com.team9889.ftc2017;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.auto.actions.Action;
 import com.team9889.ftc2017.subsystems.Beacon;
 import com.team9889.ftc2017.subsystems.Drive;
@@ -22,18 +23,27 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     public HardwareMap mHardwareMap;
 
-    public ElapsedTime autonTimer = new ElapsedTime();
-
     private ElapsedTime period = new ElapsedTime();
 
+    private ElapsedTime runtime = new ElapsedTime();
+
     public void waitForTeamStart(HardwareMap hardwareMap, LinearOpMode opMode){
+        Constants.Runtime.reset();
         mHardwareMap = hardwareMap;
 
+        //Init Hardware
         mDrive.init(hardwareMap, true);
         mBeacon.init(hardwareMap, true);
         mIntake.init(hardwareMap, true);
         mFlywheel.init(hardwareMap, true);
 
+        //Zero Sensors
+        mDrive.zeroSensors();
+        mBeacon.zeroSensors();
+        mFlywheel.zeroSensors();
+        mIntake.zeroSensors();
+
+        //Set init state of robot
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
 
@@ -45,8 +55,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         updateTelemtry(opMode);
 
+        //Wait for DS start
         opMode.waitForStart();
-        autonTimer.reset();
     }
 
     public void updateTelemtry(LinearOpMode opMode){
@@ -55,6 +65,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         mFlywheel.outputToTelemtry(opMode);
         mIntake.outputToTelemtry(opMode);
         mBeacon.outputToTelemtry(opMode);
+        opMode.telemetry.addData("Runtime", runtime.milliseconds());
         opMode.telemetry.update();
     }
 
@@ -64,18 +75,45 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
      * @param opMode just type in "this"
      */
     public void runAction(Action action, LinearOpMode opMode){
-        action.start(hardwareMap);
-        while (!action.isFinished() && opMode.opModeIsActive()){
-            action.update(opMode);
+        boolean error = false;
+        try {
+            action.start(mHardwareMap);
+        } catch (Exception e){
+            RobotLog.a("Error running Action " + action + " in start method in " + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+            error = true;
         }
-        action.done();
+
+        while (!action.isFinished() && opMode.opModeIsActive() && !error){
+            try {
+                action.update(opMode);
+            } catch (Exception e){
+                RobotLog.a("Error running Action " + action + " in update method in" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+                error = true;
+            }
+        }
+
+        try {
+            action.done();
+        } catch (Exception e){
+            RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+            error = true;
+        }
+
+        if(!error){
+            opMode.requestOpModeStop();
+        }
     }
 
+    //Final Action to be run
     public void finalAction(LinearOpMode linearOpMode){
-        mDrive.stop();
-        mFlywheel.stop();
-        mBeacon.stop();
-        mIntake.stop();
+        try {
+            mDrive.stop();
+            mFlywheel.stop();
+            mBeacon.stop();
+            mIntake.stop();
+        } catch (Exception e){
+            RobotLog.a("Error Stop method" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+        }
 
         linearOpMode.requestOpModeStop();
     }

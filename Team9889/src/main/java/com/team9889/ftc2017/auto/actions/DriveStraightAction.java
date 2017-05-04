@@ -45,6 +45,7 @@ public class DriveStraightAction implements Action {
 
     @Override
     public boolean isFinished() {
+        DriveBackward = mWantedDistance <0;
 
         if(DriveBackward) {
             if(mAngle > mDrive.getGyroAngle()){

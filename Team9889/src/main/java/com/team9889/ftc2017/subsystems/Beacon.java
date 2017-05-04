@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.Constants;
 
 /**
@@ -35,18 +37,25 @@ public class Beacon extends Subsystem {
 
     @Override
     public void init(HardwareMap hardwareMap, boolean auton) {
+        try {
+            //Servos
+            RightBumper = hardwareMap.servo.get(Constants.kRightBeaconPresserId);
+            LeftBumper = hardwareMap.servo.get(Constants.kLeftBeaconPresserId);
 
-        //Servos
-        RightBumper = hardwareMap.servo.get(Constants.kRightBeaconPresserId);
-        LeftBumper = hardwareMap.servo.get(Constants.kLeftBeaconPresserId);
+            LeftBumper.setDirection(Servo.Direction.REVERSE);
+        } catch (Exception e) {
+            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a("Beacon Servo Init Error");
+        }
 
-        LeftBumper.setDirection(Servo.Direction.REVERSE);
-
-        //Color Sensor
-        Color = hardwareMap.colorSensor.get(Constants.kColorSensorId);
-        Color.enableLed(false);
-
-        WantedState(Position.BOTH_RETRACTED);
+        try {
+            //Color Sensor
+            Color = hardwareMap.colorSensor.get(Constants.kColorSensorId);
+            Color.enableLed(false);
+        } catch (Exception e) {
+            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a("Beacon Color Sensor Init Error");
+        }
     }
 
     public void WantedState(Position wantedState) {

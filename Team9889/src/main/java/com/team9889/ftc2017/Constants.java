@@ -1,5 +1,7 @@
 package com.team9889.ftc2017;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 /**
  * Created by Joshua H on 4/10/2017.
  */
@@ -57,16 +59,8 @@ public class Constants {
     public final static double kDeployedBeaconPresser = 0.4;
     public final static double kRetractedBeaconPresser = 0.4;
 
-    //Settings Autonomous Mode
-    public enum AutonSetting {
-        FAR, CLOSE, DO_NOT_RUN, TEST
-    }
-
-    public enum Alliance_Color {
-        RED, BLUE
-    }
-
-    public static Constants.Alliance_Color allianceColor_ = Alliance_Color.RED;
-    public static Constants.AutonSetting autonSetting_ = AutonSetting.DO_NOT_RUN;
+    //Settings for failure tracking
+    public static String OpMode;
+    public static ElapsedTime Runtime;
 
 }

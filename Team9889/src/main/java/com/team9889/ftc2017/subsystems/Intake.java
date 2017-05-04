@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.Constants;
 
 /**
@@ -21,12 +22,19 @@ public class Intake extends Subsystem {
     private CRServo mIntakeServo;
 
     public void init(HardwareMap hardwareMap, boolean auton){
-        mIntakeMotor = hardwareMap.dcMotor.get(Constants.kIntakeMotorId);
-        mIntakeServo = hardwareMap.crservo.get(Constants.kIntakeServo);
+        try {
+            mIntakeMotor = hardwareMap.dcMotor.get(Constants.kIntakeMotorId);
+        } catch (Exception e) {
+            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a("Intake DC Init Error");
+        }
 
-        zeroSensors();
-
-        start();
+        try {
+            mIntakeServo = hardwareMap.crservo.get(Constants.kIntakeServo);
+        } catch (Exception e) {
+            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a("Intake Servo Init Error");
+        }
     }
 
     public enum WantedState {

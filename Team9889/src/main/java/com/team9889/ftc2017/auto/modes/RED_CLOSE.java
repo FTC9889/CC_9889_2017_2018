@@ -13,6 +13,9 @@ public class RED_CLOSE extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //Set Properties to log in case of failure
+        Constants.OpMode = "RED_CLOSE";
+
         waitForTeamStart(hardwareMap,this);
 
         runAction(new DriveStraightAction(15, Constants.kDriveMinSpeed), this);

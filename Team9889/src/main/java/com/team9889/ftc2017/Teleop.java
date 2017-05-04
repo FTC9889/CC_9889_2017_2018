@@ -12,18 +12,21 @@ import com.team9889.ftc2017.subsystems.*;
 @TeleOp (name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
+    //Beacon Pushers
+    private boolean deploy = false;
+    private ElapsedTime beacontimer = new ElapsedTime();
 
-    private ElapsedTime beacontimer           =new ElapsedTime();
-    private ElapsedTime runtime               = new ElapsedTime();
-    private ElapsedTime shot =new ElapsedTime();
-    private boolean deploy=false;
+    //Shooter
+    private boolean SmartShot = false;
+    private ElapsedTime shot  = new ElapsedTime();
 
-    boolean SmartShot = false;
+    //Drivetrain
+    private double leftspeed, rightspeed, xvalue, yvalue;
+    private int div = 1;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double leftspeed, rightspeed, xvalue, yvalue;
-        int div = 1;
+        Constants.OpMode = "TELEOP";
 
         waitForTeamStart(hardwareMap, this);
 
@@ -91,7 +94,12 @@ public class Teleop extends Team9889LinearOpMode {
 
             }
 
-            //Turning control for Driver 2, so he can adjust the shot on the fly. Disables Driver 1's control
+            //Lower the max speed of the robot
+            if (gamepad1.left_trigger > 0.1){
+                div = 4;
+            }else {
+                div = 1;
+            }
 
             xvalue = -gamepad1.right_stick_x/div;
             yvalue = gamepad1.left_stick_y/div;
@@ -100,13 +108,6 @@ public class Teleop extends Team9889LinearOpMode {
             rightspeed = yvalue + xvalue;
 
             mDrive.setLeftRightPower(leftspeed, rightspeed);
-
-            //Lower the max speed of the robot
-            if (gamepad1.left_trigger > 0.1){
-                div = 4;
-            }else {
-                div = 1;
-            }
 
             updateTelemtry(this);
 
