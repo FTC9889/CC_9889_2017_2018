@@ -3,6 +3,7 @@ package com.team9889.ftc2017;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.team9889.ftc2017.auto.actions.Action;
 import com.team9889.ftc2017.subsystems.Beacon;
 import com.team9889.ftc2017.subsystems.Drive;
 import com.team9889.ftc2017.subsystems.Flywheel;
@@ -13,16 +14,21 @@ import com.team9889.ftc2017.subsystems.Intake;
  */
 
 public abstract class Team9889LinearOpMode extends LinearOpMode {
-    public static Drive mDrive = Drive.getInstance();
-    public static Flywheel mFlywheel = Flywheel.getInstance();
-    public static Intake mIntake = Intake.getInstance();
-    public static Beacon mBeacon = Beacon.getInstance();
+
+    public Drive mDrive = Drive.getInstance();
+    public Beacon mBeacon = Beacon.getInstance();
+    public Intake mIntake = Intake.getInstance();
+    public Flywheel mFlywheel = Flywheel.getInstance();
+
+    public HardwareMap mHardwareMap;
 
     public ElapsedTime autonTimer = new ElapsedTime();
 
     private ElapsedTime period = new ElapsedTime();
 
     public void waitForTeamStart(HardwareMap hardwareMap, LinearOpMode opMode){
+        mHardwareMap = hardwareMap;
+
         mDrive.init(hardwareMap, true);
         mBeacon.init(hardwareMap, true);
         mIntake.init(hardwareMap, true);
@@ -50,6 +56,19 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         mIntake.outputToTelemtry(opMode);
         mBeacon.outputToTelemtry(opMode);
         opMode.telemetry.update();
+    }
+
+    /**
+     *
+     * @param action
+     * @param opMode just type in "this"
+     */
+    public void runAction(Action action, LinearOpMode opMode){
+        action.start(hardwareMap);
+        while (!action.isFinished() && opMode.opModeIsActive()){
+            action.update(opMode);
+        }
+        action.done();
     }
 
     public void finalAction(LinearOpMode linearOpMode){

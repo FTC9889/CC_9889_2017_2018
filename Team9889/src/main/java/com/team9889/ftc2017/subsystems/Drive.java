@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.Constants;
 
 /**
@@ -45,29 +46,51 @@ public class Drive extends Subsystem {
     }
 
     public void init(HardwareMap hardwareMap, boolean auton){
-        rightMaster_ = hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
-        rightSlave_ = hardwareMap.dcMotor.get(Constants.kRightDriveSlaveId);
-        leftMaster_ = hardwareMap.dcMotor.get(Constants.kLeftDriveMasterId);
-        leftSlave_ = hardwareMap.dcMotor.get(Constants.kLeftDriveSlaveId);
+        try {
+            this.rightMaster_ = hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
+            this.rightSlave_ = hardwareMap.dcMotor.get(Constants.kRightDriveSlaveId);
+            this.leftMaster_ = hardwareMap.dcMotor.get(Constants.kLeftDriveMasterId);
+            this.leftSlave_ = hardwareMap.dcMotor.get(Constants.kLeftDriveSlaveId);
 
-        BackODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor1Id);
-        FrontODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor2Id);
+            this.rightMaster_.setDirection(DcMotorSimple.Direction.FORWARD);
+            this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
+        } catch (Exception e){
+            RobotLog.a("drivetrain motor init error:", e);
+        }
 
-        gyro_ = (ModernRoboticsI2cGyro)hardwareMap.get(Constants.kGyroId);
+        try {
+            this.BackODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor1Id);
+            this.FrontODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor2Id);
+        } catch (Exception e){
+            RobotLog.a("drivetrain ODS init error:", e);
+        }
 
-        ultrasonic = hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
+        try {
+            this.gyro_ = (ModernRoboticsI2cGyro)hardwareMap.get(Constants.kGyroId);
+        } catch (Exception e) {
+            RobotLog.a("drivetrain GYRO init error", e);
+        }
 
-        CDI = hardwareMap.deviceInterfaceModule.get(Constants.kCoreDeviceInterfaceModule1Id);
+        try {
+            this.ultrasonic = hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
+        } catch (Exception e) {
+            RobotLog.a("drivetrain ULTRA init error", e);
+        }
 
-        rightMaster_.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
+        try {
+            this.CDI = hardwareMap.deviceInterfaceModule.get(Constants.kCoreDeviceInterfaceModule1Id);
+        } catch (Exception e) {
+            RobotLog.a("drivetrain CDI init error", e);
+        }
 
         slave();
 
         DriveControlState(DriveControlState.POWER);
         DriveZeroPowerState(DriveZeroPower.FLOAT);
 
-        zeroSensors();
+        if(auton) {
+            zeroSensors();
+        }
     }
 
     public void DriveControlState(DriveControlState state){

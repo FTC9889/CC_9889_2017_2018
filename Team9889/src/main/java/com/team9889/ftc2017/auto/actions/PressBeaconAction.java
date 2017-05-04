@@ -1,6 +1,7 @@
 package com.team9889.ftc2017.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2017.Constants;
 import com.team9889.ftc2017.subsystems.Beacon;
 import com.team9889.ftc2017.subsystems.Drive;
@@ -29,7 +30,10 @@ public class PressBeaconAction implements Action {
 
 
     @Override
-    public void start() {
+    public void start(HardwareMap hardwareMap) {
+        mDrive.init(hardwareMap, false);
+        mBeacon.init(hardwareMap, false);
+
         isFinished = false;
 
         if(Constants.allianceColor_ == Constants.Alliance_Color.RED){

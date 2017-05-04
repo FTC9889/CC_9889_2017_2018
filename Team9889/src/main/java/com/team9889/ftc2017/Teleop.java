@@ -2,6 +2,7 @@ package com.team9889.ftc2017;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.subsystems.*;
 
 /**
@@ -10,6 +11,7 @@ import com.team9889.ftc2017.subsystems.*;
 
 @TeleOp (name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
+
 
     private ElapsedTime beacontimer           =new ElapsedTime();
     private ElapsedTime runtime               = new ElapsedTime();
@@ -24,6 +26,8 @@ public class Teleop extends Team9889LinearOpMode {
         int div = 1;
 
         waitForTeamStart(hardwareMap, this);
+
+        RobotLog.a("Teleop Started");
 
         while (opModeIsActive() && !isStopRequested()){
 

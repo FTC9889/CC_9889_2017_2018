@@ -1,8 +1,7 @@
 package com.team9889.ftc2017.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.team9889.ftc2017.Constants;
-import com.team9889.ftc2017.auto.AutoModeBase;
+import com.team9889.ftc2017.*;
 import com.team9889.ftc2017.auto.actions.*;
 
 /**
@@ -10,11 +9,11 @@ import com.team9889.ftc2017.auto.actions.*;
  */
 
 @Autonomous(name = "Red Close")
-public class RED_CLOSE extends AutoModeBase{
+public class RED_CLOSE extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForTeamStart(hardwareMap, this);
+        waitForTeamStart(hardwareMap,this);
 
         runAction(new DriveStraightAction(15, Constants.kDriveMinSpeed), this);
 

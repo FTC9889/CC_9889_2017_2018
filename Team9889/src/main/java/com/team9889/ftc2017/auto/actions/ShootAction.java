@@ -1,6 +1,7 @@
 package com.team9889.ftc2017.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2017.subsystems.Flywheel;
 import com.team9889.ftc2017.subsystems.Intake;
@@ -41,7 +42,9 @@ public class ShootAction implements Action {
     }
 
     @Override
-    public void start() {
+    public void start(HardwareMap hardwareMap) {
+        mFlywheel.init(hardwareMap, false);
+        mIntake.init(hardwareMap, false);
         mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
         mFlywheel.WantedState(Flywheel.WantedState.ON);
         shot.reset();

@@ -1,6 +1,7 @@
 package com.team9889.ftc2017.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2017.subsystems.Drive;
 
 /**
@@ -57,7 +58,8 @@ public class TurnToAngle implements Action {
     }
 
     @Override
-    public void start() {
+    public void start(HardwareMap hardwareMap) {
+        mDrive.init(hardwareMap, false);
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
     }
