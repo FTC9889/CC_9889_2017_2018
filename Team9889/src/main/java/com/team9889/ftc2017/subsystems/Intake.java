@@ -25,14 +25,14 @@ public class Intake extends Subsystem {
         try {
             mIntakeMotor = hardwareMap.dcMotor.get(Constants.kIntakeMotorId);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("Intake DC Init Error");
         }
 
         try {
             mIntakeServo = hardwareMap.crservo.get(Constants.kIntakeServo);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("Intake Servo Init Error");
         }
     }

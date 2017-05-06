@@ -27,15 +27,26 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    public void waitForTeamStart(HardwareMap hardwareMap, LinearOpMode opMode){
-        Constants.Runtime.reset();
-        mHardwareMap = hardwareMap;
-
+    public void waitForTeamStart(LinearOpMode opMode){
+        telemetry.addData("Error", "Drive");
+        telemetry.update();
         //Init Hardware
-        mDrive.init(hardwareMap, true);
-        mBeacon.init(hardwareMap, true);
-        mIntake.init(hardwareMap, true);
-        mFlywheel.init(hardwareMap, true);
+        mDrive.init(opMode.hardwareMap, true);
+
+        telemetry.addData("Error", "Beacon");
+        telemetry.update();
+        mBeacon.init(opMode.hardwareMap, true);
+
+
+        telemetry.addData("Error", "Intake");
+        telemetry.update();
+        mIntake.init(opMode.hardwareMap, true);
+
+        telemetry.addData("Error", "Flywheel");
+        telemetry.update();
+        mFlywheel.init(opMode.hardwareMap, true);
+
+        telemetry.addData("No Errors Init","");
 
         //Zero Sensors
         mDrive.zeroSensors();
@@ -77,25 +88,34 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     public void runAction(Action action, LinearOpMode opMode){
         boolean error = false;
         try {
-            action.start(mHardwareMap);
+            action.start(opMode.hardwareMap);
+            updateTelemtry(opMode);
         } catch (Exception e){
-            RobotLog.a("Error running Action " + action + " in start method in " + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+            opMode.telemetry.addData("Error in Starting Action", action);
+            opMode.telemetry.update();
+            RobotLog.a("Error running Action " + action + " in start method in " + Constants.OpMode);
             error = true;
         }
 
         while (!action.isFinished() && opMode.opModeIsActive() && !error){
             try {
                 action.update(opMode);
+                updateTelemtry(opMode);
             } catch (Exception e){
-                RobotLog.a("Error running Action " + action + " in update method in" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+                opMode.telemetry.addData("Error in Updating Action", action);
+                opMode.telemetry.update();
+                RobotLog.a("Error running Action " + action + " in update method in" + Constants.OpMode);
                 error = true;
             }
         }
 
         try {
             action.done();
+            updateTelemtry(opMode);
         } catch (Exception e){
-            RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+            opMode.telemetry.addData("Error in Finishing Action", action);
+            opMode.telemetry.update();
+            RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode);
             error = true;
         }
 
@@ -112,7 +132,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
             mBeacon.stop();
             mIntake.stop();
         } catch (Exception e){
-            RobotLog.a("Error Stop method" + Constants.OpMode + " at " + Constants.Runtime + " after init.");
+            RobotLog.a("Error Stop method" + Constants.OpMode);
         }
 
         linearOpMode.requestOpModeStop();

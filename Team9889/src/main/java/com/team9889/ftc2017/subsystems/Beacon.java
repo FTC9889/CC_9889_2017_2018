@@ -44,7 +44,7 @@ public class Beacon extends Subsystem {
 
             LeftBumper.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("Beacon Servo Init Error");
         }
 
@@ -53,7 +53,7 @@ public class Beacon extends Subsystem {
             Color = hardwareMap.colorSensor.get(Constants.kColorSensorId);
             Color.enableLed(false);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("Beacon Color Sensor Init Error");
         }
     }

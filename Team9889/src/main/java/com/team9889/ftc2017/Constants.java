@@ -48,7 +48,7 @@ public class Constants {
     public final static double kDriveMinSpeed = 0.2;
 
     //Value of white line
-    public final double WhiteLineValue = 0.6;
+    public final static double WhiteLineValue = 0.6;
 
     //Settings for Beacon Pressers
     public final static String kRightBeaconPresserId = "RBump";
@@ -61,6 +61,7 @@ public class Constants {
 
     //Settings for failure tracking
     public static String OpMode;
-    public static ElapsedTime Runtime;
+
+    public static String Alliance;
 
 }

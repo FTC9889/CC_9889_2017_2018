@@ -55,7 +55,7 @@ public class Drive extends Subsystem {
             this.rightMaster_.setDirection(DcMotorSimple.Direction.FORWARD);
             this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("drivetrain motor init error:", e);
         }
 
@@ -63,28 +63,28 @@ public class Drive extends Subsystem {
             this.BackODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor1Id);
             this.FrontODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor2Id);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("drivetrain ODS init error:", e);
         }
 
         try {
             this.gyro_ = (ModernRoboticsI2cGyro)hardwareMap.get(Constants.kGyroId);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("drivetrain GYRO init error", e);
         }
 
         try {
             this.ultrasonic = hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("drivetrain ULTRA init error", e);
         }
 
         try {
             this.CDI = hardwareMap.deviceInterfaceModule.get(Constants.kCoreDeviceInterfaceModule1Id);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("drivetrain CDI init error", e);
         }
 
@@ -138,7 +138,12 @@ public class Drive extends Subsystem {
         opMode.telemetry.addData("Left Motor Pwr", leftMaster_.getPower());
         opMode.telemetry.addData("Right Side Inches", getRightDistanceInches());
         opMode.telemetry.addData("Left Side Inches", getLeftDistanceInches());
-
+        opMode.telemetry.addData("Right side ticks", rightMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Left side ticks", leftMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Front ODS Raw", FrontODS.getRawLightDetected());
+        opMode.telemetry.addData("Back ODS Raw", BackODS.getRawLightDetected());
+        opMode.telemetry.addData("Gyro Angle", getGyroAngle());
+        opMode.telemetry.addData("Ultrasonic", getUltrasonic());
     }
 
     public void setLeftRightPower(double left, double right){
@@ -170,6 +175,10 @@ public class Drive extends Subsystem {
 
     public double getUltrasonic(){
         return ultrasonic.getUltrasonicLevel();
+    }
+
+    public boolean getWhiteLine(OpticalDistanceSensor opticalDistanceSensor){
+        return opticalDistanceSensor.getRawLightDetected() > Constants.WhiteLineValue;
     }
 
     @Override

@@ -36,13 +36,13 @@ public class PressBeaconAction implements Action {
 
         isFinished = false;
 
-        if(Constants.allianceColor_ == Constants.Alliance_Color.RED){
+        if(Constants.Alliance == "RED"){
             if(mBeacon.getColor() == Beacon.BeaconColor.Red){
                 mBeacon.WantedState(Beacon.Position.LEFT_DEPLOYED);
             }else {
                 mBeacon.WantedState(Beacon.Position.RIGHT_DEPLOYED);
             }
-        }else if(Constants.allianceColor_ == Constants.Alliance_Color.BLUE){
+        }else if(Constants.Alliance == "BLUE"){
             if(mBeacon.getColor() == Beacon.BeaconColor.Blue){
                 mBeacon.WantedState(Beacon.Position.LEFT_DEPLOYED);
             }else {

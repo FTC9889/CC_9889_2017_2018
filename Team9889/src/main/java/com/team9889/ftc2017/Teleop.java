@@ -28,7 +28,10 @@ public class Teleop extends Team9889LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Constants.OpMode = "TELEOP";
 
-        waitForTeamStart(hardwareMap, this);
+        telemetry.addData("Running", "Teleop");
+        telemetry.update();
+
+        waitForTeamStart(this);
 
         RobotLog.a("Teleop Started");
 

@@ -38,7 +38,7 @@ public class Flywheel extends Subsystem{
             Flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             Flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode + " " + Constants.Runtime.seconds());
+            RobotLog.a(Constants.OpMode);
             RobotLog.a("Flywheel motor init error:", e);
         }
     }

@@ -34,7 +34,7 @@ public class DriveStraightAction implements Action {
         mDrive.init(hardwareMap, false);
         startingDistance = getCurrentDistance();
         mAngle = mDrive.getGyroAngle();
-        mDrive.DriveControlState(Drive.DriveControlState.SPEED);
+        mDrive.DriveControlState(Drive.DriveControlState.POWER);
         rv = false;
     }
 
