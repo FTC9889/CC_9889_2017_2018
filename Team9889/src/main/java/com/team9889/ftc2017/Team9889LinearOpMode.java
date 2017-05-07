@@ -1,14 +1,12 @@
 package com.team9889.ftc2017;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
+import com.qualcomm.robotcore.util.*;
 import com.team9889.ftc2017.auto.actions.Action;
-import com.team9889.ftc2017.subsystems.Beacon;
-import com.team9889.ftc2017.subsystems.Drive;
-import com.team9889.ftc2017.subsystems.Flywheel;
-import com.team9889.ftc2017.subsystems.Intake;
+import com.team9889.ftc2017.subsystems.*;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * Created by joshua on 4/17/17.
@@ -21,13 +19,17 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     public Intake mIntake = Intake.getInstance();
     public Flywheel mFlywheel = Flywheel.getInstance();
 
-    public HardwareMap mHardwareMap;
-
     private ElapsedTime period = new ElapsedTime();
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    public void waitForTeamStart(LinearOpMode opMode){
+    private String particlePref;
+    private String beaconPref;
+    private String capBallPref;
+    private String parkingPref;
+    private String alliance;
+
+    protected void waitForTeamStart(LinearOpMode opMode){
         telemetry.addData("Error", "Drive");
         telemetry.update();
         //Init Hardware
@@ -47,6 +49,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         mFlywheel.init(opMode.hardwareMap, true);
 
         telemetry.addData("No Errors Init","");
+        telemetry.update();
 
         //Zero Sensors
         mDrive.zeroSensors();
@@ -64,14 +67,32 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
 
+        if(Constants.OpMode != "TELEOP" && Constants.OpMode != "Teleop" && Constants.OpMode != "teleop"){
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
+            particlePref = preferences.getString("How Many Particles Should We Shoot?", "");
+            beaconPref = preferences.getString("Which beacons should we activate?", "");
+            capBallPref = preferences.getString("Should we bump the cap ball off the center vortex?", "");
+            parkingPref = preferences.getString("Where should we park?", "");
+            alliance = preferences.getString("Which alliance are we on?", "");
+
+            telemetry.addLine("Particles: " + particlePref);
+            telemetry.addLine("Beacons: " + beaconPref);
+            telemetry.addLine("Cap Ball: " + capBallPref);
+            telemetry.addLine("Parking: " + parkingPref);
+            telemetry.addLine("Alliance: " + alliance);
+        }
+
         updateTelemtry(opMode);
 
         //Wait for DS start
         opMode.waitForStart();
+
+        opMode.telemetry.addData("Started", Constants.OpMode);
+        opMode.telemetry.update();
     }
 
     public void updateTelemtry(LinearOpMode opMode){
-        opMode.telemetry.clearAll();
+        opMode.telemetry.addData("Running", Constants.OpMode);
         mDrive.outputToTelemtry(opMode);
         mFlywheel.outputToTelemtry(opMode);
         mIntake.outputToTelemtry(opMode);
@@ -85,7 +106,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
      * @param action
      * @param opMode just type in "this"
      */
-    public void runAction(Action action, LinearOpMode opMode){
+    protected void runAction(Action action, LinearOpMode opMode){
         boolean error = false;
         try {
             action.start(opMode.hardwareMap);
@@ -125,7 +146,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     }
 
     //Final Action to be run
-    public void finalAction(LinearOpMode linearOpMode){
+    protected void finalAction(LinearOpMode linearOpMode){
         try {
             mDrive.stop();
             mFlywheel.stop();
@@ -139,7 +160,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     }
 
     //Built-in function by FIRST. Put in all loops
-    public void waitForTick(long periodMs) {
+    protected void waitForTick(long periodMs) {
         long  remaining = periodMs - (long)period.milliseconds();
 
         // sleep for the remaining portion of the regular cycle period.

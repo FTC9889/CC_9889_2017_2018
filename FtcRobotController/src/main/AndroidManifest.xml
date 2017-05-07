@@ -60,6 +60,7 @@
       android:name="org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerWatchdogService"
       android:enabled="true" />
 
+    <activity android:name="org.firstinspires.ftc.robotcontroller.internal.FTC9889_Settings"></activity>
   </application>
 
 </manifest>

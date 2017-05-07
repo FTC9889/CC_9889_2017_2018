@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="beacon_activation">
+        <item>Do not activate any beacons</item>
+        <item>Activate the 1st beacon</item>
+        <item>Activate the 2nd beacon</item>
+        <item>Activate both beacons</item>
+    </string-array>
+</resources>

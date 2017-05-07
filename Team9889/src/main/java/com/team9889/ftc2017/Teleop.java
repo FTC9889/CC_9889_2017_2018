@@ -2,7 +2,6 @@ package com.team9889.ftc2017;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2017.subsystems.*;
 
 /**
@@ -28,12 +27,7 @@ public class Teleop extends Team9889LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Constants.OpMode = "TELEOP";
 
-        telemetry.addData("Running", "Teleop");
-        telemetry.update();
-
         waitForTeamStart(this);
-
-        RobotLog.a("Teleop Started");
 
         while (opModeIsActive() && !isStopRequested()){
 

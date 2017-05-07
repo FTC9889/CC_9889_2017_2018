@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="particle_shooting">
+        <item>Do not shoot any particles</item>
+        <item>Shoot 1 particle</item>
+        <item>Shoot 2 particles</item>
+    </string-array>
+</resources>

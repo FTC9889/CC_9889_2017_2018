@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
 Copyright (c) 2014, 2015 Qualcomm Technologies Inc
 
@@ -34,15 +32,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
 <resources>
-  <color name="light_red_background">#790E15</color>
-  <color name="dark_red_background">#3F0206</color>
-  <color name="medium_red_background">#4e0106</color>
-  <color name="very_bright_red">#bf0510</color>
-  <color name="bright_red">#A6040E</color>
-  <color name="bright_red_text">#ff0a19</color>
-  <color name="white">#FFFFFF</color>
-  <color name="blue">#0011ff</color>
-  <color name="black">#000000</color>
-  <color name="titlebarcolormod">#00B700</color>
-  <color name="transparent_color">#00000000</color>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+
 </resources>
