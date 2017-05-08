@@ -1,9 +1,9 @@
-package com.team9889.ftc2017;
+package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.*;
-import com.team9889.ftc2017.auto.actions.Action;
-import com.team9889.ftc2017.subsystems.*;
+import com.team9889.auto.actions.Action;
+import com.team9889.subsystems.*;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;

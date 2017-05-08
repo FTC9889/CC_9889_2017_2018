@@ -1,10 +1,9 @@
-package com.team9889.ftc2017.auto.actions;
+package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.team9889.ftc2017.Constants;
-import com.team9889.ftc2017.subsystems.Beacon;
-import com.team9889.ftc2017.subsystems.Drive;
+import com.team9889.Constants;
+import com.team9889.subsystems.*;
 
 /**
  * Created by Joshua H on 4/11/2017.

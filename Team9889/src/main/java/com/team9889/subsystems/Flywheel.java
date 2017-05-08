@@ -1,18 +1,11 @@
-package com.team9889.ftc2017.subsystems;
+package com.team9889.subsystems;
 
-import android.content.ClipData;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.qualcomm.robotcore.util.Util;
-import com.team9889.ftc2017.Constants;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.team9889.Constants;
 
 /**
  * Created by Joshua H on 4/10/2017.

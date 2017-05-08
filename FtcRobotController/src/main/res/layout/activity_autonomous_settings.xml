@@ -8,17 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings" >
-
-    <TextView
-        android:text="Autonomous Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/textView14"
-        android:textSize="36sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    android:background="@color/titlebarcolormod"
+    tools:context="org.firstinspires.ftc.robotcontroller.internal.FTC9889_Settings" >
 
     <Button
         android:text="Save and exit"
@@ -42,27 +33,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/particleSpinner"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/particleSpinner"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="53dp"
-        android:id="@+id/beaconSpinner" />
+        android:layout_marginTop="15dp"
+        android:id="@+id/beaconSpinner"
+        android:layout_below="@+id/particleSpinner"
+        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:text="Push the cap ball"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/capBallCheckBox"
-        android:layout_marginTop="64dp"
-        android:layout_below="@+id/particleSpinner"
-        android:layout_alignParentStart="true"
-        android:onClick="updateCapBallState" />
+        android:layout_marginTop="13dp"
+        android:onClick="updateCapBallState"
+        android:layout_below="@+id/beaconSpinner"
+        android:layout_toStartOf="@+id/button3" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -80,7 +70,7 @@
         android:layout_marginTop="31dp"
         android:id="@+id/alianceColor"
         android:textSize="30sp"
-        android:textColor="@color/titlebarcolormod" />
+        android:textColor="@color/blue" />
 
     <Button
         android:text="Switch"

@@ -77,8 +77,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         saveBtn = (Button) findViewById(R.id.saveAndExit);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-    {
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
 
@@ -111,13 +110,11 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         }
     }
 
-    public void onNothingSelected(AdapterView<?> parent)
-    {
+    public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
     }
 
-    public void updateCapBallState(View v)
-    {
+    public void updateCapBallState(View v) {
         if (capTheBall.isChecked())
         {
             capBallDesiredState = "Bump it";
@@ -143,8 +140,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         }
     }
 
-    public void updateAllianceColor(View v)
-    {
+    public void updateAllianceColor(View v) {
         //Blue -16772609; red -4258544
         if(allianceColor.getText().equals("Blue Alliance"))
         {
@@ -160,8 +156,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         }
     }
 
-    public void applySettings (View v)
-    {
+    public void applySettings (View v) {
         internalPrefs.edit().putString("How Many Particles Should We Shoot?", particleShootingDesiredValue).commit();
         internalPrefs.edit().putString("Which beacons should we activate?", beaconActivationDesiredValue).commit();
         if(capBallDesiredState != null)
@@ -180,14 +175,12 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         startActivityForResult(launchNewIntent, 0);
     }
 
-    public void cancel (View v)
-    {
+    public void cancel (View v) {
         Intent launchNewIntent = new Intent(FTC9889_Settings.this, FtcRobotControllerActivity.class);
         startActivityForResult(launchNewIntent, 0);
     }
 
-    public void setupParticleShootingSpinner()
-    {
+    public void setupParticleShootingSpinner() {
         particleSpinner = (Spinner) findViewById(R.id.particleSpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -205,8 +198,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         particleSpinner.setSelection(particleAdapter.getPosition(internalPrefs.getString("How Many Particles Should We Shoot?", "")));
     }
 
-    public void setupBeaonActivationSpinner()
-    {
+    public void setupBeaonActivationSpinner() {
         beaconSpinner = (Spinner) findViewById(R.id.beaconSpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -224,8 +216,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         beaconSpinner.setSelection(beaconAdapter.getPosition(internalPrefs.getString("Which beacons should we activate?", "")));
     }
 
-    public void setupCapBallCheckBox()
-    {
+    public void setupCapBallCheckBox() {
         capTheBall = (CheckBox) findViewById(R.id.capBallCheckBox);
 
         System.out.println("Stored state: " + internalPrefs.getString("Should we bump the cap ball off the center vortex?", ""));
@@ -240,8 +231,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         }
     }
 
-    public void setupParkingSpinner()
-    {
+    public void setupParkingSpinner() {
         parkingSpinner = (Spinner) findViewById(R.id.ParkSpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -259,8 +249,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         parkingSpinner.setSelection(parkingAdapter.getPosition(internalPrefs.getString("Where should we park?", "")));
     }
 
-    public void setupAllianceColorTextView()
-    {
+    public void setupAllianceColorTextView() {
         allianceColor = (TextView) findViewById(R.id.alianceColor);
         if(internalPrefs.getString("Which alliance are we on?", "").equals("Blue Alliance"))
         {
@@ -276,8 +265,7 @@ public class FTC9889_Settings extends Activity implements AdapterView.OnItemSele
         }
     }
 
-    public void mergePrefsToGlobal()
-    {
+    public void mergePrefsToGlobal() {
         SharedPreferences globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = globalPrefs.edit();
         editor.putString("How Many Particles Should We Shoot?", internalPrefs.getString("How Many Particles Should We Shoot?", ""));

@@ -1,12 +1,11 @@
-package com.team9889.ftc2017.subsystems;
+package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.team9889.ftc2017.Constants;
+import com.team9889.Constants;
 
 /**
  * Created by Joshua H on 4/10/2017.

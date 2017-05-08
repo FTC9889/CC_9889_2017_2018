@@ -1,8 +1,8 @@
-package com.team9889.ftc2017.auto.modes;
+package com.team9889.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.team9889.ftc2017.*;
-import com.team9889.ftc2017.auto.actions.*;
+import com.team9889.*;
+import com.team9889.auto.actions.*;
 
 import java.util.ArrayList;
 

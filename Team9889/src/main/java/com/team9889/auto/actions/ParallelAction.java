@@ -1,4 +1,4 @@
-package com.team9889.ftc2017.auto.actions;
+package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;

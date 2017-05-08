@@ -1,10 +1,7 @@
-package com.team9889.ftc2017.auto.actions;
+package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import java.sql.Time;
-import java.util.Timer;
 
 /**
  * Created by Joshua H on 4/10/2017.

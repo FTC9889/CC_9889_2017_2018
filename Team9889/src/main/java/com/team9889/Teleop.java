@@ -1,8 +1,8 @@
-package com.team9889.ftc2017;
+package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.ftc2017.subsystems.*;
+import com.team9889.subsystems.*;
 
 /**
  * Created by joshua on 4/17/17.
