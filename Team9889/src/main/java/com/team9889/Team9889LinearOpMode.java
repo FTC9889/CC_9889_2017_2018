@@ -6,6 +6,7 @@ import com.team9889.auto.actions.Action;
 import com.team9889.subsystems.*;
 
 import android.content.SharedPreferences;
+import android.hardware.Camera;
 import android.preference.PreferenceManager;
 
 /**
@@ -20,8 +21,10 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     public Flywheel mFlywheel = Flywheel.getInstance();
 
     private ElapsedTime period = new ElapsedTime();
-
     private ElapsedTime runtime = new ElapsedTime();
+
+    private Camera camera;
+    private Camera.Parameters parm;
 
     private String particlePref;
     private String beaconPref;
@@ -30,6 +33,12 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     private String alliance;
 
     protected void waitForTeamStart(LinearOpMode opMode){
+        camera = Camera.open();
+        parm = camera.getParameters();
+
+        parm.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        camera.setParameters(parm);
+
         telemetry.addData("Error", "Drive");
         telemetry.update();
         //Init Hardware
@@ -89,6 +98,9 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         opMode.telemetry.addData("Started", Constants.OpMode);
         opMode.telemetry.update();
+
+        parm.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        camera.setParameters(parm);
     }
 
     public void updateTelemtry(LinearOpMode opMode){
@@ -154,6 +166,10 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
             mIntake.stop();
         } catch (Exception e){
             RobotLog.a("Error Stop method" + Constants.OpMode);
+        }
+
+        if (camera != null) {
+            camera.release();
         }
 
         linearOpMode.requestOpModeStop();
