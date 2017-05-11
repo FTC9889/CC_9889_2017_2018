@@ -501,11 +501,6 @@ public class FtcRobotControllerActivity extends Activity {
       startActivity(intent);
       return true;
     }
-    else if (id == R.id.action_autonomous_settings) {
-      Intent launchNewIntent = new Intent(FtcRobotControllerActivity.this,FTC9889_Settings.class);
-      startActivityForResult(launchNewIntent, 0);
-      return true;
-    }
     else if (id == R.id.action_exit_app) {
       finish();
       return true;
