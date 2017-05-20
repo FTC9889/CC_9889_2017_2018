@@ -88,8 +88,30 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         updateTelemtry(opMode);
 
+        boolean flash = true;
+        double starttime = opMode.time;
+        double lasttimeFlashed = 1;
+        double flashtime = 300; //milliseconds
+
+        while(opMode.opModeIsActive() && opMode.time < 5000) {
+
+            CameraFlash(flash);
+
+            double currenttime = opMode.time - starttime;
+
+            if(currenttime - flashtime*lasttimeFlashed < 0){
+                flash = true;
+                lasttimeFlashed++;
+            } else {
+                flash = false;
+            }
+
+        }
+
         //Wait for DS start
         opMode.waitForStart();
+
+        CameraFlash(false);
 
         opMode.telemetry.addData("Started", Constants.OpMode);
         opMode.telemetry.update();
