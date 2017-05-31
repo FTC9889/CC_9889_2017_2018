@@ -33,27 +33,22 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     private String alliance;
 
     protected void waitForTeamStart(LinearOpMode opMode){
-        camera = Camera.open();
-        parm = camera.getParameters();
-
-        parm.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        camera.setParameters(parm);
-
-        telemetry.addData("Error", "Drive");
+        CameraFlash(true);
+        telemetry.addData("Error", " Drive");
         telemetry.update();
         //Init Hardware
         mDrive.init(opMode.hardwareMap, true);
 
-        telemetry.addData("Error", "Beacon");
+        telemetry.addData("Error", " Beacon");
         telemetry.update();
         mBeacon.init(opMode.hardwareMap, true);
 
 
-        telemetry.addData("Error", "Intake");
+        telemetry.addData("Error", " Intake");
         telemetry.update();
         mIntake.init(opMode.hardwareMap, true);
 
-        telemetry.addData("Error", "Flywheel");
+        telemetry.addData("Error", " Flywheel");
         telemetry.update();
         mFlywheel.init(opMode.hardwareMap, true);
 
@@ -120,6 +115,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         opMode.telemetry.addData("Started", Constants.OpMode);
         opMode.telemetry.update();
+        CameraFlash(false);
     }
 
     public void updateTelemtry(LinearOpMode opMode){
@@ -211,10 +207,13 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         period.reset();
     }
 
-    public void CameraFlash(boolean on) {
-        if(on) {
-            parm.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-        } else {
+    public void CameraFlash(boolean on){
+        camera = Camera.open();
+        parm = camera.getParameters();
+
+        if(on){
+            parm.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        }else {
             parm.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         }
 
