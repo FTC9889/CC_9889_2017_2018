@@ -26,11 +26,11 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     private Camera camera;
     private Camera.Parameters parm;
 
-    private String particlePref;
-    private String beaconPref;
-    private String capBallPref;
-    private String parkingPref;
-    private String alliance;
+//    private String particlePref;
+//    private String beaconPref;
+//    private String capBallPref;
+//    private String parkingPref;
+//    private String alliance;
 
     protected void waitForTeamStart(LinearOpMode opMode){
         CameraFlash(true);
@@ -71,20 +71,20 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
 
-        if(Constants.OpMode != "TELEOP" && Constants.OpMode != "Teleop" && Constants.OpMode != "teleop"){
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
-            particlePref = preferences.getString("How Many Particles Should We Shoot?", "");
-            beaconPref = preferences.getString("Which beacons should we activate?", "");
-            capBallPref = preferences.getString("Should we bump the cap ball off the center vortex?", "");
-            parkingPref = preferences.getString("Where should we park?", "");
-            alliance = preferences.getString("Which alliance are we on?", "");
-
-            telemetry.addLine("Particles: " + particlePref);
-            telemetry.addLine("Beacons: " + beaconPref);
-            telemetry.addLine("Cap Ball: " + capBallPref);
-            telemetry.addLine("Parking: " + parkingPref);
-            telemetry.addLine("Alliance: " + alliance);
-        }
+//        if(Constants.OpMode != "TELEOP" && Constants.OpMode != "Teleop" && Constants.OpMode != "teleop"){
+//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
+//            particlePref = preferences.getString("How Many Particles Should We Shoot?", "");
+//            beaconPref = preferences.getString("Which beacons should we activate?", "");
+//            capBallPref = preferences.getString("Should we bump the cap ball off the center vortex?", "");
+//            parkingPref = preferences.getString("Where should we park?", "");
+//            alliance = preferences.getString("Which alliance are we on?", "");
+//
+//            telemetry.addLine("Particles: " + particlePref);
+//            telemetry.addLine("Beacons: " + beaconPref);
+//            telemetry.addLine("Cap Ball: " + capBallPref);
+//            telemetry.addLine("Parking: " + parkingPref);
+//            telemetry.addLine("Alliance: " + alliance);
+//        }
 
         updateTelemtry(opMode);
 
@@ -219,5 +219,4 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         camera.setParameters(parm);
     }
-
 }
