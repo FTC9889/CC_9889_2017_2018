@@ -64,4 +64,8 @@ public class Constants {
 
     public static String Alliance;
 
+    public static double ticksToInches(int ticks){
+        return ticks/Constants.CountsPerInch;
+    }
+
 }

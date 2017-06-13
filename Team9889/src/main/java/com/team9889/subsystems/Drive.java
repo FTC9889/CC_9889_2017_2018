@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 
+import org.simbotics.robot.util.SimLib;
+
+import static com.team9889.Constants.ticksToInches;
+
 /**
  * Created by Joshua H on 4/10/2017.
  */
@@ -136,15 +140,15 @@ public class Drive extends Subsystem {
         opMode.telemetry.addData("Left side ticks", leftMaster_.getCurrentPosition());
         opMode.telemetry.addData("Front ODS Raw", FrontODS.getRawLightDetected());
         opMode.telemetry.addData("Back ODS Raw", BackODS.getRawLightDetected());
-        opMode.telemetry.addData("Gyro Angle", getGyroAngle());
+        opMode.telemetry.addData("Gyro Angle", getGyroAngleDegrees());
         opMode.telemetry.addData("Ultrasonic", getUltrasonic());
     }
 
     public void setLeftRightPower(double left, double right){
-        leftMaster_.setPower(left);
-        leftSlave_.setPower(left);
-        rightMaster_.setPower(right);
-        rightSlave_.setPower(left);
+        leftMaster_.setPower(SimLib.limitValue(left));
+        leftSlave_.setPower(SimLib.limitValue(left));
+        rightMaster_.setPower(SimLib.limitValue(right));
+        rightSlave_.setPower(SimLib.limitValue(right));
     }
 
     public double getRightDistanceInches(){
@@ -155,12 +159,14 @@ public class Drive extends Subsystem {
         return ticksToInches(leftMaster_.getCurrentPosition());
     }
 
-    private double ticksToInches(int ticks){
-        return ticks/Constants.CountsPerInch;
+
+
+    public int getGyroAngleDegrees(){
+        return gyro_.getIntegratedZValue();
     }
 
-    public int getGyroAngle(){
-        return gyro_.getIntegratedZValue();
+    public double getGyroAngleRadians(){
+        return Math.toRadians(getGyroAngleDegrees());
     }
 
     public int getGyroHeading(){

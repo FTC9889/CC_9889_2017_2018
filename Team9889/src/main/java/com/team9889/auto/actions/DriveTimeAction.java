@@ -28,19 +28,19 @@ public class DriveTimeAction implements Action {
         DriveBackward = mVelocity <0;
 
         if(DriveBackward) {
-            if(mAngle > mDrive.getGyroAngle()){
+            if(mAngle > mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
-            }else if(mAngle < mDrive.getGyroAngle()){
+            }else if(mAngle < mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngle()){
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
             }
         }else {
-            if(mAngle < mDrive.getGyroAngle()){
+            if(mAngle < mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
-            }else if(mAngle > mDrive.getGyroAngle()){
+            }else if(mAngle > mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngle()){
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
             }
         }
@@ -51,7 +51,7 @@ public class DriveTimeAction implements Action {
     public void start(HardwareMap hardwareMap) {
         long StartTime;
         mDrive.init(hardwareMap, false);
-        mAngle = mDrive.getGyroAngle();
+        mAngle = mDrive.getGyroAngleDegrees();
         StartTime = System.currentTimeMillis();
         TargetTime = StartTime + Milliseconds;
     }

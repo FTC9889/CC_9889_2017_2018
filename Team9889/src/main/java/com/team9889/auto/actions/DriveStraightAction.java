@@ -33,7 +33,7 @@ public class DriveStraightAction implements Action {
     public void start(HardwareMap hardwareMap) {
         mDrive.init(hardwareMap, false);
         startingDistance = getCurrentDistance();
-        mAngle = mDrive.getGyroAngle();
+        mAngle = mDrive.getGyroAngleDegrees();
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
         rv = false;
     }
@@ -48,19 +48,19 @@ public class DriveStraightAction implements Action {
         DriveBackward = mWantedDistance <0;
 
         if(DriveBackward) {
-            if(mAngle > mDrive.getGyroAngle()){
+            if(mAngle > mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
-            }else if(mAngle < mDrive.getGyroAngle()){
+            }else if(mAngle < mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngle()){
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
             }
         }else {
-            if(mAngle < mDrive.getGyroAngle()){
+            if(mAngle < mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
-            }else if(mAngle > mDrive.getGyroAngle()){
+            }else if(mAngle > mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngle()){
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
                 mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
             }
         }
