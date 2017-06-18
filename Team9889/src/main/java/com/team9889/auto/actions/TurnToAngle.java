@@ -53,7 +53,7 @@ public class TurnToAngle implements Action {
 
     @Override
     public void update(LinearOpMode linearOpMode) {
-        currentAngle = mDrive.getGyroAngle();
+        currentAngle = mDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
     }
 

@@ -3,11 +3,8 @@ package com.team9889;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.*;
 import com.team9889.auto.actions.Action;
+import com.team9889.lib.Camera_Flash;
 import com.team9889.subsystems.*;
-
-import android.content.SharedPreferences;
-import android.hardware.Camera;
-import android.preference.PreferenceManager;
 
 /**
  * Created by joshua on 4/17/17.
@@ -19,21 +16,13 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     public Beacon mBeacon = Beacon.getInstance();
     public Intake mIntake = Intake.getInstance();
     public Flywheel mFlywheel = Flywheel.getInstance();
+    public Camera_Flash camera_flash = new Camera_Flash();
 
     private ElapsedTime period = new ElapsedTime();
     private ElapsedTime runtime = new ElapsedTime();
 
-    private Camera camera;
-    private Camera.Parameters parm;
-
-//    private String particlePref;
-//    private String beaconPref;
-//    private String capBallPref;
-//    private String parkingPref;
-//    private String alliance;
-
     protected void waitForTeamStart(LinearOpMode opMode){
-        CameraFlash(true);
+        camera_flash.On(true);
         telemetry.addData("Error", " Drive");
         telemetry.update();
         //Init Hardware
@@ -71,51 +60,19 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
 
-//        if(Constants.OpMode != "TELEOP" && Constants.OpMode != "Teleop" && Constants.OpMode != "teleop"){
-//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
-//            particlePref = preferences.getString("How Many Particles Should We Shoot?", "");
-//            beaconPref = preferences.getString("Which beacons should we activate?", "");
-//            capBallPref = preferences.getString("Should we bump the cap ball off the center vortex?", "");
-//            parkingPref = preferences.getString("Where should we park?", "");
-//            alliance = preferences.getString("Which alliance are we on?", "");
-//
-//            telemetry.addLine("Particles: " + particlePref);
-//            telemetry.addLine("Beacons: " + beaconPref);
-//            telemetry.addLine("Cap Ball: " + capBallPref);
-//            telemetry.addLine("Parking: " + parkingPref);
-//            telemetry.addLine("Alliance: " + alliance);
-//        }
-
         updateTelemtry(opMode);
 
-        boolean flash = true;
-        double starttime = opMode.time;
-        double lasttimeFlashed = 1;
-        double flashtime = 300; //milliseconds
-
-        while(opMode.opModeIsActive() && opMode.time < 5000) {
-
-            CameraFlash(flash);
-
-            double currenttime = opMode.time - starttime;
-
-            if(currenttime - flashtime*lasttimeFlashed < 0){
-                flash = true;
-                lasttimeFlashed++;
-            } else {
-                flash = false;
-            }
-
-        }
+        camera_flash.On(false);
 
         //Wait for DS start
         opMode.waitForStart();
 
-        CameraFlash(false);
+        camera_flash.On(true);
 
         opMode.telemetry.addData("Started", Constants.OpMode);
         opMode.telemetry.update();
-        CameraFlash(false);
+
+        camera_flash.On(false);
     }
 
     public void updateTelemtry(LinearOpMode opMode){
@@ -183,9 +140,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
             RobotLog.a("Error Stop method" + Constants.OpMode);
         }
 
-        if (camera != null) {
-            camera.release();
-        }
+        camera_flash.ReleaseCamera();
 
         linearOpMode.requestOpModeStop();
     }
@@ -207,16 +162,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         period.reset();
     }
 
-    public void CameraFlash(boolean on){
-        camera = Camera.open();
-        parm = camera.getParameters();
+    public void CameraColor(){
 
-        if(on){
-            parm.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        }else {
-            parm.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        }
-
-        camera.setParameters(parm);
     }
 }

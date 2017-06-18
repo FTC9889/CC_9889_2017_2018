@@ -60,6 +60,10 @@
       android:name="org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerWatchdogService"
       android:enabled="true" />
 
+    //Use for camera
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+
   </application>
 
 </manifest>

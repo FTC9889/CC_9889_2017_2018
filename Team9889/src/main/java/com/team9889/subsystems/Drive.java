@@ -159,8 +159,6 @@ public class Drive extends Subsystem {
         return ticksToInches(leftMaster_.getCurrentPosition());
     }
 
-
-
     public int getGyroAngleDegrees(){
         return gyro_.getIntegratedZValue();
     }

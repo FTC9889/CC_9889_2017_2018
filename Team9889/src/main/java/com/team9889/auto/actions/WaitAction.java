@@ -19,7 +19,7 @@ public class WaitAction implements Action{
     @Override
     public void update(LinearOpMode linearOpMode) {
         while (linearOpMode.opModeIsActive() && !linearOpMode.isStopRequested()){
-
+            linearOpMode.idle();
         }
     }
 
