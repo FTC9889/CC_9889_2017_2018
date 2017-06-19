@@ -62,6 +62,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         updateTelemtry(opMode);
 
+        sleep(500);
+        
         camera_flash.On(false);
 
         //Wait for DS start

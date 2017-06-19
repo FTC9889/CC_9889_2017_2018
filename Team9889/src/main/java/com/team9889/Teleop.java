@@ -31,6 +31,7 @@ public class Teleop extends Team9889LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()){
 
+
             //Smart Shot
             if(gamepad1.right_trigger > 0.1){
 
@@ -89,29 +90,28 @@ public class Teleop extends Team9889LinearOpMode {
                     mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
 
+                if (gamepad1.left_trigger > 0.3){
+                    div = 4;
+                }else {
+                    div = 1;
+                }
+
+                xvalue = -gamepad1.right_stick_x/div;
+                yvalue = gamepad1.left_stick_y/div;
+
+                leftspeed =  yvalue - xvalue;
+                rightspeed = yvalue + xvalue;
+
+                mDrive.setLeftRightPower(leftspeed, rightspeed);
+
             }
-
-            //Lower the max speed of the robot
-            if (gamepad1.left_trigger > 0.1){
-                div = 4;
-            }else {
-                div = 1;
-            }
-
-            xvalue = -gamepad1.right_stick_x/div;
-            yvalue = gamepad1.left_stick_y/div;
-
-            leftspeed =  yvalue - xvalue;
-            rightspeed = yvalue + xvalue;
-
-            mDrive.setLeftRightPower(leftspeed, rightspeed);
 
             updateTelemtry(this);
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             waitForTick(40);
         }
-
         finalAction(this);
     }
+
 }
