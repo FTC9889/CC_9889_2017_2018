@@ -6,11 +6,13 @@ import com.team9889.auto.actions.Action;
 import com.team9889.lib.Camera_Flash;
 import com.team9889.subsystems.*;
 
+import for_camera_opmodes.LinearOpModeCamera;
+
 /**
  * Created by joshua on 4/17/17.
  */
 
-public abstract class Team9889LinearOpMode extends LinearOpMode {
+public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     public Drive mDrive = Drive.getInstance();
     public Beacon mBeacon = Beacon.getInstance();
@@ -22,6 +24,16 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     protected void waitForTeamStart(LinearOpMode opMode){
+        if (isCameraAvailable()){
+            setCameraDownsampling(8);
+            opMode.telemetry.addLine("Wait for camera to finish initializing!");
+            opMode.telemetry.update();
+            startCamera();  // can take a while.
+            // best started before waitForStart
+            opMode.telemetry.addLine("Camera ready!");
+            opMode.telemetry.update();
+        }
+
         camera_flash.On(true);
         telemetry.addData("Error", " Drive");
         telemetry.update();
