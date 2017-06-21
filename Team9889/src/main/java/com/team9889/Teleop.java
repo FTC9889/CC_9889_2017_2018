@@ -29,6 +29,8 @@ public class Teleop extends Team9889LinearOpMode {
 
         waitForTeamStart(this);
 
+        mDrive.DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
+
         while (opModeIsActive() && !isStopRequested()){
 
 
@@ -117,6 +119,7 @@ public class Teleop extends Team9889LinearOpMode {
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             waitForTick(40);
         }
+
         finalAction(this);
     }
 

@@ -154,6 +154,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             RobotLog.a("Error Stop method" + Constants.OpMode);
         }
 
+        stopCamera();
+
         camera_flash.ReleaseCamera();
 
         linearOpMode.requestOpModeStop();
