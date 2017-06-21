@@ -57,15 +57,16 @@ public class Teleop extends Team9889LinearOpMode {
             }else {
                 SmartShot = true;
 
-                //Flywheel
+                //Clear Flywheel//
                 if(gamepad2.a){
                     mFlywheel.WantedState(Flywheel.WantedState.ON);
                 }else {
                     mFlywheel.WantedState(Flywheel.WantedState.OFF);
                 }
+                //Clear Flywheel//
 
 
-                //Intake ctrl
+                //Intake//
                 if(Math.abs(gamepad2.right_trigger) > 0.01){
                     mIntake.WantedState(Intake.WantedState.WANTS_INTAKE);
                 }else if(gamepad2.left_bumper) {
@@ -73,8 +74,9 @@ public class Teleop extends Team9889LinearOpMode {
                 }else {
                     mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
                 }
+                //Intake//
 
-                //Beacon pressing
+                //Beacons//
                 if(mDrive.getUltrasonic()<35){
                     if(beacontimer.milliseconds() > 20){
                         deploy = true;
@@ -89,7 +91,10 @@ public class Teleop extends Team9889LinearOpMode {
                 }else {
                     mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
+                //Beacons//
 
+
+                //Drivetrain//
                 if (gamepad1.left_trigger > 0.3){
                     div = 4;
                 }else {
@@ -103,6 +108,7 @@ public class Teleop extends Team9889LinearOpMode {
                 rightspeed = yvalue + xvalue;
 
                 mDrive.setLeftRightPower(leftspeed, rightspeed);
+                //Drivetrain//
 
             }
 
