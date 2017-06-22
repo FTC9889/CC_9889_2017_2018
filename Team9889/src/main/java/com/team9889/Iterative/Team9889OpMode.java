@@ -1,7 +1,9 @@
-package com.team9889;
+package com.team9889.Iterative;
 
+import com.qualcomm.robotcore.util.RobotLog;
+import com.team9889.Constants;
 import com.team9889.Linear.lib.Camera_Flash;
-import com.team9889.subsystems.*;
+import com.team9889.Linear.subsystems.*;
 import for_camera_opmodes.OpModeCamera;
 
 /**
@@ -61,9 +63,24 @@ public abstract class Team9889OpMode extends OpModeCamera {
         mIntake.WantedState(Intake.WantedState.WANTS_STOP);
 
         mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
+
+        super.init();
     }
 
-    public void init_loop() {
+    public void stop() {
+        try {
+            mDrive.stop();
+            mFlywheel.stop();
+            mBeacon.stop();
+            mIntake.stop();
+        } catch (Exception e){
+            RobotLog.a("Error Stop method" + Constants.OpMode);
+        }
 
+        stopCamera();
+
+        camera_flash.ReleaseCamera();
+
+        super.stop();
     }
 }

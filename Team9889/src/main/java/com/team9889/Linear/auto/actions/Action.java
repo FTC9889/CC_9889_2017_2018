@@ -1,8 +1,7 @@
-package com.team9889.auto.actions;
+package com.team9889.Linear.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.team9889.subsystems.*;
 
 /**
  * Created by Joshua H on 4/10/2017.

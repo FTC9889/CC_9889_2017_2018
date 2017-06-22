@@ -1,4 +1,4 @@
-package com.team9889.lib;
+package com.team9889.Linear.lib;
 
 import android.hardware.Camera;
 

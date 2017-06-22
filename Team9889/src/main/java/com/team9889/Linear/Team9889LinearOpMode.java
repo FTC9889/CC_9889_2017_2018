@@ -1,10 +1,11 @@
-package com.team9889;
+package com.team9889.Linear;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.*;
-import com.team9889.auto.actions.Action;
+import com.team9889.Constants;
+import com.team9889.Linear.auto.actions.Action;
 import com.team9889.Linear.lib.Camera_Flash;
-import com.team9889.subsystems.*;
+import com.team9889.Linear.subsystems.*;
 
 import for_camera_opmodes.LinearOpModeCamera;
 

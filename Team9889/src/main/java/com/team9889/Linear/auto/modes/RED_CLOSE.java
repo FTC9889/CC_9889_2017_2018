@@ -1,8 +1,9 @@
-package com.team9889.auto.modes;
+package com.team9889.Linear.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.team9889.*;
-import com.team9889.auto.actions.*;
+import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Linear.auto.actions.*;
 
 import java.util.ArrayList;
 
