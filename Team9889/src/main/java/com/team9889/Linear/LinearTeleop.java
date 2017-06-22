@@ -8,8 +8,8 @@ import com.team9889.subsystems.*;
  * Created by joshua on 4/17/17.
  */
 
-@TeleOp (name = "Teleop")
-public class Teleop extends Team9889LinearOpMode {
+@TeleOp (name = "LinearTeleop")
+public class LinearTeleop extends Team9889LinearOpMode {
 
     //Beacon Pushers
     private boolean deploy = false;

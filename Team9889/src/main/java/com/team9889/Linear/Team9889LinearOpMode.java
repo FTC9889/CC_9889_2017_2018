@@ -3,7 +3,7 @@ package com.team9889;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.*;
 import com.team9889.auto.actions.Action;
-import com.team9889.lib.Camera_Flash;
+import com.team9889.Linear.lib.Camera_Flash;
 import com.team9889.subsystems.*;
 
 import for_camera_opmodes.LinearOpModeCamera;
