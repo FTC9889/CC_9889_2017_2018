@@ -127,7 +127,7 @@ public class Teleop extends Team9889LinearOpMode {
             }
 
             //Push Telemetry
-            updateTelemtry(this);
+            updateTelemetry(this);
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             waitForTick(40);

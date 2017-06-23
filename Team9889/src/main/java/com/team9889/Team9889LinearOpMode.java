@@ -21,7 +21,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     public Camera_Flash camera_flash = new Camera_Flash();
 
     private ElapsedTime period = new ElapsedTime();
-    private ElapsedTime runtime = new ElapsedTime();
 
     protected void waitForTeamStart(LinearOpMode opMode){
         if (isCameraAvailable()){
@@ -95,7 +94,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         mFlywheel.outputToTelemetry(opMode);
         mIntake.outputToTelemetry(opMode);
         mBeacon.outputToTelemetry(opMode);
-        opMode.telemetry.addData("Runtime", runtime.milliseconds());
         opMode.telemetry.update();
     }
 
