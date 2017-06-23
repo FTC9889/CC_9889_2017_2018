@@ -98,6 +98,6 @@ public class Beacon extends Subsystem {
 
     @Override
     public void outputToTelemetry(LinearOpMode opMode) {
-        opMode.telemetry.addData("Color Detected", getColor());
+        opMode.telemetry.addData("Color Detected by Color Sensor", getColor());
     }
 }

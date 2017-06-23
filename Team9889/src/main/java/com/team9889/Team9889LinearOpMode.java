@@ -94,6 +94,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         mFlywheel.outputToTelemetry(opMode);
         mIntake.outputToTelemetry(opMode);
         mBeacon.outputToTelemetry(opMode);
+        outputToTelemetryForCamera(opMode);
         opMode.telemetry.update();
     }
 

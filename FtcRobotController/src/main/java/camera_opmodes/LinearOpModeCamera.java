@@ -194,4 +194,44 @@ public class LinearOpModeCamera extends LinearOpMode {
     return OpModeCamera.convertYuvImageToRgb(yuvImage, width, height, downSample);
   }
 
+  public void outputToTelemetryForCamera(LinearOpMode opMode){
+    String colorString = "NONE";
+
+    if (imageReady()) { // only do this if an image has been returned from the camera
+
+      int redValue = 0;
+      int blueValue = 0;
+      int greenValue = 0;
+
+      // get image, rotated so (0,0) is in the bottom left of the preview window
+      Bitmap rgbImage;
+      rgbImage = convertYuvImageToRgb(yuvImage, width, height, 1);
+
+      for (int x = 0; x < rgbImage.getWidth(); x++) {
+        for (int y = 0; y < rgbImage.getHeight(); y++) {
+          int pixel = rgbImage.getPixel(x, y);
+          redValue += red(pixel);
+          blueValue += blue(pixel);
+          greenValue += green(pixel);
+        }
+      }
+      int color = highestColor(redValue, greenValue, blueValue);
+
+      switch (color) {
+        case 0:
+          colorString = "RED";
+          break;
+        case 1:
+          colorString = "GREEN";
+          break;
+        case 2:
+          colorString = "BLUE";
+      }
+
+    } else {
+      colorString = "NONE";
+    }
+
+    opMode.telemetry.addData("Color Detected by Camera", colorString);
+  }
 }
