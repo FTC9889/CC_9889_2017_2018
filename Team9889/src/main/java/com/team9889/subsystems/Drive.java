@@ -183,6 +183,11 @@ public class Drive extends Subsystem {
 
     @Override
     public void zeroSensors() {
+        zeroDriveMotors();
+        gyro_.resetZAxisIntegrator();
+    }
+
+    public void zeroDriveMotors(){
         leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slave();
@@ -190,8 +195,6 @@ public class Drive extends Subsystem {
         leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slave();
-
-        gyro_.resetZAxisIntegrator();
     }
 
     public void calibrateGyro(LinearOpMode opMode) throws InterruptedException {

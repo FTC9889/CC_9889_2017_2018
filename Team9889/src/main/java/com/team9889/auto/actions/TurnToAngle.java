@@ -14,7 +14,7 @@ public class TurnToAngle implements Action {
 
     private double mSpeed;
 
-    private Drive mDrive = Drive.getInstance();
+    private Drive mDrive;
 
     /**
      *
@@ -57,8 +57,8 @@ public class TurnToAngle implements Action {
     }
 
     @Override
-    public void start(Team9889LinearOpMode  opMode) {
-        mDrive.init(opMode.hardwareMap, false);
+    public void start(Team9889LinearOpMode opMode) {
+        mDrive = opMode.mDrive;
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);

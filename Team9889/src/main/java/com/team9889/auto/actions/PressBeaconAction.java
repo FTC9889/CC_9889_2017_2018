@@ -9,8 +9,8 @@ import com.team9889.subsystems.*;
  */
 
 public class PressBeaconAction implements Action {
-    Drive mDrive = Drive.getInstance();
-    Beacon mBeacon = Beacon.getInstance();
+    Drive mDrive;
+    Beacon mBeacon;
 
     private static boolean isFinished = false;
 
@@ -29,8 +29,8 @@ public class PressBeaconAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive.init(opMode.hardwareMap, false);
-        mBeacon.init(opMode.hardwareMap, false);
+        mDrive = opMode.mDrive;
+        mBeacon = opMode.mBeacon;
 
         isFinished = false;
 

@@ -1,10 +1,9 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
+
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -12,7 +11,6 @@ import com.team9889.subsystems.Drive;
 
 public class DriveStraightAction implements Action {
 
-    private double startingDistance;
     private double mWantedDistance;
     private double mVelocity;
     private double mAngle;
@@ -34,6 +32,8 @@ public class DriveStraightAction implements Action {
     @Override
     public void start(Team9889LinearOpMode opMode) {
         mDrive = opMode.mDrive;
+        mWantedDistance = CruiseLib.Average(mDrive.getLeftDistanceInches(), mDrive.getRightDistanceInches()) + mWantedDistance;
+
     }
 
     @Override
@@ -48,6 +48,7 @@ public class DriveStraightAction implements Action {
 
     @Override
     public void update(Team9889LinearOpMode  opMode){
+
         mDrive.setLeftRightPower(mVelocity, mVelocity);
     }
 }

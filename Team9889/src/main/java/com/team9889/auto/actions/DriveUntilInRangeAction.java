@@ -4,8 +4,6 @@ import com.team9889.Team9889LinearOpMode;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 
-import org.simbotics.robot.util.SimLib;
-
 /**
  * Created by Joshua H on 4/16/2017.
  */
@@ -20,7 +18,7 @@ public class DriveUntilInRangeAction implements Action {
 
     private double mSpeed;
 
-    private Drive mDrive = Drive.getInstance();
+    private Drive mDrive;
 
     public DriveUntilInRangeAction(double velocity, double minDistanceAway, double maxDistanceAway){
         mSpeed = velocity;
@@ -30,7 +28,7 @@ public class DriveUntilInRangeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive.init(opMode.hardwareMap, false);
+        mDrive = opMode.mDrive;
         isFinished = false;
         LstartingDistance = mDrive.getLeftDistanceInches();
         RstartingDistance = mDrive.getRightDistanceInches();

@@ -9,10 +9,9 @@ import com.team9889.subsystems.*;
  */
 
 public class ShootAction implements Action {
-    private Flywheel mFlywheel = Flywheel.getInstance();
-    private Intake mIntake = Intake.getInstance();
+    private Flywheel mFlywheel;
+    private Intake mIntake;
     private int mParticleCount;
-    private int mParticlesShot;
 
     private boolean finished = false;
 
@@ -41,8 +40,8 @@ public class ShootAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
-        mFlywheel.init(opMode.hardwareMap, false);
-        mIntake.init(opMode.hardwareMap, false);
+        mFlywheel = opMode.mFlywheel;
+        mIntake = opMode.mIntake;
         mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
         mFlywheel.WantedState(Flywheel.WantedState.ON);
         shot.reset();

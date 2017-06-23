@@ -1,7 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
 
@@ -30,7 +28,7 @@ public class DriveTimeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
-        mDrive.init(opMode.hardwareMap, false);
+        mDrive = opMode.mDrive;
         mAngle = mDrive.getGyroAngleDegrees();
         StartMilliseconds = opMode.getRuntime();
     }
