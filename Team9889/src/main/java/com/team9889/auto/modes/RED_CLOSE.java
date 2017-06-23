@@ -1,6 +1,7 @@
 package com.team9889.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.configuration.ConfigurationType;
 import com.team9889.*;
 import com.team9889.auto.actions.*;
 
@@ -21,15 +22,7 @@ public class RED_CLOSE extends Team9889LinearOpMode {
 
         waitForTeamStart(this);
 
-        runAction(new DriveTimeAction(5, Constants.kDriveMinSpeed), this);
-
-        runAction(new WaitAction(1000), this);
-
-        ArrayList<Action> DriveAndShoot = new ArrayList<>();
-        DriveAndShoot.add(new DriveStraightAction(13, Constants.kDriveMaxSpeed));
-        DriveAndShoot.add(new ShootAction(1));
-
-        runAction(new ParallelAction(DriveAndShoot), this);
+        runAction(new DriveStraightAction(10, 0.5),this);
 
         finalAction(this);
     }

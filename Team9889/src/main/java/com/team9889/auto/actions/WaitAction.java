@@ -1,26 +1,23 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
  */
 
 public class WaitAction implements Action{
-    long mTimetoWait;
-    long mStartTime;
+    long mSleep;
+    boolean mFinished;
 
     @Override
     public boolean isFinished() {
-        return System.currentTimeMillis() - mStartTime >= mTimetoWait;
+        return true;
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode) {
-        while (linearOpMode.opModeIsActive() && !linearOpMode.isStopRequested()){
-            linearOpMode.idle();
-        }
+    public void update(Team9889LinearOpMode linearOpMode) {
+
     }
 
     @Override
@@ -29,11 +26,11 @@ public class WaitAction implements Action{
     }
 
     @Override
-    public void start(HardwareMap hardwareMap) {
-        mStartTime = System.currentTimeMillis();
+    public void start(Team9889LinearOpMode opMode) {
+        opMode.sleep(mSleep);
     }
 
     public WaitAction(long milliseconds){
-        mTimetoWait = milliseconds;
+        mSleep = milliseconds;
     }
 }

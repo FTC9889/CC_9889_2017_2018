@@ -1,8 +1,7 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.*;
 
 /**
@@ -41,16 +40,16 @@ public class ShootAction implements Action {
     }
 
     @Override
-    public void start(HardwareMap hardwareMap) {
-        mFlywheel.init(hardwareMap, false);
-        mIntake.init(hardwareMap, false);
+    public void start(Team9889LinearOpMode  opMode) {
+        mFlywheel.init(opMode.hardwareMap, false);
+        mIntake.init(opMode.hardwareMap, false);
         mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
         mFlywheel.WantedState(Flywheel.WantedState.ON);
         shot.reset();
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode) {
+    public void update(Team9889LinearOpMode linearOpMode) {
         if(shot.milliseconds() < 1000){
             mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
 

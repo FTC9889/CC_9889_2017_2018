@@ -1,8 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.team9889.subsystems.*;
+import com.team9889.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -16,10 +14,10 @@ public interface Action {
     public abstract boolean isFinished();
 
     //Called once before the Action is updated
-    public abstract void start(HardwareMap hardwareMap);
+    public abstract void start(Team9889LinearOpMode opMode);
 
     //Called in a continuously after start
-    public abstract void update(LinearOpMode linearOpMode);
+    public abstract void update(Team9889LinearOpMode linearOpMode);
     
     //Called after the Action is finished
     public abstract void done();

@@ -1,7 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
 
 /**
@@ -52,15 +51,16 @@ public class TurnToAngle implements Action {
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode) {
+    public void update(Team9889LinearOpMode linearOpMode) {
         currentAngle = mDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
     }
 
     @Override
-    public void start(HardwareMap hardwareMap) {
-        mDrive.init(hardwareMap, false);
+    public void start(Team9889LinearOpMode  opMode) {
+        mDrive.init(opMode.hardwareMap, false);
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
     }
 }

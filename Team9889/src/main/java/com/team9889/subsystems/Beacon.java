@@ -73,10 +73,6 @@ public class Beacon extends Subsystem {
             case RIGHT_DEPLOYED:
                 RightBumper.setPosition(Constants.kDeployedBeaconPresser);
                 LeftBumper.setPosition(Constants.kRetractedBeaconPresser);
-                return;
-            default:
-                mPosition_ = Position.BOTH_RETRACTED;
-                return;
         }
     }
 

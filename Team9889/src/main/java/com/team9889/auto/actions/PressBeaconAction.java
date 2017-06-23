@@ -1,8 +1,7 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.Constants;
+import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.*;
 
 /**
@@ -21,7 +20,7 @@ public class PressBeaconAction implements Action {
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode){
+    public void update(Team9889LinearOpMode  linearOpMode){
         if(!linearOpMode.opModeIsActive() && linearOpMode.isStopRequested()){
             done();
         }
@@ -29,9 +28,9 @@ public class PressBeaconAction implements Action {
 
 
     @Override
-    public void start(HardwareMap hardwareMap) {
-        mDrive.init(hardwareMap, false);
-        mBeacon.init(hardwareMap, false);
+    public void start(Team9889LinearOpMode opMode) {
+        mDrive.init(opMode.hardwareMap, false);
+        mBeacon.init(opMode.hardwareMap, false);
 
         isFinished = false;
 

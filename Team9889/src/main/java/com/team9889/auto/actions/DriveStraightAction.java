@@ -2,6 +2,8 @@ package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Team9889LinearOpMode;
+import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 
 /**
@@ -16,7 +18,7 @@ public class DriveStraightAction implements Action {
     private double mAngle;
     private boolean DriveBackward;
     private boolean rv = false;
-    private Drive mDrive = Drive.getInstance();
+    private Drive mDrive;
 
     public DriveStraightAction(double distance, double velocity){
         this(distance, velocity, 0);
@@ -30,12 +32,8 @@ public class DriveStraightAction implements Action {
     }
 
     @Override
-    public void start(HardwareMap hardwareMap) {
-        mDrive.init(hardwareMap, false);
-        startingDistance = getCurrentDistance();
-        mAngle = mDrive.getGyroAngleDegrees();
-        mDrive.DriveControlState(Drive.DriveControlState.POWER);
-        rv = false;
+    public void start(Team9889LinearOpMode opMode) {
+        mDrive = opMode.mDrive;
     }
 
     @Override
@@ -45,44 +43,11 @@ public class DriveStraightAction implements Action {
 
     @Override
     public boolean isFinished() {
-        DriveBackward = mWantedDistance <0;
-
-        if(DriveBackward) {
-            if(mAngle > mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
-            }else if(mAngle < mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
-            }
-        }else {
-            if(mAngle < mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
-            }else if(mAngle > mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
-            }
-        }
-
-        if (mWantedDistance > 0) {
-            rv = getCurrentDistance() - startingDistance >= mWantedDistance;
-        } else {
-            rv = getCurrentDistance() - startingDistance <= mWantedDistance;
-        }
-        if (rv) {
-            mDrive.setLeftRightPower(0, 0);
-        }
-        return rv;
+        return !mDrive.InchesAreWeThereYet(mWantedDistance);
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode){
-
-    }
-
-
-    private double getCurrentDistance() {
-        return (mDrive.getLeftDistanceInches() + mDrive.getRightDistanceInches()) / 2;
+    public void update(Team9889LinearOpMode  opMode){
+        mDrive.setLeftRightPower(mVelocity, mVelocity);
     }
 }

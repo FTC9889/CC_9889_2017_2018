@@ -2,6 +2,7 @@ package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
 
 /**
@@ -9,10 +10,11 @@ import com.team9889.subsystems.Drive;
  */
 
 public class DriveTimeAction implements Action {
-    private long Milliseconds;
-    private double TargetTime;
+    private double Milliseconds;
+    private double StartMilliseconds;
     private double mVelocity;
     private double mAngle;
+    private boolean isFinished;
 
     private Drive mDrive = Drive.getInstance();
 
@@ -23,6 +25,18 @@ public class DriveTimeAction implements Action {
 
     @Override
     public boolean isFinished() {
+        return isFinished;
+    }
+
+    @Override
+    public void start(Team9889LinearOpMode  opMode) {
+        mDrive.init(opMode.hardwareMap, false);
+        mAngle = mDrive.getGyroAngleDegrees();
+        StartMilliseconds = opMode.getRuntime();
+    }
+
+    @Override
+    public void update(Team9889LinearOpMode linearOpMode) {
         boolean DriveBackward;
 
         DriveBackward = mVelocity <0;
@@ -44,21 +58,9 @@ public class DriveTimeAction implements Action {
                 mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
             }
         }
-        return TargetTime < System.currentTimeMillis();
-    }
 
-    @Override
-    public void start(HardwareMap hardwareMap) {
-        long StartTime;
-        mDrive.init(hardwareMap, false);
-        mAngle = mDrive.getGyroAngleDegrees();
-        StartTime = System.currentTimeMillis();
-        TargetTime = StartTime + Milliseconds;
-    }
-
-    @Override
-    public void update(LinearOpMode linearOpMode) {
-        linearOpMode.telemetry.addData("Time", System.currentTimeMillis());
+        double CurrentMilliseconds = linearOpMode.getRuntime() - StartMilliseconds;
+        isFinished = CurrentMilliseconds>Milliseconds;
     }
 
     @Override

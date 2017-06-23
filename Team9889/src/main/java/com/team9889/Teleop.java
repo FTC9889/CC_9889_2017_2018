@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.subsystems.*;
 
+import org.simbotics.robot.util.SimLib;
+
 /**
  * Created by joshua on 4/17/17.
  */
@@ -91,7 +93,7 @@ public class Teleop extends Team9889LinearOpMode {
                 }
 
                 //Deploy from Ultrasonic vote or gamepad button
-                if(!(deploy || gamepad1.right_bumper)){
+                if(deploy || gamepad1.right_bumper){
                     mBeacon.WantedState(Beacon.Position.BOTH_DEPLOYED);
                 }else {
                     mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
@@ -112,12 +114,12 @@ public class Teleop extends Team9889LinearOpMode {
                 }
 
                 //Values from gamepads with modifications
-                xvalue = -gamepad1.right_stick_x/div;
+                xvalue = gamepad1.right_stick_x/div;
                 yvalue = gamepad1.left_stick_y/div;
 
                 //Values to output to motors
-                leftspeed =  yvalue - xvalue;
-                rightspeed = yvalue + xvalue;
+                leftspeed = SimLib.calcLeftTankDrive(xvalue, yvalue);
+                rightspeed = SimLib.calcRightTankDrive(xvalue, yvalue);
 
                 //Set Motor Speeds
                 mDrive.setLeftRightPower(leftspeed, rightspeed);

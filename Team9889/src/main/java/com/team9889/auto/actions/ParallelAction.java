@@ -1,7 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Team9889LinearOpMode;
 
 import java.util.ArrayList;
 
@@ -31,14 +30,14 @@ public class ParallelAction implements Action {
     }
 
     @Override
-    public void start(HardwareMap hardwareMap) {
+    public void start(Team9889LinearOpMode opMode) {
         for (Action action : mActions) {
-            action.start(hardwareMap);
+            action.start(opMode);
         }
     }
 
     @Override
-    public void update(LinearOpMode linearOpMode) {
+    public void update(Team9889LinearOpMode  linearOpMode) {
         for (Action action : mActions) {
             action.update(linearOpMode);
         }

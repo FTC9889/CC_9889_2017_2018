@@ -125,9 +125,7 @@ public class Drive extends Subsystem {
     @Override
     public void stop() {
         setLeftRightPower(0,0);
-        leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slave();
+        DriveZeroPowerState(DriveZeroPower.FLOAT);
     }
 
     @Override
@@ -157,6 +155,10 @@ public class Drive extends Subsystem {
 
     public double getLeftDistanceInches(){
         return ticksToInches(leftMaster_.getCurrentPosition());
+    }
+
+    public boolean InchesAreWeThereYet(double inches){
+        return !(Math.abs(getRightDistanceInches()) > Math.abs(inches));
     }
 
     public int getGyroAngleDegrees(){

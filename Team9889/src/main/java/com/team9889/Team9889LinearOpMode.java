@@ -33,7 +33,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             opMode.telemetry.update();
         }
 
-        camera_flash.On(true);
         telemetry.addData("Error", " Drive");
         telemetry.update();
         //Init Hardware
@@ -73,19 +72,11 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
         updateTelemetry(opMode);
 
-        sleep(500);
-        
-        camera_flash.On(false);
-
         //Wait for DS start
         opMode.waitForStart();
 
-        camera_flash.On(true);
-
         opMode.telemetry.addData("Started", Constants.OpMode);
         opMode.telemetry.update();
-
-        camera_flash.On(false);
     }
 
     public void updateTelemetry(LinearOpMode opMode){
@@ -100,19 +91,18 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     /**
      *
-     * @param action
+     * @param action All are defined in action folder
      * @param opMode just type in "this"
      */
-    protected void runAction(Action action, LinearOpMode opMode){
+    protected void runAction(Action action, Team9889LinearOpMode  opMode){
         boolean error = false;
         try {
-            action.start(opMode.hardwareMap);
+            action.start(opMode);
             updateTelemetry(opMode);
         } catch (Exception e){
             opMode.telemetry.addData("Error in Starting Action", action);
             opMode.telemetry.update();
             RobotLog.a("Error running Action " + action + " in start method in " + Constants.OpMode);
-            error = true;
         }
 
         while (!action.isFinished() && opMode.opModeIsActive() && !error){
@@ -123,27 +113,34 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 opMode.telemetry.addData("Error in Updating Action", action);
                 opMode.telemetry.update();
                 RobotLog.a("Error running Action " + action + " in update method in" + Constants.OpMode);
-                error = true;
             }
         }
 
-        try {
-            action.done();
-            updateTelemetry(opMode);
-        } catch (Exception e){
-            opMode.telemetry.addData("Error in Finishing Action", action);
-            opMode.telemetry.update();
-            RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode);
-            error = true;
+        if (opMode.opModeIsActive() && !error){
+            try {
+                action.done();
+                updateTelemetry(opMode);
+            } catch (Exception e){
+                opMode.telemetry.addData("Error in Finishing Action", action);
+                opMode.telemetry.update();
+                RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode);
+            }
         }
 
+        opMode.telemetry.addData("Finished Action", "");
+        opMode.telemetry.update();
+
         if(!error){
-            opMode.requestOpModeStop();
+            mDrive.stop();
+            mBeacon.stop();
+            mFlywheel.stop();
+            mIntake.stop();
+            opMode.sleep(5000);
         }
     }
 
     //Final Action to be run
-    protected void finalAction(LinearOpMode linearOpMode){
+    protected void finalAction(Team9889LinearOpMode  opMode){
         try {
             mDrive.stop();
             mFlywheel.stop();
@@ -155,9 +152,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
         stopCamera();
 
-        camera_flash.ReleaseCamera();
-
-        linearOpMode.requestOpModeStop();
+        opMode.requestOpModeStop();
     }
 
     //Built-in function by FIRST. Put in all loops

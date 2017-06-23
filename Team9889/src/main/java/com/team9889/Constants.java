@@ -45,7 +45,7 @@ public class Constants {
 
     //Max and min speeds for drivetrain
     public final static double kDriveMaxSpeed = 1.0;
-    public final static double kDriveMinSpeed = 0.2;
+    public final static double kDriveMinSpeed = 0.3;
 
     //Value of white line
     public final static double WhiteLineValue = 0.6;
@@ -56,7 +56,7 @@ public class Constants {
 
     public final static String kColorSensorId = "colorsensor";
 
-    public final static double kDeployedBeaconPresser = 0.4;
+    public final static double kDeployedBeaconPresser = 1.0;
     public final static double kRetractedBeaconPresser = 0.4;
 
     //Settings for failure tracking
