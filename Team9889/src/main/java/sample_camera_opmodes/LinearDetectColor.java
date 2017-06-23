@@ -1,11 +1,12 @@
 package sample_camera_opmodes;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import for_camera_opmodes.LinearOpModeCamera;
+import camera_opmodes.LinearOpModeCamera;
 
 /**
  * TeleOp Mode
@@ -64,7 +65,9 @@ public class LinearDetectColor extends LinearOpModeCamera {
             */
 
             while (opModeIsActive()) {
+
                 if (imageReady()) { // only do this if an image has been returned from the camera
+
                     int redValue = 0;
                     int blueValue = 0;
                     int greenValue = 0;

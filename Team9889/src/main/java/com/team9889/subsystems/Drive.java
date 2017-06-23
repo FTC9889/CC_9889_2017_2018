@@ -131,7 +131,7 @@ public class Drive extends Subsystem {
     }
 
     @Override
-    public void outputToTelemtry(LinearOpMode opMode) {
+    public void outputToTelemetry(LinearOpMode opMode) {
         opMode.telemetry.addData("Right Motor Pwr", rightMaster_.getPower());
         opMode.telemetry.addData("Left Motor Pwr", leftMaster_.getPower());
         opMode.telemetry.addData("Right Side Inches", getRightDistanceInches());

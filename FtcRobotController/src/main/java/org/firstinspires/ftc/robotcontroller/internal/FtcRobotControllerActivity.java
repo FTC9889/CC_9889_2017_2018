@@ -101,9 +101,9 @@ import org.firstinspires.inspection.RcInspectionActivity;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import for_camera_opmodes.CameraPreview;
-import for_camera_opmodes.LinearOpModeCamera;
-import for_camera_opmodes.OpModeCamera;
+import camera_opmodes.CameraPreview;
+import camera_opmodes.LinearOpModeCamera;
+import camera_opmodes.OpModeCamera;
 
 public class FtcRobotControllerActivity extends Activity {
 

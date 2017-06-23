@@ -55,7 +55,7 @@ public class Flywheel extends Subsystem{
     }
 
     @Override
-    public void outputToTelemtry(LinearOpMode opMode) {
+    public void outputToTelemetry(LinearOpMode opMode) {
         opMode.telemetry.addData("FlywheelPos", Flywheel.getCurrentPosition());
         opMode.telemetry.addData("Flywheel Speed", Flywheel.getPower());
     }

@@ -6,7 +6,7 @@ import com.team9889.auto.actions.Action;
 import com.team9889.lib.Camera_Flash;
 import com.team9889.subsystems.*;
 
-import for_camera_opmodes.LinearOpModeCamera;
+import camera_opmodes.LinearOpModeCamera;
 
 /**
  * Created by joshua on 4/17/17.
@@ -72,7 +72,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
         mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
 
-        updateTelemtry(opMode);
+        updateTelemetry(opMode);
 
         sleep(500);
         
@@ -89,12 +89,12 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         camera_flash.On(false);
     }
 
-    public void updateTelemtry(LinearOpMode opMode){
+    public void updateTelemetry(LinearOpMode opMode){
         opMode.telemetry.addData("Running", Constants.OpMode);
-        mDrive.outputToTelemtry(opMode);
-        mFlywheel.outputToTelemtry(opMode);
-        mIntake.outputToTelemtry(opMode);
-        mBeacon.outputToTelemtry(opMode);
+        mDrive.outputToTelemetry(opMode);
+        mFlywheel.outputToTelemetry(opMode);
+        mIntake.outputToTelemetry(opMode);
+        mBeacon.outputToTelemetry(opMode);
         opMode.telemetry.addData("Runtime", runtime.milliseconds());
         opMode.telemetry.update();
     }
@@ -108,7 +108,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         boolean error = false;
         try {
             action.start(opMode.hardwareMap);
-            updateTelemtry(opMode);
+            updateTelemetry(opMode);
         } catch (Exception e){
             opMode.telemetry.addData("Error in Starting Action", action);
             opMode.telemetry.update();
@@ -119,7 +119,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         while (!action.isFinished() && opMode.opModeIsActive() && !error){
             try {
                 action.update(opMode);
-                updateTelemtry(opMode);
+                updateTelemetry(opMode);
             } catch (Exception e){
                 opMode.telemetry.addData("Error in Updating Action", action);
                 opMode.telemetry.update();
@@ -130,7 +130,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
         try {
             action.done();
-            updateTelemtry(opMode);
+            updateTelemetry(opMode);
         } catch (Exception e){
             opMode.telemetry.addData("Error in Finishing Action", action);
             opMode.telemetry.update();
@@ -178,7 +178,4 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         period.reset();
     }
 
-    public void CameraColor(){
-
-    }
 }

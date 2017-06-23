@@ -1,4 +1,4 @@
-package for_camera_opmodes;
+package camera_opmodes;
 
 import android.app.Activity;
 import android.content.Context;

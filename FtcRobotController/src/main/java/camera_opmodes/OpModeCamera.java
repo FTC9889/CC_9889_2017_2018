@@ -1,4 +1,4 @@
-package for_camera_opmodes;
+package camera_opmodes;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

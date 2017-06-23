@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import for_camera_opmodes.OpModeCamera;
+import camera_opmodes.OpModeCamera;
 
 /**
  * TeleOp Mode

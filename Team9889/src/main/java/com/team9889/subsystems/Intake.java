@@ -75,7 +75,7 @@ public class Intake extends Subsystem {
     }
 
     @Override
-    public void outputToTelemtry(LinearOpMode opMode) {
+    public void outputToTelemetry(LinearOpMode opMode) {
         opMode.telemetry.addData("Intake Power", mIntakeMotor.getPower());
         opMode.telemetry.addData("Intake Servo", mIntakeServo.getPower());
     }

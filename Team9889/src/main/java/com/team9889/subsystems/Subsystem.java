@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * at the start of the match.
  */
 public abstract class Subsystem {
-    public abstract void outputToTelemtry(LinearOpMode opMode);
+    public abstract void outputToTelemetry(LinearOpMode opMode);
 
     public abstract void init(HardwareMap hardwareMap, boolean auton);
 

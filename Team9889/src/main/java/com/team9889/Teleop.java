@@ -19,10 +19,6 @@ public class Teleop extends Team9889LinearOpMode {
     private boolean SmartShot = false;
     private ElapsedTime shot  = new ElapsedTime();
 
-    //Drivetrain
-    private double leftspeed, rightspeed, xvalue, yvalue;
-    private int div = 1;
-
     @Override
     public void runOpMode() throws InterruptedException {
         Constants.OpMode = "TELEOP";
@@ -31,8 +27,10 @@ public class Teleop extends Team9889LinearOpMode {
 
         mDrive.DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
 
-        while (opModeIsActive() && !isStopRequested()){
+        //Drivetrain
 
+
+        while (opModeIsActive() && !isStopRequested()){
 
             //Smart Shot
             if(gamepad1.right_trigger > 0.1){
@@ -68,7 +66,8 @@ public class Teleop extends Team9889LinearOpMode {
                 //Clear Flywheel//
 
 
-                //Intake//
+                //Start of Intake//
+
                 if(Math.abs(gamepad2.right_trigger) > 0.01){
                     mIntake.WantedState(Intake.WantedState.WANTS_INTAKE);
                 }else if(gamepad2.left_bumper) {
@@ -76,9 +75,12 @@ public class Teleop extends Team9889LinearOpMode {
                 }else {
                     mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
                 }
-                //Intake//
 
-                //Beacons//
+                //End of Intake//
+
+                //Start of Beacons//
+
+                //Vote to Deploy Beacon Pressers Automatically if close to wall
                 if(mDrive.getUltrasonic()<35){
                     if(beacontimer.milliseconds() > 20){
                         deploy = true;
@@ -88,36 +90,48 @@ public class Teleop extends Team9889LinearOpMode {
                     beacontimer.reset();
                 }
 
+                //Deploy from Ultrasonic vote or gamepad button
                 if(!(deploy || gamepad1.right_bumper)){
                     mBeacon.WantedState(Beacon.Position.BOTH_DEPLOYED);
                 }else {
                     mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
-                //Beacons//
 
+                //End of Beacons//
 
-                //Drivetrain//
+                //Start of Drivetrain//
+
+                double leftspeed, rightspeed, xvalue, yvalue;
+                int div;
+
+                //Used to lower the max speed of the robot when lining up for shooting/beacons
                 if (gamepad1.left_trigger > 0.3){
                     div = 4;
                 }else {
                     div = 1;
                 }
 
+                //Values from gamepads with modifications
                 xvalue = -gamepad1.right_stick_x/div;
                 yvalue = gamepad1.left_stick_y/div;
 
+                //Values to output to motors
                 leftspeed =  yvalue - xvalue;
                 rightspeed = yvalue + xvalue;
 
+                //Set Motor Speeds
                 mDrive.setLeftRightPower(leftspeed, rightspeed);
-                //Drivetrain//
+
+                //End of Drivetrain//
 
             }
 
+            //Push Telemetry
             updateTelemtry(this);
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             waitForTick(40);
+
         }
 
         finalAction(this);
