@@ -13,7 +13,7 @@ import camera_opmodes.OpModeCamera;
  */
 
 @TeleOp(name = "DetectColor", group = "ZZOpModeCameraPackage")
-//@Disabled
+@Disabled
 public class DetectColor extends OpModeCamera {
 
   int ds2 = 2;  // additional downsampling of the image
