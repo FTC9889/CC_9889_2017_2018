@@ -22,8 +22,8 @@ public class RED_CLOSE extends Team9889LinearOpMode {
 
         waitForTeamStart(this);
 
-        runAction(new DriveStraightAction(10, 0.5),this);
+        runAction(new DriveStraightAction(10, 0.5));
 
-        finalAction(this);
+        finalAction();
     }
 }
