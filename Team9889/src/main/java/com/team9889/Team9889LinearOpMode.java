@@ -23,6 +23,10 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     private ElapsedTime period = new ElapsedTime();
 
+    private class CameraThread extends Runnable {
+        
+    }
+
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
         if (isCameraAvailable()){
             setCameraDownsampling(8);
