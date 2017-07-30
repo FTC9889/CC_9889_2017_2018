@@ -1,8 +1,8 @@
-package com.team9889.auto.actions;
+package com.team9889.Linear.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Linear.Team9889LinearOpMode;
 import com.team9889.lib.CruiseLib;
-import com.team9889.subsystems.Drive;
+import com.team9889.Linear.subsystems.Drive;
 
 /**
  * Created by Joshua H on 4/16/2017.
