@@ -1,10 +1,11 @@
-package com.team9889;
+package com.team9889.Linear;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.subsystems.*;
+import com.team9889.Constants;
+import com.team9889.Linear.subsystems.*;
 
-import org.simbotics.robot.util.SimLib;
+import static com.team9889.lib.CruiseLib.*;
 
 /**
  * Created by joshua on 4/17/17.
@@ -118,8 +119,8 @@ public class Teleop extends Team9889LinearOpMode {
                 yvalue = gamepad1.left_stick_y/div;
 
                 //Values to output to motors
-                leftspeed = SimLib.calcLeftTankDrive(xvalue, yvalue);
-                rightspeed = SimLib.calcRightTankDrive(xvalue, yvalue);
+                leftspeed = calcLeftTankDrive(xvalue, yvalue);
+                rightspeed = calcRightTankDrive(xvalue, yvalue);
 
                 //Set Motor Speeds
                 mDrive.setLeftRightPower(leftspeed, rightspeed);
@@ -129,14 +130,14 @@ public class Teleop extends Team9889LinearOpMode {
             }
 
             //Push Telemetry
-            updateTelemetry(this);
+            updateTelemetry();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             waitForTick(40);
 
         }
 
-        finalAction(this);
+        finalAction();
     }
 
 }

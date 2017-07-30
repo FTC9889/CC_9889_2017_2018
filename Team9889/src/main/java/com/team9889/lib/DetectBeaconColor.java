@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DetectBeaconColor {
     public void init(HardwareMap hardwareMap) {
+
     }
 
     static public int red(int pixel) {

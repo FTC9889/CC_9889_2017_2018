@@ -1,10 +1,9 @@
-package com.team9889;
+package com.team9889.Linear;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.*;
-import com.team9889.auto.actions.Action;
-import com.team9889.lib.Camera_Flash;
-import com.team9889.subsystems.*;
+import com.team9889.Constants;
+import com.team9889.Linear.auto.actions.Action;
+import com.team9889.Linear.subsystems.*;
 
 import camera_opmodes.LinearOpModeCamera;
 
@@ -42,7 +41,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         telemetry.addData("Error", " Beacon");
         telemetry.update();
         mBeacon.init(opMode.hardwareMap, true);
-
 
         telemetry.addData("Error", " Intake");
         telemetry.update();

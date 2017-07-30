@@ -1,8 +1,8 @@
-package com.team9889.auto.actions;
+package com.team9889.Linear.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Team9889LinearOpMode;
-import com.team9889.subsystems.*;
+import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Linear.subsystems.*;
 
 /**
  * Created by joshua on 4/17/17.

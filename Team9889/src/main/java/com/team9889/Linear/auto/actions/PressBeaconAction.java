@@ -1,8 +1,8 @@
-package com.team9889.auto.actions;
+package com.team9889.Linear.auto.actions;
 
 import com.team9889.Constants;
-import com.team9889.Team9889LinearOpMode;
-import com.team9889.subsystems.*;
+import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Linear.subsystems.*;
 
 /**
  * Created by Joshua H on 4/11/2017.
