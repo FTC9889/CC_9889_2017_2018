@@ -1,7 +1,7 @@
 package com.team9889;
 
 /**
- * Created by Joshua H on 4/10/2017.
+ * Created by Joshua on 4/10/2017.
  */
 
 public class Constants {
@@ -29,11 +29,8 @@ public class Constants {
 
     public final static String kOpticalDistanceSensor1Id = "OD1";
     public final static String kOpticalDistanceSensor2Id = "OD2";
-
     public final static String kGyroId = "gyro";
-
     public final static String kLegoUltrasonicSensor1Id = "ultra";
-
     public final static String kCoreDeviceInterfaceModule1Id = "CDI";
 
     //DcMotor Encoders
@@ -56,11 +53,6 @@ public class Constants {
 
     public final static double kDeployedBeaconPresser = 1.0;
     public final static double kRetractedBeaconPresser = 0.4;
-
-    //Settings for failure tracking
-    public static String OpMode;
-
-    public static String Alliance;
 
     public static double ticksToInches(int ticks){
         return ticks/Constants.CountsPerInch;

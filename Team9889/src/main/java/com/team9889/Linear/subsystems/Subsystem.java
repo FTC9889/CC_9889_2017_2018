@@ -2,6 +2,7 @@ package com.team9889.Linear.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.Linear.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -19,9 +20,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * at the start of the match.
  */
 public abstract class Subsystem {
-    public abstract void outputToTelemetry(LinearOpMode opMode);
+    public abstract void outputToTelemetry(Team9889LinearOpMode opMode);
 
-    public abstract void init(HardwareMap hardwareMap, boolean auton);
+    public abstract boolean init(HardwareMap hardwareMap, boolean auton);
 
     public abstract void stop();
 

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
+import com.team9889.Linear.Team9889LinearOpMode;
 
 import static com.team9889.Constants.ticksToInches;
 import static com.team9889.lib.CruiseLib.limitValue;
@@ -47,7 +48,7 @@ public class Drive extends Subsystem {
         return instance_;
     }
 
-    public void init(HardwareMap hardwareMap, boolean auton){
+    public boolean init(HardwareMap hardwareMap, boolean auton){
         try {
             this.rightMaster_ = hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
             this.rightSlave_ = hardwareMap.dcMotor.get(Constants.kRightDriveSlaveId);
@@ -57,40 +58,40 @@ public class Drive extends Subsystem {
             this.rightMaster_.setDirection(DcMotorSimple.Direction.FORWARD);
             this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("drivetrain motor init error:", e);
+            return false;
         }
 
         try {
             this.BackODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor1Id);
             this.FrontODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor2Id);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("drivetrain ODS init error:", e);
+            return false;
         }
 
         try {
             this.gyro_ = (ModernRoboticsI2cGyro)hardwareMap.get(Constants.kGyroId);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("drivetrain GYRO init error", e);
+            return false;
         }
 
         try {
             this.ultrasonic = hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("drivetrain ULTRA init error", e);
+            return false;
         }
 
         try {
             this.CDI = hardwareMap.deviceInterfaceModule.get(Constants.kCoreDeviceInterfaceModule1Id);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("drivetrain CDI init error", e);
+            return false;
         }
 
         slave();
+
+        this.zeroSensors();
+        this.DriveControlState(Drive.DriveControlState.POWER);
+        this.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
+        return true;
     }
 
     public void DriveControlState(DriveControlState state){
@@ -133,7 +134,7 @@ public class Drive extends Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889LinearOpMode opMode) {
         opMode.telemetry.addData("Right Motor Pwr", rightMaster_.getPower());
         opMode.telemetry.addData("Left Motor Pwr", leftMaster_.getPower());
         opMode.telemetry.addData("Right Side Inches", getRightDistanceInches());

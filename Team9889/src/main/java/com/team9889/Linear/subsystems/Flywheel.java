@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
+import com.team9889.Linear.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -25,15 +26,21 @@ public class Flywheel extends Subsystem{
         ON, OFF
     }
 
-    public void init(HardwareMap hardwareMap, boolean auton){
+    @Override
+    public boolean init(HardwareMap hardwareMap, boolean auton){
+        boolean error = false;
         try {
             Flywheel = hardwareMap.dcMotor.get(Constants.kFlywheelMotorId);
             Flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             Flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         } catch (Exception e){
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("Flywheel motor init error:", e);
+            error = true;
         }
+
+        this.WantedState(WantedState.OFF);
+        this.zeroSensors();
+
+        return !error;
     }
 
     public void WantedState(WantedState wantedState){
@@ -56,7 +63,7 @@ public class Flywheel extends Subsystem{
     }
 
     @Override
-    public void outputToTelemetry(LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889LinearOpMode opMode) {
         opMode.telemetry.addData("FlywheelPos", Flywheel.getCurrentPosition());
         opMode.telemetry.addData("Flywheel Speed", Flywheel.getPower());
     }

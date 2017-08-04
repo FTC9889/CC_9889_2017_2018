@@ -9,7 +9,7 @@ import static com.team9889.lib.CruiseLib.calcLeftTankDrive;
 import static com.team9889.lib.CruiseLib.calcRightTankDrive;
 
 /**
- * Created by joshua on 4/17/17.
+ * Created by Joshua on 4/17/17.
  */
 
 @TeleOp(name = "Teleop")
@@ -25,8 +25,6 @@ public class Teleop extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Constants.OpMode = "TELEOP";
-
         waitForTeamStart(this);
 
         mDrive.DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);

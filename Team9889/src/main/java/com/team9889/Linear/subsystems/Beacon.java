@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
+import com.team9889.Linear.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -35,7 +36,8 @@ public class Beacon extends Subsystem {
     private Position mPosition_ = Position.BOTH_RETRACTED;
 
     @Override
-    public void init(HardwareMap hardwareMap, boolean auton) {
+    public boolean init(HardwareMap hardwareMap, boolean auton) {
+        boolean error = false;
         try {
             //Servos
             RightBumper = hardwareMap.servo.get(Constants.kRightBeaconPresserId);
@@ -43,8 +45,7 @@ public class Beacon extends Subsystem {
 
             LeftBumper.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("Beacon Servo Init Error");
+            error = true;
         }
 
         try {
@@ -52,9 +53,13 @@ public class Beacon extends Subsystem {
             Color = hardwareMap.colorSensor.get(Constants.kColorSensorId);
             Color.enableLed(false);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("Beacon Color Sensor Init Error");
+            error = false;
         }
+
+        this.zeroSensors();
+        this.WantedState(Beacon.Position.BOTH_RETRACTED);
+
+        return !error;
     }
 
     public void WantedState(Position wantedState) {
@@ -95,7 +100,7 @@ public class Beacon extends Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889LinearOpMode opMode) {
         opMode.telemetry.addData("Color Detected by Color Sensor", getColor());
     }
 }

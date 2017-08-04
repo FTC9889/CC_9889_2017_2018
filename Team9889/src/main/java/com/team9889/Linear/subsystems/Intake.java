@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
+import com.team9889.Linear.Team9889LinearOpMode;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -21,20 +22,24 @@ public class Intake extends Subsystem {
     private DcMotor mIntakeMotor;
     private CRServo mIntakeServo;
 
-    public void init(HardwareMap hardwareMap, boolean auton){
+    public boolean init(HardwareMap hardwareMap, boolean auton){
+        boolean error = false;
         try {
             mIntakeMotor = hardwareMap.dcMotor.get(Constants.kIntakeMotorId);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("Intake DC Init Error");
+            error = true;
         }
 
         try {
             mIntakeServo = hardwareMap.crservo.get(Constants.kIntakeServo);
         } catch (Exception e) {
-            RobotLog.a(Constants.OpMode);
-            RobotLog.a("Intake Servo Init Error");
+            error = true;
         }
+
+        this.zeroSensors();
+        this.WantedState(WantedState.WANTS_STOP);
+
+        return !error;
     }
 
     public enum WantedState {
@@ -77,7 +82,7 @@ public class Intake extends Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889LinearOpMode opMode) {
         opMode.telemetry.addData("Intake Power", mIntakeMotor.getPower());
         opMode.telemetry.addData("Intake Servo", mIntakeServo.getPower());
     }

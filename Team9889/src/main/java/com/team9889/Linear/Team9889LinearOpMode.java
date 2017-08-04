@@ -19,141 +19,136 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     public Intake mIntake = Intake.getInstance();
     public Flywheel mFlywheel = Flywheel.getInstance();
 
-    private Team9889LinearOpMode mopMode = null;
+    private Team9889LinearOpMode InternalopMode = null;
 
     private ElapsedTime period = new ElapsedTime();
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
+        this.InternalopMode = opMode;
+
         if (isCameraAvailable()){
-            setCameraDownsampling(8);
-            opMode.telemetry.addLine("Wait for camera to finish initializing!");
-            opMode.telemetry.update();
-            startCamera();  // can take a while.
+            this.setCameraDownsampling(8);
+            this.InternalopMode.telemetry.addLine("Wait for camera to finish initializing!");
+            this.InternalopMode.telemetry.update();
+            this.startCamera();  // can take a while.
             // best started before waitForStart
-            opMode.telemetry.addLine("Camera ready!");
-            opMode.telemetry.update();
+            this.InternalopMode.telemetry.addLine("Camera ready!");
+            this.InternalopMode.telemetry.update();
         }
 
-        telemetry.addData("Error", " Drive");
-        telemetry.update();
         //Init Hardware
-        mDrive.init(opMode.hardwareMap, true);
+        boolean error = false;
 
-        telemetry.addData("Error", " Beacon");
-        telemetry.update();
-        mBeacon.init(opMode.hardwareMap, true);
+        if(!this.mDrive.init(InternalopMode.hardwareMap, true)){
+            this.InternalopMode.telemetry.addData("Error", " Drive");
+            this.InternalopMode.telemetry.update();
+            error = true;
+        }
 
-        telemetry.addData("Error", " Intake");
-        telemetry.update();
-        mIntake.init(opMode.hardwareMap, true);
+        if(!this.mBeacon.init(InternalopMode.hardwareMap, true)){
+            this.InternalopMode.telemetry.addData("Error", " Beacon");
+            this.InternalopMode.telemetry.update();
+            error = true;
+        }
 
-        telemetry.addData("Error", " Flywheel");
-        telemetry.update();
-        mFlywheel.init(opMode.hardwareMap, true);
+        if(!this.mIntake.init(InternalopMode.hardwareMap, true)){
+            this.InternalopMode.telemetry.addData("Error", " Intake");
+            this.InternalopMode.telemetry.update();
+            error = true;
+        }
 
-        telemetry.addData("No Errors Init","");
-        telemetry.update();
+        if(!this.mFlywheel.init(InternalopMode.hardwareMap, true)){
+            this.InternalopMode.telemetry.addData("Error", " Flywheel");
+            this.InternalopMode.telemetry.update();
+            error = true;
+        }
 
-        //Zero Sensors
-        mDrive.zeroSensors();
-        mBeacon.zeroSensors();
-        mFlywheel.zeroSensors();
-        mIntake.zeroSensors();
+        if(error){
+            this.InternalopMode.telemetry.addData("Error during Init","");
+            this.InternalopMode.telemetry.update();
+        }else {
+            this.InternalopMode.telemetry.addData("No Errors Init","");
+            this.InternalopMode.telemetry.update();
+        }
 
-        //Set init state of robot
-        mDrive.DriveControlState(Drive.DriveControlState.POWER);
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
-
-        mFlywheel.WantedState(Flywheel.WantedState.OFF);
-
-        mIntake.WantedState(Intake.WantedState.WANTS_STOP);
-
-        mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
-
-        mopMode = opMode;
-
-        updateTelemetry();
+        this.updateTelemetry();
 
         //Wait for DS start
-        opMode.waitForStart();
+        this.InternalopMode.waitForStart();
 
-        opMode.telemetry.addData("Started", Constants.OpMode);
-        opMode.telemetry.update();
-    }
-
-    public void updateTelemetry(){
-        mopMode.telemetry.addData("Running", Constants.OpMode);
-        mDrive.outputToTelemetry(mopMode);
-        mFlywheel.outputToTelemetry(mopMode);
-        mIntake.outputToTelemetry(mopMode);
-        mBeacon.outputToTelemetry(mopMode);
-        outputToTelemetryForCamera(mopMode);
-        mopMode.telemetry.update();
+        this.InternalopMode.telemetry.addData("Started", "");
+        this.InternalopMode.telemetry.update();
     }
 
     /**
-     *
+     * Run this to update the Default Telemetry
+     */
+    public void updateTelemetry(){
+        this.mDrive.outputToTelemetry(this.InternalopMode);
+        this.mFlywheel.outputToTelemetry(this.InternalopMode);
+        this.mIntake.outputToTelemetry(this.InternalopMode);
+        this.mBeacon.outputToTelemetry(this.InternalopMode);
+        outputToTelemetryForCamera(this.InternalopMode);
+        this.InternalopMode.telemetry.update();
+    }
+
+    /**
      * @param action All are defined in action folder
      */
     protected void runAction(Action action){
+        //If there is an error, Stop the OpMode
         boolean error = false;
         try {
-            action.start(mopMode);
-            updateTelemetry();
+            action.start(this.InternalopMode);
+            this.updateTelemetry();
         } catch (Exception e){
-            mopMode.telemetry.addData("Error in Starting Action", action);
-            mopMode.telemetry.update();
-            RobotLog.a("Error running Action " + action + " in start method in " + Constants.OpMode);
+            this.InternalopMode.telemetry.addData("Error in Starting Action", action);
+            this.InternalopMode.telemetry.update();
         }
 
-        while (!action.isFinished() && mopMode.opModeIsActive() && !error){
+        while (!action.isFinished() && this.InternalopMode.opModeIsActive() && !error){
             try {
-                action.update(mopMode);
-                updateTelemetry();
+                action.update(this.InternalopMode);
+                this.updateTelemetry();
             } catch (Exception e){
-                mopMode.telemetry.addData("Error in Updating Action", action);
-                mopMode.telemetry.update();
-                RobotLog.a("Error running Action " + action + " in update method in" + Constants.OpMode);
+                this.InternalopMode.telemetry.addData("Error in Updating Action", action);
+                this.InternalopMode.telemetry.update();
             }
         }
 
-        if (mopMode.opModeIsActive() && !error){
+        if (this.InternalopMode.opModeIsActive() && !error){
             try {
                 action.done();
-                updateTelemetry();
+                this.updateTelemetry();
             } catch (Exception e){
-                mopMode.telemetry.addData("Error in Finishing Action", action);
-                mopMode.telemetry.update();
-                RobotLog.a("Error running Action " + action + " in done method in" + Constants.OpMode);
+                this.InternalopMode.telemetry.addData("Error in Finishing Action", action);
+                this.InternalopMode.telemetry.update();
             }
         }
 
-        mopMode.telemetry.addData("Finished Action", "");
-        mopMode.telemetry.update();
+        this.InternalopMode.telemetry.addData("Finished Action", "");
+        this.InternalopMode.telemetry.update();
 
         if(!error){
-            mDrive.stop();
-            mBeacon.stop();
-            mFlywheel.stop();
-            mIntake.stop();
-            mopMode.sleep(5000);
+            this.mDrive.stop();
+            this.mBeacon.stop();
+            this.mFlywheel.stop();
+            this.mIntake.stop();
+            this.InternalopMode.sleep(5000);
         }
     }
 
     //Final Action to be run
     protected void finalAction(){
         try {
-            mDrive.stop();
-            mFlywheel.stop();
-            mBeacon.stop();
-            mIntake.stop();
-        } catch (Exception e){
-            RobotLog.a("Error Stop method" + Constants.OpMode);
-        }
+            this.mDrive.stop();
+            this.mFlywheel.stop();
+            this.mBeacon.stop();
+            this.mIntake.stop();
+        } catch (Exception e){}
 
         stopCamera();
-
-        mopMode.requestOpModeStop();
+        this.InternalopMode.requestOpModeStop();
     }
 
     //Built-in function by FIRST. Put in all loops
