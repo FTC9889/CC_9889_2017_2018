@@ -2,8 +2,7 @@ package com.team9889.Iterative.subsystems;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.*;
 import com.team9889.Constants;
 import com.team9889.Iterative.Team9889OpMode;
 
@@ -11,7 +10,9 @@ import com.team9889.Iterative.Team9889OpMode;
  * Created by Joshua on 7/29/2017.
  */
 
-public class Drivetrain implements Subsystem{
+public class Drive implements Subsystem {
+
+    public static Drive getInstance(){return new Drive();}
 
     //Drive motors
     private DcMotor rightMaster_ , leftMaster_ , rightSlave_ , leftSlave_ = null;
@@ -20,21 +21,44 @@ public class Drivetrain implements Subsystem{
     private ModernRoboticsI2cGyro gyro_ = null;
 
     //Light Sensors
-    private OpticalDistanceSensor frontOds , backOds = null;
+    private OpticalDistanceSensor frontOds_ , backOds_ = null;
+
+    //Lego Ultrasonic Sensor
+    private UltrasonicSensor ultrasonicSensor_ = null;
 
 
 
     @Override
     public void init(Team9889OpMode team9889OpMode) {
-        this.rightMaster_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
-        this.leftMaster_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kLeftDriveMasterId);
-        this.rightSlave_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kRightDriveSlaveId);
-        this.leftSlave_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kLeftDriveSlaveId);
+        try {
+            this.rightMaster_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
+            this.leftMaster_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kLeftDriveMasterId);
+            this.rightSlave_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kRightDriveSlaveId);
+            this.leftSlave_ = team9889OpMode.hardwareMap.dcMotor.get(Constants.kLeftDriveSlaveId);
 
-        this.gyro_ = (ModernRoboticsI2cGyro) team9889OpMode.hardwareMap.gyroSensor.get(Constants.kGyroId);
+            this.rightMaster_.setDirection(DcMotorSimple.Direction.FORWARD);
+            this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        this.setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            this.setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }catch (Exception e){
+            team9889OpMode.telemetry.addData("Error Init Drivetrain Motors>", e);
+            team9889OpMode.telemetry.update();
+        }
+
+        try {
+            this.gyro_ = (ModernRoboticsI2cGyro) team9889OpMode.hardwareMap.gyroSensor.get(Constants.kGyroId);
+        }catch (Exception e){
+            team9889OpMode.telemetry.addData("Error Init Gyro>", e);
+            team9889OpMode.telemetry.update();
+        }
+
+        try {
+            ultrasonicSensor_ = team9889OpMode.hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
+        }catch (Exception e){
+            team9889OpMode.telemetry.addData("Error Init Ultrasonic>", e);
+            team9889OpMode.telemetry.update();
+        }
     }
 
     @Override
