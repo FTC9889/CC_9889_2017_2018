@@ -30,7 +30,7 @@ public class Teleop extends Team9889LinearOpMode {
 
         mDrive.DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
 
-        //Drivetrain
+        //Drive
 
 
         while (opModeIsActive() && !isStopRequested()){
@@ -102,7 +102,7 @@ public class Teleop extends Team9889LinearOpMode {
 
                 //End of Beacons//
 
-                //Start of Drivetrain//
+                //Start of Drive//
 
                 double leftspeed, rightspeed, xvalue, yvalue;
                 int div;
@@ -125,7 +125,7 @@ public class Teleop extends Team9889LinearOpMode {
                 //Set Motor Speeds
                 mDrive.setLeftRightPower(leftspeed, rightspeed);
 
-                //End of Drivetrain//
+                //End of Drive//
 
             }
 

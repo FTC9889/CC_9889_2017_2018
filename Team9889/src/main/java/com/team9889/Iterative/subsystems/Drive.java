@@ -1,7 +1,9 @@
 package com.team9889.Iterative.subsystems;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.team9889.Constants;
 import com.team9889.Iterative.Team9889OpMode;
 
@@ -11,14 +13,16 @@ import com.team9889.Iterative.Team9889OpMode;
 
 public class Drivetrain implements Subsystem{
 
-    //DcMotors
-    private DcMotor rightMaster_ = null;
-    private DcMotor leftMaster_ = null;
-    private DcMotor rightSlave_ = null;
-    private DcMotor leftSlave_ = null;
+    //Drive motors
+    private DcMotor rightMaster_ , leftMaster_ , rightSlave_ , leftSlave_ = null;
 
     //Gyro
     private ModernRoboticsI2cGyro gyro_ = null;
+
+    //Light Sensors
+    private OpticalDistanceSensor frontOds , backOds = null;
+
+
 
     @Override
     public void init(Team9889OpMode team9889OpMode) {

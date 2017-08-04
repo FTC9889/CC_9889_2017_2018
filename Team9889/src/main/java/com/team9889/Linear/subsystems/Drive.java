@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 
-import org.simbotics.robot.util.SimLib;
-
 import static com.team9889.Constants.ticksToInches;
+import static com.team9889.lib.CruiseLib.limitValue;
 
 /**
  * Created by Joshua H on 4/10/2017.
@@ -18,7 +17,7 @@ public class Drive extends Subsystem {
 
     private static Drive instance_ = new Drive();
 
-    //Drivetrain Motors
+    //Drive Motors
     private DcMotor rightMaster_, rightSlave_, leftMaster_, leftSlave_;
 
     //Sensors
@@ -143,10 +142,10 @@ public class Drive extends Subsystem {
     }
 
     public void setLeftRightPower(double left, double right){
-        leftMaster_.setPower(SimLib.limitValue(left));
-        leftSlave_.setPower(SimLib.limitValue(left));
-        rightMaster_.setPower(SimLib.limitValue(right));
-        rightSlave_.setPower(SimLib.limitValue(right));
+        leftMaster_.setPower(limitValue(left));
+        leftSlave_.setPower(limitValue(left));
+        rightMaster_.setPower(limitValue(right));
+        rightSlave_.setPower(limitValue(right));
     }
 
     public double getRightDistanceInches(){

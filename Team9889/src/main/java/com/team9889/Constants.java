@@ -21,7 +21,7 @@ public class Constants {
     //Settings for Flywheel class
     public final static String kFlywheelMotorId = "flywheel";
 
-    //Settings for Drivetrain class
+    //Settings for Drive class
     public final static String kLeftDriveMasterId = "LDrive1";
     public final static String kLeftDriveSlaveId = "LDrive2";
     public final static String kRightDriveMasterId = "RDrive1";
