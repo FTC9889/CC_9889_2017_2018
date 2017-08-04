@@ -1,6 +1,7 @@
 package com.team9889.Linear;
 
-import com.qualcomm.robotcore.util.*;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Linear.auto.actions.Action;
 import com.team9889.Linear.subsystems.*;
@@ -21,10 +22,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     private Team9889LinearOpMode mopMode = null;
 
     private ElapsedTime period = new ElapsedTime();
-
-    private class CameraThread extends Runnable {
-        
-    }
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
         if (isCameraAvailable()){

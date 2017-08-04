@@ -2,11 +2,11 @@ package camera_opmodes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.Camera;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.hardware.Camera;
 
 import java.io.IOException;
 
@@ -34,8 +34,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
-        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {

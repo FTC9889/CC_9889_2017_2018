@@ -2,6 +2,7 @@ package sample_camera_opmodes;
 
 import android.graphics.Bitmap;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import camera_opmodes.OpModeCamera;

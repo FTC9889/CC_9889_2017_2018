@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Constants;
 import com.team9889.Linear.subsystems.*;
 
-import static com.team9889.lib.CruiseLib.*;
+import static com.team9889.lib.CruiseLib.calcLeftTankDrive;
+import static com.team9889.lib.CruiseLib.calcRightTankDrive;
 
 /**
  * Created by joshua on 4/17/17.
  */
 
-@TeleOp (name = "Teleop")
+@TeleOp(name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
     //Beacon Pushers

@@ -11,7 +11,7 @@ import static com.team9889.lib.CruiseLib.calcRightTankDrive;
  * Created by Joshua on 7/29/2017.
  */
 
-public class Team9889OpMode extends OpModeCamera{
+public class Team9889OpMode extends OpModeCamera {
 
     public Drive mDrive_ = Drive.getInstance();
 
