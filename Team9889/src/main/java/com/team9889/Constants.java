@@ -42,6 +42,9 @@ public class Constants {
     public final static double kDriveMaxSpeed = 1.0;
     public final static double kDriveMinSpeed = 0.3;
 
+    //Distance between wheels
+    public final static double TrackWidth = 16;
+
     //Value of white line
     public final static double WhiteLineValue = 0.6;
 

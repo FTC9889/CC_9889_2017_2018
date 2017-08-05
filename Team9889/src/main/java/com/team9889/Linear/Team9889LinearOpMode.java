@@ -14,13 +14,8 @@ import camera_opmodes.LinearOpModeCamera;
 
 public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
-    public Drive mDrive = Drive.getInstance();
-    public Beacon mBeacon = Beacon.getInstance();
-    public Intake mIntake = Intake.getInstance();
-    public Flywheel mFlywheel = Flywheel.getInstance();
-
+    public Superstructure mSuperstructure = Superstructure.getInstance();
     private Team9889LinearOpMode InternalopMode = null;
-
     private ElapsedTime period = new ElapsedTime();
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
@@ -36,40 +31,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             this.InternalopMode.telemetry.update();
         }
 
-        //Init Hardware
-        boolean error = false;
-
-        if(!this.mDrive.init(InternalopMode.hardwareMap, true)){
-            this.InternalopMode.telemetry.addData("Error", " Drive");
-            this.InternalopMode.telemetry.update();
-            error = true;
-        }
-
-        if(!this.mBeacon.init(InternalopMode.hardwareMap, true)){
-            this.InternalopMode.telemetry.addData("Error", " Beacon");
-            this.InternalopMode.telemetry.update();
-            error = true;
-        }
-
-        if(!this.mIntake.init(InternalopMode.hardwareMap, true)){
-            this.InternalopMode.telemetry.addData("Error", " Intake");
-            this.InternalopMode.telemetry.update();
-            error = true;
-        }
-
-        if(!this.mFlywheel.init(InternalopMode.hardwareMap, true)){
-            this.InternalopMode.telemetry.addData("Error", " Flywheel");
-            this.InternalopMode.telemetry.update();
-            error = true;
-        }
-
-        if(error){
-            this.InternalopMode.telemetry.addData("Error during Init","");
-            this.InternalopMode.telemetry.update();
-        }else {
-            this.InternalopMode.telemetry.addData("No Errors Init","");
-            this.InternalopMode.telemetry.update();
-        }
+        mSuperstructure.Setup_Superstructure(this.InternalopMode);
+        mSuperstructure.init(this.InternalopMode.hardwareMap, false);
 
         this.updateTelemetry();
 
@@ -84,10 +47,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
      * Run this to update the Default Telemetry
      */
     public void updateTelemetry(){
-        this.mDrive.outputToTelemetry(this.InternalopMode);
-        this.mFlywheel.outputToTelemetry(this.InternalopMode);
-        this.mIntake.outputToTelemetry(this.InternalopMode);
-        this.mBeacon.outputToTelemetry(this.InternalopMode);
+        this.mSuperstructure.outputToTelemetry(this.InternalopMode);
         outputToTelemetryForCamera(this.InternalopMode);
         this.InternalopMode.telemetry.update();
     }
@@ -130,10 +90,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         this.InternalopMode.telemetry.update();
 
         if(!error){
-            this.mDrive.stop();
-            this.mBeacon.stop();
-            this.mFlywheel.stop();
-            this.mIntake.stop();
+            this.mSuperstructure.stop();
             this.InternalopMode.sleep(5000);
         }
     }
@@ -141,10 +98,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     //Final Action to be run
     protected void finalAction(){
         try {
-            this.mDrive.stop();
-            this.mFlywheel.stop();
-            this.mBeacon.stop();
-            this.mIntake.stop();
+            this.mSuperstructure.stop();
         } catch (Exception e){}
 
         stopCamera();

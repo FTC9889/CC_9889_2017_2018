@@ -13,11 +13,6 @@ import com.team9889.Linear.Team9889LinearOpMode;
  */
 
 public class Beacon extends Subsystem {
-    private static Beacon instance_ = new Beacon();
-
-    public static Beacon getInstance(){
-        return instance_;
-    }
 
     //Beacon-pushing Servos
     private Servo RightBumper, LeftBumper;

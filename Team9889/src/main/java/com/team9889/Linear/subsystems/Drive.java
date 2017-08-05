@@ -21,8 +21,6 @@ import static com.team9889.lib.CruiseLib.limitValue;
 
 public class Drive extends Subsystem {
 
-    private static Drive instance_ = new Drive();
-
     //Drive Motors
     private DcMotor rightMaster_, rightSlave_, leftMaster_, leftSlave_;
 
@@ -42,10 +40,6 @@ public class Drive extends Subsystem {
 
     public enum DriveControlState{
         POWER, SPEED, POSITION, HEADING_CONTROL, OPERATOR_CONTROL
-    }
-
-    public static Drive getInstance(){
-        return instance_;
     }
 
     public boolean init(HardwareMap hardwareMap, boolean auton){

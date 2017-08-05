@@ -13,13 +13,6 @@ import com.team9889.Linear.Team9889LinearOpMode;
  */
 
 public class Flywheel extends Subsystem{
-
-    private static Flywheel instance_ = new Flywheel();
-
-    public static Flywheel getInstance(){
-        return instance_;
-    }
-
     private DcMotor Flywheel;
 
     public enum WantedState{

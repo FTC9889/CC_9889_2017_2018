@@ -27,18 +27,16 @@ public class Teleop extends Team9889LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForTeamStart(this);
 
-        mDrive.DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
+        mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
 
         //Drive
-
-
         while (opModeIsActive() && !isStopRequested()){
 
             //Smart Shot
             if(gamepad1.right_trigger > 0.1){
 
                 //Prevent Particles from getting stuck in between bumpers
-                mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
+                mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
 
                 if (SmartShot) {
                     shot.reset();
@@ -46,14 +44,14 @@ public class Teleop extends Team9889LinearOpMode {
                 }
 
                 if(shot.milliseconds() > 1000){
-                    mFlywheel.WantedState(Flywheel.WantedState.ON);
-                    mIntake.WantedState(Intake.WantedState.WANTS_SHOOT);
+                    mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.ON);
+                    mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_SHOOT);
                     if(shot.milliseconds() > 2000){
                         SmartShot = true;
                     }
                 }else {
-                    mFlywheel.WantedState(Flywheel.WantedState.ON);
-                    mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
+                    mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.ON);
+                    mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_WAIT);
                 }
 
             }else {
@@ -61,9 +59,9 @@ public class Teleop extends Team9889LinearOpMode {
 
                 //Clear Flywheel//
                 if(gamepad2.a){
-                    mFlywheel.WantedState(Flywheel.WantedState.ON);
+                    mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.ON);
                 }else {
-                    mFlywheel.WantedState(Flywheel.WantedState.OFF);
+                    mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.OFF);
                 }
                 //Clear Flywheel//
 
@@ -71,11 +69,11 @@ public class Teleop extends Team9889LinearOpMode {
                 //Start of Intake//
 
                 if(Math.abs(gamepad2.right_trigger) > 0.01){
-                    mIntake.WantedState(Intake.WantedState.WANTS_INTAKE);
+                    mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_INTAKE);
                 }else if(gamepad2.left_bumper) {
-                    mIntake.WantedState(Intake.WantedState.WANTS_REVERSE);
+                    mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_REVERSE);
                 }else {
-                    mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
+                    mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_WAIT);
                 }
 
                 //End of Intake//
@@ -83,7 +81,7 @@ public class Teleop extends Team9889LinearOpMode {
                 //Start of Beacons//
 
                 //Vote to Deploy Beacon Pressers Automatically if close to wall
-                if(mDrive.getUltrasonic()<35){
+                if(mSuperstructure.getDrive().getUltrasonic()<35){
                     if(beacontimer.milliseconds() > 20){
                         deploy = true;
                     }
@@ -94,9 +92,9 @@ public class Teleop extends Team9889LinearOpMode {
 
                 //Deploy from Ultrasonic vote or gamepad button
                 if(deploy || gamepad1.right_bumper){
-                    mBeacon.WantedState(Beacon.Position.BOTH_DEPLOYED);
+                    mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_DEPLOYED);
                 }else {
-                    mBeacon.WantedState(Beacon.Position.BOTH_RETRACTED);
+                    mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
 
                 //End of Beacons//
@@ -114,15 +112,16 @@ public class Teleop extends Team9889LinearOpMode {
                 }
 
                 //Values from gamepads with modifications
-                xvalue = gamepad1.right_stick_x/div;
+                xvalue = -gamepad1.right_stick_x/div;
                 yvalue = gamepad1.left_stick_y/div;
 
                 //Values to output to motors
-                leftspeed = calcLeftTankDrive(xvalue, yvalue);
-                rightspeed = calcRightTankDrive(xvalue, yvalue);
+                leftspeed =  yvalue - xvalue;
+                rightspeed = yvalue + xvalue;
+
 
                 //Set Motor Speeds
-                mDrive.setLeftRightPower(leftspeed, rightspeed);
+                mSuperstructure.getDrive().setLeftRightPower(leftspeed, rightspeed);
 
                 //End of Drive//
 

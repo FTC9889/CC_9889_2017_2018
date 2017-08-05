@@ -11,11 +11,9 @@ import com.team9889.lib.CruiseLib;
 
 public class DriveStraightAction implements Action {
 
-    private double mWantedDistance;
-    private double mVelocity;
-    private double mAngle;
-    private boolean DriveBackward;
-    private boolean rv = false;
+    private double mWantedDistance, mVelocity, mAngle;
+    private double leftVelocity, rightVelocity;
+    private boolean DriveBackward, rv = false;
     private Drive mDrive;
 
     public DriveStraightAction(double distance, double velocity){
@@ -33,7 +31,6 @@ public class DriveStraightAction implements Action {
     public void start(Team9889LinearOpMode opMode) {
         mDrive = opMode.mDrive;
         mWantedDistance = CruiseLib.Average(mDrive.getLeftDistanceInches(), mDrive.getRightDistanceInches()) + mWantedDistance;
-
     }
 
     @Override
@@ -43,12 +40,11 @@ public class DriveStraightAction implements Action {
 
     @Override
     public boolean isFinished() {
-        return !mDrive.InchesAreWeThereYet(mWantedDistance);
+        return !((Math.abs(mDrive.getRightDistanceInches())) > Math.abs(mWantedDistance));
     }
 
     @Override
     public void update(Team9889LinearOpMode  opMode){
-
         mDrive.setLeftRightPower(mVelocity, mVelocity);
     }
 }

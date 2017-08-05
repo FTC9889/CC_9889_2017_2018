@@ -9,19 +9,15 @@ import com.team9889.Constants;
 import com.team9889.Linear.Team9889LinearOpMode;
 
 /**
- * Created by Joshua H on 4/10/2017.
+ * Created by Joshua on 4/10/2017.
  */
 
 public class Intake extends Subsystem {
-    private static Intake instance_ = new Intake();
-
-    public static Intake getInstance(){
-        return instance_;
-    }
 
     private DcMotor mIntakeMotor;
     private CRServo mIntakeServo;
 
+    @Override
     public boolean init(HardwareMap hardwareMap, boolean auton){
         boolean error = false;
         try {
