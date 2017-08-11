@@ -14,7 +14,7 @@ public class DriveTimeAction implements Action {
     private double mAngle;
     private boolean isFinished;
 
-    private Drive mDrive = Drive.getInstance();
+    private Drive mDrive;
 
     public DriveTimeAction(int milliseconds, double Velocity) {
         Milliseconds = milliseconds;
@@ -28,7 +28,7 @@ public class DriveTimeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
-        mDrive = opMode.mDrive;
+        mDrive = opMode.mSuperstructure.getDrive();
         mAngle = mDrive.getGyroAngleDegrees();
         StartMilliseconds = opMode.getRuntime();
     }

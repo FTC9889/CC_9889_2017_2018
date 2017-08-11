@@ -1,8 +1,10 @@
 package com.team9889.Linear.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.*;
 import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Linear.auto.AutoModeBase;
 import com.team9889.Linear.auto.actions.*;
 
 /**
@@ -10,14 +12,11 @@ import com.team9889.Linear.auto.actions.*;
  */
 
 @Autonomous(name = "Red Close")
-public class RED_CLOSE extends Team9889LinearOpMode {
+@Disabled
+public class RED_CLOSE extends AutoModeBase{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //Set Properties to log in case of failure
-        Constants.OpMode = "RED_CLOSE";
-        Constants.Alliance = "RED";
-
         waitForTeamStart(this);
 
         runAction(new DriveStraightAction(10, 0.5));

@@ -25,6 +25,7 @@ public class Teleop extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        UseCamera = false;
         waitForTeamStart(this);
 
         mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
@@ -36,7 +37,7 @@ public class Teleop extends Team9889LinearOpMode {
             if(gamepad1.right_trigger > 0.1){
 
                 //Prevent Particles from getting stuck in between bumpers
-                mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
+                //mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
 
                 if (SmartShot) {
                     shot.reset();
@@ -81,6 +82,9 @@ public class Teleop extends Team9889LinearOpMode {
                 //Start of Beacons//
 
                 //Vote to Deploy Beacon Pressers Automatically if close to wall
+                /*
+
+
                 if(mSuperstructure.getDrive().getUltrasonic()<35){
                     if(beacontimer.milliseconds() > 20){
                         deploy = true;
@@ -97,6 +101,8 @@ public class Teleop extends Team9889LinearOpMode {
                     mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
 
+                */
+
                 //End of Beacons//
 
                 //Start of Drive//
@@ -108,12 +114,12 @@ public class Teleop extends Team9889LinearOpMode {
                 if (gamepad1.left_trigger > 0.3){
                     div = 4;
                 }else {
-                    div = 1;
+                    div = 2;
                 }
 
                 //Values from gamepads with modifications
-                xvalue = -gamepad1.right_stick_x/div;
-                yvalue = gamepad1.left_stick_y/div;
+                xvalue = gamepad1.right_stick_x/div;
+                yvalue = -gamepad1.left_stick_y/div;
 
                 //Values to output to motors
                 leftspeed =  yvalue - xvalue;

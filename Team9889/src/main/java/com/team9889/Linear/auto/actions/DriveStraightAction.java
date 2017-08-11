@@ -29,7 +29,7 @@ public class DriveStraightAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mDrive;
+        mDrive = opMode.mSuperstructure.getDrive();
         mWantedDistance = CruiseLib.Average(mDrive.getLeftDistanceInches(), mDrive.getRightDistanceInches()) + mWantedDistance;
     }
 

@@ -48,7 +48,7 @@ public class Flywheel extends Subsystem{
     }
 
     private void Shoot(){
-        Flywheel.setPower(-0.3);
+        Flywheel.setPower(0.3);
     }
 
     private void Off(){

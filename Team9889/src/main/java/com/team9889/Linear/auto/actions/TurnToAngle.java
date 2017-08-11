@@ -58,7 +58,7 @@ public class TurnToAngle implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mDrive;
+        mDrive = opMode.mSuperstructure.getDrive();
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);

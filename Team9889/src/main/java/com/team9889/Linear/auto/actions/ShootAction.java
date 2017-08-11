@@ -40,8 +40,8 @@ public class ShootAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
-        mFlywheel = opMode.mFlywheel;
-        mIntake = opMode.mIntake;
+        mFlywheel = opMode.mSuperstructure.getFlywheel();
+        mIntake = opMode.mSuperstructure.getIntake();
         mIntake.WantedState(Intake.WantedState.WANTS_WAIT);
         mFlywheel.WantedState(Flywheel.WantedState.ON);
         shot.reset();

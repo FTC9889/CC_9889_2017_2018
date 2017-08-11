@@ -13,6 +13,11 @@ public class PressBeaconAction implements Action {
     Beacon mBeacon;
 
     private static boolean isFinished = false;
+    private String mAlliance;
+
+    public PressBeaconAction(String Alliance){
+        this.mAlliance = Alliance;
+    }
 
     @Override
     public boolean isFinished() {
@@ -29,18 +34,18 @@ public class PressBeaconAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mDrive;
-        mBeacon = opMode.mBeacon;
+        mDrive = opMode.mSuperstructure.getDrive();
+        mBeacon = opMode.mSuperstructure.getBeacon();
 
         isFinished = false;
 
-        if(Constants.Alliance == "RED"){
+        if(this.mAlliance == "RED"){
             if(mBeacon.getColor() == Beacon.BeaconColor.Red){
                 mBeacon.WantedState(Beacon.Position.LEFT_DEPLOYED);
             }else {
                 mBeacon.WantedState(Beacon.Position.RIGHT_DEPLOYED);
             }
-        }else if(Constants.Alliance == "BLUE"){
+        }else if(this.mAlliance == "BLUE"){
             if(mBeacon.getColor() == Beacon.BeaconColor.Blue){
                 mBeacon.WantedState(Beacon.Position.LEFT_DEPLOYED);
             }else {

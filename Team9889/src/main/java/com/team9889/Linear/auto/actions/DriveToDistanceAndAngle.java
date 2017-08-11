@@ -26,9 +26,9 @@ public class DriveToDistanceAndAngle implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mInitAngle = opMode.mDrive.getGyroAngleDegrees();
-        mInitLeftMotorPosition = opMode.mDrive.getLeftDistanceInches();
-        mInitRightMotorPosition = opMode.mDrive.getRightDistanceInches();
+        mInitAngle = opMode.mSuperstructure.getDrive().getGyroAngleDegrees();
+        mInitLeftMotorPosition = opMode.mSuperstructure.getDrive().getLeftDistanceInches();
+        mInitRightMotorPosition = opMode.mSuperstructure.getDrive().getRightDistanceInches();
 
         mRadiusOfTurn = mRadiusOfTurn*(Math.PI/180);
 

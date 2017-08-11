@@ -15,13 +15,14 @@ import camera_opmodes.LinearOpModeCamera;
 public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     public Superstructure mSuperstructure = Superstructure.getInstance();
-    private Team9889LinearOpMode InternalopMode = null;
+    public Team9889LinearOpMode InternalopMode = null;
+    public boolean UseCamera = true;
     private ElapsedTime period = new ElapsedTime();
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
         this.InternalopMode = opMode;
 
-        if (isCameraAvailable()){
+        if (isCameraAvailable() && UseCamera){
             this.setCameraDownsampling(8);
             this.InternalopMode.telemetry.addLine("Wait for camera to finish initializing!");
             this.InternalopMode.telemetry.update();
@@ -50,49 +51,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         this.mSuperstructure.outputToTelemetry(this.InternalopMode);
         outputToTelemetryForCamera(this.InternalopMode);
         this.InternalopMode.telemetry.update();
-    }
-
-    /**
-     * @param action All are defined in action folder
-     */
-    protected void runAction(Action action){
-        //If there is an error, Stop the OpMode
-        boolean error = false;
-        try {
-            action.start(this.InternalopMode);
-            this.updateTelemetry();
-        } catch (Exception e){
-            this.InternalopMode.telemetry.addData("Error in Starting Action", action);
-            this.InternalopMode.telemetry.update();
-        }
-
-        while (!action.isFinished() && this.InternalopMode.opModeIsActive() && !error){
-            try {
-                action.update(this.InternalopMode);
-                this.updateTelemetry();
-            } catch (Exception e){
-                this.InternalopMode.telemetry.addData("Error in Updating Action", action);
-                this.InternalopMode.telemetry.update();
-            }
-        }
-
-        if (this.InternalopMode.opModeIsActive() && !error){
-            try {
-                action.done();
-                this.updateTelemetry();
-            } catch (Exception e){
-                this.InternalopMode.telemetry.addData("Error in Finishing Action", action);
-                this.InternalopMode.telemetry.update();
-            }
-        }
-
-        this.InternalopMode.telemetry.addData("Finished Action", "");
-        this.InternalopMode.telemetry.update();
-
-        if(!error){
-            this.mSuperstructure.stop();
-            this.InternalopMode.sleep(5000);
-        }
     }
 
     //Final Action to be run

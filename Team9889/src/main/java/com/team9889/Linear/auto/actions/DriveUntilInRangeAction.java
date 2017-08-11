@@ -28,7 +28,7 @@ public class DriveUntilInRangeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mDrive;
+        mDrive = opMode.mSuperstructure.getDrive();
         isFinished = false;
         LstartingDistance = mDrive.getLeftDistanceInches();
         RstartingDistance = mDrive.getRightDistanceInches();
