@@ -32,9 +32,10 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             this.InternalopMode.telemetry.update();
         }
 
-        mSuperstructure.Setup_Superstructure(this.InternalopMode);
-        mSuperstructure.init(this.InternalopMode.hardwareMap, false);
+        this.mSuperstructure.Setup_Superstructure(this.InternalopMode);
+        this.mSuperstructure.init(this.InternalopMode.hardwareMap, false);
 
+        this.InternalopMode.telemetry.addData("Ready to Start", "");
         this.updateTelemetry();
 
         //Wait for DS start
@@ -48,8 +49,9 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
      * Run this to update the Default Telemetry
      */
     public void updateTelemetry(){
+        this.InternalopMode.telemetry.addData("Runtime> ", this.InternalopMode.getRuntime());
         this.mSuperstructure.outputToTelemetry(this.InternalopMode);
-        outputToTelemetryForCamera(this.InternalopMode);
+        this.outputToTelemetryForCamera(this.InternalopMode);
         this.InternalopMode.telemetry.update();
     }
 
@@ -80,4 +82,18 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         period.reset();
     }
 
+    public class TelemeteryThread extends Thread{
+        Team9889LinearOpMode opMode;
+
+        TelemeteryThread(Team9889LinearOpMode opMode){
+            this.opMode = opMode;
+        }
+
+        public void run(){
+            this.opMode.telemetry.addData("Runtime> ", this.opMode.getRuntime());
+            this.opMode.mSuperstructure.outputToTelemetry(opMode);
+            this.opMode.outputToTelemetryForCamera(this.opMode);
+            this.opMode.telemetry.update();
+        }
+    }
 }

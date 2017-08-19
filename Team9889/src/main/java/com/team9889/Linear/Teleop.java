@@ -15,6 +15,12 @@ import static com.team9889.lib.CruiseLib.calcRightTankDrive;
 @TeleOp(name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
+    //New Driver Station
+    Driver_Station driver_station = new Driver_Station();
+
+    //Telemetry
+    TelemeteryThread telemeteryThread = new TelemeteryThread(this);
+
     //Beacon Pushers
     private boolean deploy = false;
     private ElapsedTime beacontimer = new ElapsedTime();
@@ -26,6 +32,8 @@ public class Teleop extends Team9889LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         UseCamera = false;
+        driver_station.init(this);
+
         waitForTeamStart(this);
 
         mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
@@ -34,7 +42,7 @@ public class Teleop extends Team9889LinearOpMode {
         while (opModeIsActive() && !isStopRequested()){
 
             //Smart Shot
-            if(gamepad1.right_trigger > 0.1){
+            if(driver_station.ShootBoolean()){
 
                 //Prevent Particles from getting stuck in between bumpers
                 //mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
@@ -59,7 +67,7 @@ public class Teleop extends Team9889LinearOpMode {
                 SmartShot = true;
 
                 //Clear Flywheel//
-                if(gamepad2.a){
+                if(driver_station.ClearParticlesFromFlywheel()){
                     mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.ON);
                 }else {
                     mSuperstructure.getFlywheel().WantedState(Flywheel.WantedState.OFF);
@@ -69,9 +77,9 @@ public class Teleop extends Team9889LinearOpMode {
 
                 //Start of Intake//
 
-                if(Math.abs(gamepad2.right_trigger) > 0.01){
+                if(driver_station.Intake()){
                     mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_INTAKE);
-                }else if(gamepad2.left_bumper) {
+                }else if(driver_station.Outtake()) {
                     mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_REVERSE);
                 }else {
                     mSuperstructure.getIntake().WantedState(Intake.WantedState.WANTS_WAIT);
@@ -82,9 +90,6 @@ public class Teleop extends Team9889LinearOpMode {
                 //Start of Beacons//
 
                 //Vote to Deploy Beacon Pressers Automatically if close to wall
-                /*
-
-
                 if(mSuperstructure.getDrive().getUltrasonic()<35){
                     if(beacontimer.milliseconds() > 20){
                         deploy = true;
@@ -95,13 +100,11 @@ public class Teleop extends Team9889LinearOpMode {
                 }
 
                 //Deploy from Ultrasonic vote or gamepad button
-                if(deploy || gamepad1.right_bumper){
+                if(deploy || driver_station.BeaconDeploy()){
                     mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_DEPLOYED);
                 }else {
                     mSuperstructure.getBeacon().WantedState(Beacon.Position.BOTH_RETRACTED);
                 }
-
-                */
 
                 //End of Beacons//
 
@@ -111,10 +114,10 @@ public class Teleop extends Team9889LinearOpMode {
                 int div;
 
                 //Used to lower the max speed of the robot when lining up for shooting/beacons
-                if (gamepad1.left_trigger > 0.3){
+                if (driver_station.SlowDrivetrain()){
                     div = 4;
                 }else {
-                    div = 2;
+                    div = 1;
                 }
 
                 //Values from gamepads with modifications
@@ -127,17 +130,24 @@ public class Teleop extends Team9889LinearOpMode {
 
 
                 //Set Motor Speeds
-                mSuperstructure.getDrive().setLeftRightPower(leftspeed, rightspeed);
+                try{
+                    mSuperstructure.getDrive().setLeftRightPower(leftspeed, rightspeed);
+                }catch (Exception e){
+                    telemetry.addData("Exception", e);
+                    mSuperstructure.getDrive().stop();
+                }
 
                 //End of Drive//
+
+
 
             }
 
             //Push Telemetry
-            updateTelemetry();
+            telemeteryThread.run();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
-            waitForTick(40);
+            idle();
 
         }
 
