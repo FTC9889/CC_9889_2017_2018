@@ -14,7 +14,7 @@ public class Constants {
     public final static double kIntakeMotorSpeedShoot = 1.0;
     public final static double kIntakeServoSpeedShoot = -1.0;
     public final static double kIntakeMotorSpeedOuttake = -1.0;
-    public final static double kIntakeServoSpeedOuttake = -0.5;
+    public final static double kIntakeServoSpeedOuttake = 0.5;
     public final static double kIntakeMotorSpeedWait = 0.0;
     public final static double kIntakeServoSpeedWait = 1.0;
 
