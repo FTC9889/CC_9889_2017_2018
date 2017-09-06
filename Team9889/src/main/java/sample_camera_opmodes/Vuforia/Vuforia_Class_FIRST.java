@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package sample_camera_opmodes.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;

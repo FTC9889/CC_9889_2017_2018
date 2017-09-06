@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package sample_camera_opmodes.Vuforia;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.Vuforia_Class_FIRST;
 
 /**
  * Created by Team 6934 on 6/3/2017.
