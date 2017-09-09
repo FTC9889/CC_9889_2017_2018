@@ -31,7 +31,7 @@ public class Teleop extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        UseCamera = false;
+        UseCamera = true;
         driver_station.init(this);
 
         waitForTeamStart(this);
@@ -139,14 +139,11 @@ public class Teleop extends Team9889LinearOpMode {
 
                 //End of Drive//
 
-
-
             }
 
             //Push Telemetry
             telemeteryThread.run();
 
-            // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             idle();
 
         }

@@ -1,10 +1,7 @@
 package com.team9889.Linear.subsystems;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Linear.Team9889LinearOpMode;
 
@@ -18,6 +15,8 @@ public class Flywheel extends Subsystem{
     public enum WantedState{
         ON, OFF
     }
+
+    private boolean working;
 
     @Override
     public boolean init(HardwareMap hardwareMap, boolean auton){
@@ -48,7 +47,11 @@ public class Flywheel extends Subsystem{
     }
 
     private void Shoot(){
-        Flywheel.setPower(0.3);
+        Flywheel.setPower(-0.3);
+
+        working = true;
+        if(Flywheel.getPower() == 0.0)
+            working = false;
     }
 
     private void Off(){
