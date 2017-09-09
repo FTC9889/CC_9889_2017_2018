@@ -1,5 +1,6 @@
 package sample_camera_opmodes.Vuforia;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @TeleOp(name = "Vuforia Follow target FIRST")
-
+@Disabled
 public class Vuforia_Follow_target_FIRST extends OpMode {
 
     //Set Classes and Variables

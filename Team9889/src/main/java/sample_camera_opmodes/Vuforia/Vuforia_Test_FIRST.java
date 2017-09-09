@@ -1,5 +1,6 @@
 package sample_camera_opmodes.Vuforia;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "Vuforia_Test_FIRST")
-
+@Disabled
 public class Vuforia_Test_FIRST extends OpMode {
 
     Vuforia_Class_FIRST vuforia = new Vuforia_Class_FIRST();
