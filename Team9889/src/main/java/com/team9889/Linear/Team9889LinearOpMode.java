@@ -1,5 +1,9 @@
 package com.team9889.Linear;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
@@ -12,37 +16,30 @@ import camera_opmodes.LinearOpModeCamera;
  * Created by joshua on 4/17/17.
  */
 
-public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
+public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     public Superstructure mSuperstructure = Superstructure.getInstance();
     public Team9889LinearOpMode InternalopMode = null;
-    public boolean UseCamera = true;
     private ElapsedTime period = new ElapsedTime();
+
+    //Match settings
+    public String alliance;
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
         this.InternalopMode = opMode;
 
-        if (isCameraAvailable() && UseCamera){
-            this.setCameraDownsampling(8);
-            this.InternalopMode.telemetry.addLine("Wait for camera to finish initializing!");
-            this.InternalopMode.telemetry.update();
-            this.startCamera();  // can take a while.
-            // best started before waitForStart
-            this.InternalopMode.telemetry.addLine("Camera ready!");
-            this.InternalopMode.telemetry.update();
-        }
+        //Autonomous Settings
+        this.InternalopMode.getAutonomousPrefs();
 
-        this.mSuperstructure.Setup_Superstructure(this.InternalopMode);
-        this.mSuperstructure.init(this.InternalopMode.hardwareMap, false);
+        //this.mSuperstructure.init(this.InternalopMode, false);
 
         this.InternalopMode.telemetry.addData("Ready to Start", "");
-        this.updateTelemetry();
+        this.InternalopMode.telemetry.addData("Alliance", alliance);
+        //this.updateTelemetry();
+        this.InternalopMode.telemetry.update();
 
         //Wait for DS start
         this.InternalopMode.waitForStart();
-
-        this.InternalopMode.telemetry.addData("Started", "");
-        this.InternalopMode.telemetry.update();
     }
 
     /**
@@ -51,7 +48,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     public void updateTelemetry(){
         this.InternalopMode.telemetry.addData("Runtime> ", this.InternalopMode.getRuntime());
         this.mSuperstructure.outputToTelemetry(this.InternalopMode);
-        this.outputToTelemetryForCamera(this.InternalopMode);
         this.InternalopMode.telemetry.update();
     }
 
@@ -61,7 +57,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             this.mSuperstructure.stop();
         } catch (Exception e){}
 
-        stopCamera();
         this.InternalopMode.requestOpModeStop();
     }
 
@@ -82,18 +77,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         period.reset();
     }
 
-    public class TelemeteryThread extends Thread{
-        Team9889LinearOpMode opMode;
-
-        TelemeteryThread(Team9889LinearOpMode opMode){
-            this.opMode = opMode;
-        }
-
-        public void run(){
-            this.opMode.telemetry.addData("Runtime> ", this.opMode.getRuntime());
-            this.opMode.mSuperstructure.outputToTelemetry(opMode);
-            this.opMode.outputToTelemetryForCamera(this.opMode);
-            this.opMode.telemetry.update();
-        }
+    private void getAutonomousPrefs() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
+        alliance = preferences.getString("Alliance Color", "error");
     }
 }

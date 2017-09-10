@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:lineSpacingExtra="10sp"
+        android:text="Autonomous Settings"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
+        android:textSize="30dp"
+        tools:text="Autonomous Settings"
+        android:textColor="@color/background_black"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/AllianceColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Red Alliance"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView14"
+        android:layout_centerHorizontal="true"/>
+
+    <CheckBox
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_below="@+id/AllianceColor"
+        android:layout_marginTop="36dp"
+        android:text="CheckBox"/>
+
+</RelativeLayout>

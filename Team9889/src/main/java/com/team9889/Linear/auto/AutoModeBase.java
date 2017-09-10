@@ -7,7 +7,7 @@ import com.team9889.Linear.auto.actions.Action;
  * Created by lego on 8/5/2017.
  */
 
-public class AutoModeBase extends Team9889LinearOpMode {
+public abstract class AutoModeBase extends Team9889LinearOpMode {
 
     /**
      * @param action All are defined in action folder

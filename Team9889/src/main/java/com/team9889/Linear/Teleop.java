@@ -18,9 +18,6 @@ public class Teleop extends Team9889LinearOpMode {
     //New Driver Station
     Driver_Station driver_station = new Driver_Station();
 
-    //Telemetry
-    TelemeteryThread telemeteryThread = new TelemeteryThread(this);
-
     //Beacon Pushers
     private boolean deploy = false;
     private ElapsedTime beacontimer = new ElapsedTime();
@@ -31,9 +28,7 @@ public class Teleop extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        UseCamera = true;
         driver_station.init(this);
-
         waitForTeamStart(this);
 
         mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
@@ -142,10 +137,9 @@ public class Teleop extends Team9889LinearOpMode {
             }
 
             //Push Telemetry
-            telemeteryThread.run();
+            updateTelemetry();
 
             idle();
-
         }
 
         finalAction();

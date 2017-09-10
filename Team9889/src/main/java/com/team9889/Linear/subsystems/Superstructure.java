@@ -7,7 +7,7 @@ import com.team9889.Linear.Team9889LinearOpMode;
  * Created by Joshua on 8/4/2017.
  */
 
-public class Superstructure extends Subsystem {
+public class Superstructure {
 
     static Superstructure mInstance  = new Superstructure();
 
@@ -18,7 +18,7 @@ public class Superstructure extends Subsystem {
     }
 
     public void Setup_Superstructure(Team9889LinearOpMode team9889LinearOpMode){
-        this.mTeam9889LinearOpMode = team9889LinearOpMode;
+
     }
 
     private Drive mDrive = new Drive();
@@ -26,7 +26,6 @@ public class Superstructure extends Subsystem {
     private Beacon mBeacon = new Beacon();
     private Flywheel mFlywheel = new Flywheel();
 
-    @Override
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
         mDrive.outputToTelemetry(opMode);
         mIntake.outputToTelemetry(opMode);
@@ -34,29 +33,29 @@ public class Superstructure extends Subsystem {
         mFlywheel.outputToTelemetry(opMode);
     }
 
-    @Override
-    public boolean init(HardwareMap hardwareMap, boolean auton) {
+    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
         boolean error = false;
+        this.mTeam9889LinearOpMode = team9889LinearOpMode;
 
-        if(!this.mDrive.init(hardwareMap, true)){
+        if(!this.mDrive.init(mTeam9889LinearOpMode.hardwareMap, true)){
             this.mTeam9889LinearOpMode.telemetry.addData("Error", " Drive");
             this.mTeam9889LinearOpMode.telemetry.update();
             error = true;
         }
 
-        if(!this.mBeacon.init(hardwareMap, true)){
+        if(!this.mBeacon.init(mTeam9889LinearOpMode.hardwareMap, true)){
             this.mTeam9889LinearOpMode.telemetry.addData("Error", " Beacon");
             this.mTeam9889LinearOpMode.telemetry.update();
             error = true;
         }
 
-        if(!this.mIntake.init(hardwareMap, true)){
+        if(!this.mIntake.init(mTeam9889LinearOpMode.hardwareMap, true)){
             this.mTeam9889LinearOpMode.telemetry.addData("Error", " Intake");
             this.mTeam9889LinearOpMode.telemetry.update();
             error = true;
         }
 
-        if(!this.mFlywheel.init(hardwareMap, true)){
+        if(!this.mFlywheel.init(mTeam9889LinearOpMode.hardwareMap, true)){
             this.mTeam9889LinearOpMode.telemetry.addData("Error", " Flywheel");
             this.mTeam9889LinearOpMode.telemetry.update();
             error = true;
@@ -73,7 +72,7 @@ public class Superstructure extends Subsystem {
         return !error;
     }
 
-    @Override
+
     public void stop() {
         mDrive.stop();
         mIntake.stop();
@@ -81,7 +80,7 @@ public class Superstructure extends Subsystem {
         mFlywheel.stop();
     }
 
-    @Override
+
     public void zeroSensors() {
         mDrive.zeroSensors();
         mIntake.zeroSensors();

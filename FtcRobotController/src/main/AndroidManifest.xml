@@ -39,6 +39,7 @@
     <service
       android:name="com.qualcomm.ftccommon.FtcRobotControllerService"
       android:enabled="true" />
+      <activity android:name="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings"/>
 
   </application>
 
