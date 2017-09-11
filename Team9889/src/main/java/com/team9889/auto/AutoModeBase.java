@@ -1,7 +1,7 @@
-package com.team9889.Linear.auto;
+package com.team9889.auto;
 
-import com.team9889.Linear.Team9889LinearOpMode;
-import com.team9889.Linear.auto.actions.Action;
+import com.team9889.Team9889LinearOpMode;
+import com.team9889.auto.actions.Action;
 
 /**
  * Created by lego on 8/5/2017.

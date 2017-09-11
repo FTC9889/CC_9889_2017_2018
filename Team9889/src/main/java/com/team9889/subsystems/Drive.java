@@ -1,4 +1,4 @@
-package com.team9889.Linear.subsystems;
+package com.team9889.subsystems;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,9 +8,8 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
-import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Team9889LinearOpMode;
 
 import static com.team9889.Constants.ticksToInches;
 import static com.team9889.lib.CruiseLib.limitValue;

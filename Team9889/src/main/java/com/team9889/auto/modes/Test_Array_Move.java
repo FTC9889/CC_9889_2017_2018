@@ -1,8 +1,8 @@
-package com.team9889.Linear.auto.modes;
+package com.team9889.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Team9889LinearOpMode;
 
 /**
  * Created by Joshua on 8/4/2017.
@@ -18,7 +18,7 @@ public class Test_Array_Move extends Team9889LinearOpMode{
     };
 
     public void runOpMode(){
-        waitForTeamStart(this);
+        waitForTeamStart(this, true);
 
     }
 }

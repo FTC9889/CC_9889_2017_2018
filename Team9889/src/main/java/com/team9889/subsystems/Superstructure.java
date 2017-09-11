@@ -1,7 +1,6 @@
-package com.team9889.Linear.subsystems;
+package com.team9889.subsystems;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Team9889LinearOpMode;
 
 /**
  * Created by Joshua on 8/4/2017.
