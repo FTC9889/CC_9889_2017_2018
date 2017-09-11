@@ -23,7 +23,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     private ElapsedTime period = new ElapsedTime();
 
     //Match settings
-    public String alliance;
+    public String alliance, frontBack;
+    public boolean getPartnerGlyph;
 
     protected void waitForTeamStart(Team9889LinearOpMode opMode){
         this.InternalopMode = opMode;
@@ -35,6 +36,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
         this.InternalopMode.telemetry.addData("Ready to Start", "");
         this.InternalopMode.telemetry.addData("Alliance", alliance);
+        this.InternalopMode.telemetry.addData("Front or Back", frontBack);
+        this.InternalopMode.telemetry.addData("Pickup", getPartnerGlyph);
         //this.updateTelemetry();
         this.InternalopMode.telemetry.update();
 
@@ -79,6 +82,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     private void getAutonomousPrefs() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
-        alliance = preferences.getString("Alliance Color", "error");
+        alliance = preferences.getString("AllianceColor", "error");
+        frontBack = preferences.getString("FrontBack", "error");
+        getPartnerGlyph = preferences.getBoolean("PickupAllianceGlyph", false);
     }
 }

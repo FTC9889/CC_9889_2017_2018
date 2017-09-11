@@ -1,44 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings">
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
         android:lineSpacingExtra="10sp"
         android:text="Autonomous Settings"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
-        android:textSize="30dp"
-        tools:text="Autonomous Settings"
         android:textColor="@color/background_black"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="30dp"
+        tools:text="Autonomous Settings"/>
 
-    <TextView
-        android:id="@+id/AllianceColor"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Red Alliance"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textSize="30dp"
-        android:layout_marginTop="20dp"
         android:layout_below="@+id/textView14"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/above_view_of_field"/>
+
+    <Button
+        android:id="@+id/blueFrontSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/redFrontSetting"
+        android:layout_alignBottom="@+id/redFrontSetting"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_marginStart="12dp"
+        android:text=""
+        android:textColorHint="?android:attr/textColorHint"
+        android:textColorLink="@color/info_shadow"/>
+
+    <Button
+        android:id="@+id/redFrontSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/textView14"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="71dp"
+        android:textColorHint="@color/inactive_button_gray"
+        android:textColorLink="@color/info_shadow"/>
+
+    <Button
+        android:id="@+id/redBackSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/blueBackSetting"
+        android:layout_alignBottom="@+id/blueBackSetting"
+        android:layout_alignStart="@+id/redFrontSetting"
+        android:textColorHint="@color/inactive_button_gray"
+        android:textColorLink="@color/info_shadow"/>
+
+    <Button
+        android:id="@+id/blueBackSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignStart="@+id/blueFrontSetting"
+        android:layout_marginBottom="22dp"
+        android:textColorHint="@color/inactive_button_gray"
+        android:textColorLink="@color/info_shadow"/>
 
     <CheckBox
-        android:id="@+id/score"
+        android:id="@+id/pickupAllianceGlyph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView14"
-        android:layout_below="@+id/AllianceColor"
-        android:layout_marginTop="36dp"
-        android:text="CheckBox"/>
+        android:layout_alignStart="@+id/imageView"
+        android:layout_below="@+id/blueBackSetting"
+        android:text="Pickup Alliance Cube"/>
+
+    <Button
+        android:id="@+id/saveAndExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pickupAllianceGlyph"
+        android:layout_centerHorizontal="true"
+        android:text="Save and Exit"/>
 
 </RelativeLayout>

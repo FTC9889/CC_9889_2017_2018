@@ -2,14 +2,15 @@ package org.firstinspires.ftc.robotcontroller.internal;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.qualcomm.ftcrobotcontroller.R;
 
@@ -20,30 +21,106 @@ import com.qualcomm.ftcrobotcontroller.R;
 public class AutonomousSettings extends Activity implements AdapterView.OnItemSelectedListener{
     public AutonomousSettings(){}
 
-    SharedPreferences internalPrefs;
-    TextView allianceColorName;
+    private SharedPreferences globalPrefs;
+    private Button RedFront, RedBack, BlueFront, BlueBack, saveAndExit;
+    private CheckBox PickupPartners;
+
+    private String allianceColor, frontBack;
+    private boolean pickupGlyph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.autonomous_settings_layout);
 
-        this.internalPrefs = this.getSharedPreferences("AutoSettings", Context.MODE_PRIVATE);
+        this.globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        this.RedBack = (Button)findViewById(R.id.redBackSetting);
+        this.RedFront = (Button)findViewById(R.id.redFrontSetting);
+        this.BlueBack = (Button)findViewById(R.id.blueBackSetting);
+        this.BlueFront = (Button)findViewById(R.id.blueFrontSetting);
+        this.saveAndExit = (Button)findViewById(R.id.saveAndExit);
+        this.PickupPartners = (CheckBox)findViewById(R.id.pickupAllianceGlyph);
 
-        this.allianceColorName = (TextView)findViewById(R.id.AllianceColor) ;
-        this.allianceColorName.setText(internalPrefs.getString("AllianceColor", "Red Alliance"));
-        this.allianceColorName.setOnClickListener(new View.OnClickListener() {
+        if(this.globalPrefs.getString("AllianceColor", "") == "Blue" && this.globalPrefs.getString("FrontBack", "") == "Front"){
+            this.BlueFront.setText("0");
+        }else if(this.globalPrefs.getString("AllianceColor", "") == "Blue" && this.globalPrefs.getString("FrontBack", "") == "Back"){
+            this.BlueBack.setText("0");
+        }else if(this.globalPrefs.getString("AllianceColor", "") == "Red" && this.globalPrefs.getString("FrontBack", "") == "Front"){
+            this.RedFront.setText("0");
+        }else if(this.globalPrefs.getString("AllianceColor", "") == "Red" && this.globalPrefs.getString("FrontBack", "") == "Back"){
+            this.RedBack.setText("0");
+        }
+
+        this.PickupPartners.setChecked(globalPrefs.getBoolean("PickupAllianceGlyph", false));
+
+        this.RedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(allianceColorName.getText().equals("Red Alliance"))
-                    allianceColorName.setText("Blue Alliance");
-                else if(allianceColorName.getText().equals("Blue Alliance"))
-                    allianceColorName.setText("Red Alliance");
-                updateAllianceColor();
+                allianceColor = "Red";
+                frontBack = "Back";
+                RedBack.setText("0");
+                RedFront.setText("");
+                BlueBack.setText("");
+                BlueFront.setText("");
+                update();
             }
         });
 
-        updateAllianceColor();
+        this.RedFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allianceColor = "Red";
+                frontBack = "Front";
+                RedBack.setText("");
+                RedFront.setText("0");
+                BlueBack.setText("");
+                BlueFront.setText("");
+                update();
+            }
+        });
+
+        this.BlueBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allianceColor = "Blue";
+                frontBack = "Back";
+                RedBack.setText("");
+                RedFront.setText("");
+                BlueBack.setText("0");
+                BlueFront.setText("");
+                update();
+            }
+        });
+
+        this.BlueFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allianceColor = "Blue";
+                frontBack = "Front";
+                RedBack.setText("");
+                RedFront.setText("");
+                BlueBack.setText("");
+                BlueFront.setText("0");
+                update();
+            }
+        });
+
+        this.saveAndExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update();
+                exit();
+            }
+        });
+
+        this.PickupPartners.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                update();
+            }
+        });
+
+        update();
     }
 
     @Override
@@ -56,21 +133,14 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
 
     }
 
-    public void updateAllianceColor(){
-        if(allianceColorName.getText().equals("Blue Alliance")){
-            allianceColorName.setTextColor(Color.BLUE);
-        }else if(allianceColorName.getText().equals("Red Alliance")){
-            allianceColorName.setTextColor(Color.RED);
-        }
-        internalPrefs.edit().putString("AllianceColor", allianceColorName.getText().toString()).apply();
-        mergePrefsToGlobal();
+    public void update(){
+        globalPrefs.edit().putString("AllianceColor", allianceColor).apply();
+        globalPrefs.edit().putString("FrontBack", frontBack).apply();
+        globalPrefs.edit().putBoolean("PickupAllianceGlyph", PickupPartners.isChecked()).apply();
     }
 
-    public void mergePrefsToGlobal()
-    {
-        SharedPreferences globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = globalPrefs.edit();
-        editor.putString("Alliance Color", internalPrefs.getString("AllianceColor", ""));
-        editor.apply();
+    public void exit(){
+        Intent launchNewIntent = new Intent(this, FtcRobotControllerActivity.class);
+        startActivityForResult(launchNewIntent, 0);
     }
 }
