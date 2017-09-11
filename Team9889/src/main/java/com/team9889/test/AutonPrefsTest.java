@@ -1,7 +1,7 @@
-package com.team9889;
+package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.team9889.Linear.Team9889LinearOpMode;
+import com.team9889.Team9889LinearOpMode;
 
 /**
  * Created by joshua9889 on 9/10/2017.
@@ -11,7 +11,7 @@ import com.team9889.Linear.Team9889LinearOpMode;
 public class AutonPrefsTest extends Team9889LinearOpMode {
     @Override
     public void runOpMode(){
-        waitForTeamStart(this);
+        waitForTeamStart(this, true);
 
     }
 }

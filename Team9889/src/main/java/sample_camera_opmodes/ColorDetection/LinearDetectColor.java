@@ -1,4 +1,4 @@
-package sample_camera_opmodes;
+package sample_camera_opmodes.ColorDetection;
 
 import android.graphics.Bitmap;
 

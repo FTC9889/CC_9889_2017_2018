@@ -1,4 +1,4 @@
-package com.team9889.Linear;
+package com.team9889;
 
 /**
  * Created by Joshua on 8/11/2017.

@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/imageView"
         android:layout_below="@+id/blueBackSetting"
-        android:text="Pickup Alliance Cube"/>
+        android:text="Pickup Alliance Partner Glyph"/>
 
     <Button
         android:id="@+id/saveAndExit"

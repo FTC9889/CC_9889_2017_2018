@@ -1,12 +1,11 @@
-package com.team9889.Linear;
+package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Constants;
-import com.team9889.Linear.subsystems.*;
-
-import static com.team9889.lib.CruiseLib.calcLeftTankDrive;
-import static com.team9889.lib.CruiseLib.calcRightTankDrive;
+import com.team9889.subsystems.Beacon;
+import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Flywheel;
+import com.team9889.subsystems.Intake;
 
 /**
  * Created by Joshua on 4/17/17.
@@ -29,7 +28,7 @@ public class Teleop extends Team9889LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         driver_station.init(this);
-        waitForTeamStart(this);
+        waitForTeamStart(this, false);
 
         mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
 

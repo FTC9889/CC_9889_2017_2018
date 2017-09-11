@@ -1,16 +1,14 @@
-package com.team9889.Linear;
+package com.team9889;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
-import com.team9889.Constants;
-import com.team9889.Linear.auto.actions.Action;
-import com.team9889.Linear.subsystems.*;
+import com.team9889.lib.VuMark;
+import com.team9889.subsystems.Superstructure;
 
-import camera_opmodes.LinearOpModeCamera;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 /**
  * Created by joshua on 4/17/17.
@@ -19,6 +17,7 @@ import camera_opmodes.LinearOpModeCamera;
 public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     public Superstructure mSuperstructure = Superstructure.getInstance();
+    public VuMark vuMark = new VuMark();
     public Team9889LinearOpMode InternalopMode = null;
     private ElapsedTime period = new ElapsedTime();
 
@@ -26,23 +25,36 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     public String alliance, frontBack;
     public boolean getPartnerGlyph;
 
-    protected void waitForTeamStart(Team9889LinearOpMode opMode){
+    protected void waitForTeamStart(Team9889LinearOpMode opMode, boolean autonomous){
         this.InternalopMode = opMode;
 
-        //Autonomous Settings
-        this.InternalopMode.getAutonomousPrefs();
-
         //this.mSuperstructure.init(this.InternalopMode, false);
-
-        this.InternalopMode.telemetry.addData("Ready to Start", "");
-        this.InternalopMode.telemetry.addData("Alliance", alliance);
-        this.InternalopMode.telemetry.addData("Front or Back", frontBack);
-        this.InternalopMode.telemetry.addData("Pickup", getPartnerGlyph);
         //this.updateTelemetry();
-        this.InternalopMode.telemetry.update();
+
+        if(autonomous){
+            //Autonomous Settings
+            this.InternalopMode.getAutonomousPrefs();
+            this.InternalopMode.telemetry.addData("Ready to Start", "");
+            this.InternalopMode.telemetry.addData("Alliance", alliance);
+            this.InternalopMode.telemetry.addData("Front or Back", frontBack);
+            this.InternalopMode.telemetry.addData("Pickup", getPartnerGlyph);
+            this.InternalopMode.telemetry.update();
+
+            //Vuforia
+            //Uses the camera on the screen side
+            this.vuMark.setup(this.InternalopMode, VuforiaLocalizer.CameraDirection.FRONT);
+            while(!isStarted()){
+                this.vuMark.updateTarget(this);
+                idle();
+            }
+        }
+
 
         //Wait for DS start
         this.InternalopMode.waitForStart();
+
+        if(autonomous)
+            this.vuMark.disableVuforia();
     }
 
     /**

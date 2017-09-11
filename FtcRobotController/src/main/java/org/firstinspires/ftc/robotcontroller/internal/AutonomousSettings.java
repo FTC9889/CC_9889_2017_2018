@@ -24,9 +24,7 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
     private SharedPreferences globalPrefs;
     private Button RedFront, RedBack, BlueFront, BlueBack, saveAndExit;
     private CheckBox PickupPartners;
-
     private String allianceColor, frontBack;
-    private boolean pickupGlyph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,8 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
         this.BlueFront = (Button)findViewById(R.id.blueFrontSetting);
         this.saveAndExit = (Button)findViewById(R.id.saveAndExit);
         this.PickupPartners = (CheckBox)findViewById(R.id.pickupAllianceGlyph);
+
+        try {Thread.sleep(10);}catch(InterruptedException e){e.printStackTrace();}
 
         if(this.globalPrefs.getString("AllianceColor", "") == "Blue" && this.globalPrefs.getString("FrontBack", "") == "Front"){
             this.BlueFront.setText("0");
@@ -124,14 +124,10 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {}
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
     public void update(){
         globalPrefs.edit().putString("AllianceColor", allianceColor).apply();
