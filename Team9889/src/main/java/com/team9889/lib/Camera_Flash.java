@@ -3,7 +3,7 @@ package com.team9889.lib;
 import android.hardware.Camera;
 
 /**
- * Created by joshua on 5/7/17.
+ * Created by joshua9889 on 5/7/17.
  */
 
 public class Camera_Flash{

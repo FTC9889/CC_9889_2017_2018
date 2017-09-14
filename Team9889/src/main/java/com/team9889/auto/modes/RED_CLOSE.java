@@ -6,7 +6,7 @@ import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.*;
 
 /**
- * Created by Joshua H on 4/10/2017.
+ * Created by joshua9889 on 4/10/2017.
  */
 
 @Autonomous(name = "Red Close")

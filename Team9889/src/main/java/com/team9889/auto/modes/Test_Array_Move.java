@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.Team9889LinearOpMode;
 
 /**
- * Created by Joshua on 8/4/2017.
+ * Created by joshua9889 on 8/4/2017.
  */
 @Autonomous(name = "Test_Array")
 @Disabled

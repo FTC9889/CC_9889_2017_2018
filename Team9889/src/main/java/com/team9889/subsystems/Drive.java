@@ -12,10 +12,11 @@ import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
 
 import static com.team9889.Constants.ticksToInches;
+import static com.team9889.lib.CruiseLib.degreesToRadians;
 import static com.team9889.lib.CruiseLib.limitValue;
 
 /**
- * Created by Joshua H on 4/10/2017.
+ * Created by joshua9889 on 4/10/2017.
  */
 
 public class Drive extends Subsystem {
@@ -24,9 +25,7 @@ public class Drive extends Subsystem {
     private DcMotor rightMaster_, rightSlave_, leftMaster_, leftSlave_;
 
     //Sensors
-    private OpticalDistanceSensor BackODS, FrontODS;
     private ModernRoboticsI2cGyro gyro_;
-    private UltrasonicSensor ultrasonic;
     private DeviceInterfaceModule CDI;
 
     //Drive control states
@@ -38,7 +37,7 @@ public class Drive extends Subsystem {
     }
 
     public enum DriveControlState{
-        POWER, SPEED, POSITION, HEADING_CONTROL, OPERATOR_CONTROL
+        POWER, SPEED, POSITION, OPERATOR_CONTROL
     }
 
     public boolean init(HardwareMap hardwareMap, boolean auton){
@@ -55,20 +54,7 @@ public class Drive extends Subsystem {
         }
 
         try {
-            this.BackODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor1Id);
-            this.FrontODS = hardwareMap.opticalDistanceSensor.get(Constants.kOpticalDistanceSensor2Id);
-        } catch (Exception e){
-            return false;
-        }
-
-        try {
             this.gyro_ = (ModernRoboticsI2cGyro)hardwareMap.get(Constants.kGyroId);
-        } catch (Exception e) {
-            return false;
-        }
-
-        try {
-            this.ultrasonic = hardwareMap.ultrasonicSensor.get(Constants.kLegoUltrasonicSensor1Id);
         } catch (Exception e) {
             return false;
         }
@@ -98,9 +84,6 @@ public class Drive extends Subsystem {
                 return;
             case POSITION:
                 POSITION();
-                return;
-            case HEADING_CONTROL:
-                HEADING_CONTROL();
                 return;
             case OPERATOR_CONTROL:
                 OPERATOR_CONTROL();
@@ -134,10 +117,7 @@ public class Drive extends Subsystem {
         opMode.telemetry.addData("Left Side Inches", getLeftDistanceInches());
         opMode.telemetry.addData("Right side ticks", rightMaster_.getCurrentPosition());
         opMode.telemetry.addData("Left side ticks", leftMaster_.getCurrentPosition());
-        opMode.telemetry.addData("Front ODS Raw", FrontODS.getRawLightDetected());
-        opMode.telemetry.addData("Back ODS Raw", BackODS.getRawLightDetected());
         opMode.telemetry.addData("Gyro Angle", getGyroAngleDegrees());
-        opMode.telemetry.addData("Ultrasonic", getUltrasonic());
     }
 
     public void setLeftRightPower(double left, double right){
@@ -164,19 +144,11 @@ public class Drive extends Subsystem {
     }
 
     public double getGyroAngleRadians(){
-        return Math.toRadians(getGyroAngleDegrees());
+        return degreesToRadians(getGyroAngleDegrees());
     }
 
     public int getGyroHeading(){
         return gyro_.getHeading();
-    }
-
-    public double getUltrasonic(){
-        return ultrasonic.getUltrasonicLevel();
-    }
-
-    public boolean getWhiteLine(OpticalDistanceSensor opticalDistanceSensor){
-        return opticalDistanceSensor.getRawLightDetected() > Constants.WhiteLineValue;
     }
 
     @Override
@@ -236,12 +208,6 @@ public class Drive extends Subsystem {
     private void POSITION(){
         leftMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slave();
-    }
-
-    private void HEADING_CONTROL(){
-        leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slave();
     }
 

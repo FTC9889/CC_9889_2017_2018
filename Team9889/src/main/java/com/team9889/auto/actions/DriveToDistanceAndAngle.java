@@ -3,7 +3,7 @@ package com.team9889.auto.actions;
 import com.team9889.Team9889LinearOpMode;
 
 /**
- * Created by lego on 8/4/2017.
+ * Created by joshua9889 on 8/4/2017.
  */
 
 public class DriveToDistanceAndAngle implements Action {

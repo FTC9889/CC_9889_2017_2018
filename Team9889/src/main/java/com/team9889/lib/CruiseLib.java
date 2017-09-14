@@ -5,6 +5,8 @@ package com.team9889.lib;
  */
 
 public class CruiseLib {
+    private CruiseLib(){}
+
     public static double Average(double first, double second){
         return (first+second)/2;
     }
@@ -76,5 +78,9 @@ public class CruiseLib {
         } else {
             return c;
         }
+    }
+
+    public static double degreesToRadians(double deg) {
+        return (deg * Math.PI) / 180.0;
     }
 }

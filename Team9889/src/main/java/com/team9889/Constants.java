@@ -1,27 +1,12 @@
 package com.team9889;
 
 /**
- * Created by Joshua on 4/10/2017.
+ * Created by joshua9889 on 4/10/2017.
  */
 
 public class Constants {
     //Vuforia Licence Key
     public final static String kVuforiaLicenceKey = "AUEjQhP/////AAAAGV8qq1GGcE03gQHKWYPRZBNIZYZq8DoUn9lOpeWPY8PZKG1B5UtrsqkqPqh8Vcuv+HuUuobUNZE35fhYNPqxRIWqtoKbUmkZZCspmu0Aw685D5dxk87dT38/oYxzdKFs3EZaD8hvprmWj2Oww4+GtxS+fiImc23ZlkU20esE1MhwvX0xJ8tjoPS9pdTVSt1QtoYp3WxSxtZlKd0B0UMCxzj0KxN4JZRlTmF2W3dLU2G9SJ3hQO8jcC+Nuvbfk809C6LSWiijZ9L7IZNcQQiFKDa5yJP+ayX+Y1cpwcV19yqlPQTH7CQqcvnZDfwQZXmCpDhcQpW9h+bCXaerRH/uWNZMskyO0AXeFa1oCgB3EGPB";
-
-    //Settings for Intake class
-    public final static String kIntakeMotorId = "IntakeMotor";
-    public final static String kIntakeServo = "Intake";
-    public final static double kIntakeMotorSpeedIntake = 1.0;
-    public final static double kIntakeServoSpeedIntake = 1.0;
-    public final static double kIntakeMotorSpeedShoot = 1.0;
-    public final static double kIntakeServoSpeedShoot = -1.0;
-    public final static double kIntakeMotorSpeedOuttake = -1.0;
-    public final static double kIntakeServoSpeedOuttake = 0.5;
-    public final static double kIntakeMotorSpeedWait = 0.0;
-    public final static double kIntakeServoSpeedWait = 1.0;
-
-    //Settings for Flywheel class
-    public final static String kFlywheelMotorId = "flywheel";
 
     //Settings for Drive class
     public final static String kLeftDriveMasterId = "LDrive1";
@@ -29,10 +14,7 @@ public class Constants {
     public final static String kRightDriveMasterId = "RDrive1";
     public final static String kRightDriveSlaveId = "RDrive2";
 
-    public final static String kOpticalDistanceSensor1Id = "OD1";
-    public final static String kOpticalDistanceSensor2Id = "OD2";
     public final static String kGyroId = "gyro";
-    public final static String kLegoUltrasonicSensor1Id = "ultra";
     public final static String kCoreDeviceInterfaceModule1Id = "CDI";
 
     //DcMotor Encoders
@@ -46,18 +28,6 @@ public class Constants {
 
     //Distance between wheels
     public final static double TrackWidth = 16;
-
-    //Value of white line
-    public final static double WhiteLineValue = 0.6;
-
-    //Settings for Beacon Pressers
-    public final static String kRightBeaconPresserId = "RBump";
-    public final static String kLeftBeaconPresserId = "LBump";
-
-    public final static String kColorSensorId = "colorsensor";
-
-    public final static double kDeployedBeaconPresser = 1.0;
-    public final static double kRetractedBeaconPresser = 0.4;
 
     public static double ticksToInches(int ticks){
         return ticks/Constants.CountsPerInch;

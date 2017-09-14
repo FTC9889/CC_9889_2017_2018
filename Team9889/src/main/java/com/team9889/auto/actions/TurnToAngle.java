@@ -4,7 +4,7 @@ import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
 
 /**
- * Created by Joshua H on 4/17/2017.
+ * Created by joshua9889 on 4/17/2017.
  */
 
 public class TurnToAngle implements Action {
@@ -45,7 +45,6 @@ public class TurnToAngle implements Action {
 
     @Override
     public void done() {
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.BRAKE);
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
     }
@@ -61,6 +60,6 @@ public class TurnToAngle implements Action {
         mDrive = opMode.mSuperstructure.getDrive();
         mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlState.POWER);
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.BRAKE);
     }
 }

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.Team9889LinearOpMode;
 
 /**
- * Created by Joshua H on 4/10/2017.
+ * Created by joshua9889 on 4/10/2017.
  *
  * The Subsystem abstract class, which serves as a basic framework for all robot
  * subsystems. Each subsystem outputs commands to SmartDashboard, has a stop

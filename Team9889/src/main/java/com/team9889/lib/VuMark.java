@@ -2,6 +2,7 @@ package com.team9889.lib;
 
 import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;

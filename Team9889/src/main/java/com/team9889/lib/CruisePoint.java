@@ -1,7 +1,7 @@
 package com.team9889.lib;
 
 /**
- * Created by Joshua on 7/29/2017.
+ * Created by joshua9889 on 7/29/2017.
  */
 
 public class CruisePoint {

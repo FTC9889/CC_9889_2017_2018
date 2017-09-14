@@ -4,7 +4,7 @@ import com.team9889.Team9889LinearOpMode;
 import com.team9889.auto.actions.Action;
 
 /**
- * Created by lego on 8/5/2017.
+ * Created by joshua9889 on 8/5/2017.
  */
 
 public abstract class AutoModeBase extends Team9889LinearOpMode {
