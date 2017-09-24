@@ -85,8 +85,17 @@
         android:id="@+id/saveAndExit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pickupAllianceGlyph"
+        android:text="Save and Exit"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Save and Exit"/>
+        android:layout_marginBottom="29dp" />
+
+    <CheckBox
+        android:id="@+id/pickupGlyphFromPit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/pickupAllianceGlyph"
+        android:layout_below="@+id/pickupAllianceGlyph"
+        android:text="Go to the PIT OF DESPAIR and Collect" />
 
 </RelativeLayout>

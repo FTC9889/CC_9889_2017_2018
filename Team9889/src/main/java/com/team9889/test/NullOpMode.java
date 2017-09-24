@@ -9,11 +9,9 @@ import com.team9889.lib.VuMark;
  * Created by joshua9889 on 9/10/2017.
  */
 
-@Autonomous(name = "test Vuforia")
+@Autonomous(name = "Null OpMode")
 //@Disabled
-public class TestVuforia extends Team9889LinearOpMode {
-    VuMark vuMark = new VuMark();
-
+public class NullOpMode extends Team9889LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForTeamStart(this, true);

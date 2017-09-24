@@ -1,6 +1,7 @@
 package com.team9889;
 
 /**
+ * Class to store constants
  * Created by joshua9889 on 4/10/2017.
  */
 

@@ -65,7 +65,7 @@ public class Drive extends Subsystem {
             return false;
         }
 
-        slave();
+        this.slave();
 
         this.zeroSensors();
         this.DriveControlState(Drive.DriveControlState.POWER);
@@ -74,161 +74,193 @@ public class Drive extends Subsystem {
     }
 
     public void DriveControlState(DriveControlState state){
-        driveControlState_ = state;
+        this.driveControlState_ = state;
         switch (driveControlState_){
             case POWER:
-                POWER();
-                return;
+                this.POWER();
+                break;
             case SPEED:
-                SPEED();
-                return;
+                this.SPEED();
+                break;
             case POSITION:
-                POSITION();
-                return;
+                this.POSITION();
+                break;
             case OPERATOR_CONTROL:
-                OPERATOR_CONTROL();
-                return;
+                this.OPERATOR_CONTROL();
+                break;
         }
     }
 
     public void DriveZeroPowerState(DriveZeroPower state){
-        driveZeroPower_ = state;
+        this.driveZeroPower_ = state;
         switch (driveZeroPower_){
             case BRAKE:
-                BRAKE();
-                return;
+                this.BRAKE();
+                break;
             case FLOAT:
-                FLOAT();
-                return;
+                this.FLOAT();
+                break;
         }
     }
 
     @Override
     public void stop() {
-        setLeftRightPower(0,0);
-        DriveZeroPowerState(DriveZeroPower.FLOAT);
+        this.setLeftRightPower(0,0);
+        this.DriveZeroPowerState(DriveZeroPower.FLOAT);
     }
 
     @Override
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
-        opMode.telemetry.addData("Right Motor Pwr", rightMaster_.getPower());
-        opMode.telemetry.addData("Left Motor Pwr", leftMaster_.getPower());
-        opMode.telemetry.addData("Right Side Inches", getRightDistanceInches());
-        opMode.telemetry.addData("Left Side Inches", getLeftDistanceInches());
-        opMode.telemetry.addData("Right side ticks", rightMaster_.getCurrentPosition());
-        opMode.telemetry.addData("Left side ticks", leftMaster_.getCurrentPosition());
-        opMode.telemetry.addData("Gyro Angle", getGyroAngleDegrees());
+        opMode.telemetry.addData("Right Motor Pwr", this.rightMaster_.getPower());
+        opMode.telemetry.addData("Left Motor Pwr", this.leftMaster_.getPower());
+        opMode.telemetry.addData("Right Side Inches", this.getRightDistanceInches());
+        opMode.telemetry.addData("Left Side Inches", this.getLeftDistanceInches());
+        opMode.telemetry.addData("Right side ticks", this.rightMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Left side ticks", this.leftMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
     }
 
     public void setLeftRightPower(double left, double right){
-        leftMaster_.setPower(limitValue(left));
-        leftSlave_.setPower(limitValue(left));
-        rightMaster_.setPower(limitValue(right));
-        rightSlave_.setPower(limitValue(right));
+        try{
+            this.leftMaster_.setPower(limitValue(left));
+            this.leftSlave_.setPower(limitValue(left));
+            this.rightMaster_.setPower(limitValue(right));
+            this.rightSlave_.setPower(limitValue(right));
+        }catch (Exception e){}
     }
 
     public double getRightDistanceInches(){
-        return ticksToInches(rightMaster_.getCurrentPosition());
+        return ticksToInches(this.rightMaster_.getCurrentPosition());
     }
 
     public double getLeftDistanceInches(){
-        return ticksToInches(leftMaster_.getCurrentPosition());
+        try{
+            return ticksToInches(this.leftMaster_.getCurrentPosition());
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
 
     public boolean InchesAreWeThereYet(double inches){
-        return !(Math.abs(getRightDistanceInches()) > Math.abs(inches));
+        return !(Math.abs(this.getRightDistanceInches()) > Math.abs(inches));
     }
 
     public int getGyroAngleDegrees(){
-        return gyro_.getIntegratedZValue();
+        try {
+            return this.gyro_.getIntegratedZValue();
+        } catch (Exception e){
+            return 0;
+        }
     }
 
     public double getGyroAngleRadians(){
-        return degreesToRadians(getGyroAngleDegrees());
+        return degreesToRadians(this.getGyroAngleDegrees());
     }
 
     public int getGyroHeading(){
-        return gyro_.getHeading();
+        try {
+            return this.gyro_.getHeading();
+        } catch (Exception e){
+            return 0;
+        }
     }
 
     @Override
     public void zeroSensors() {
-        zeroDriveMotors();
-        gyro_.resetZAxisIntegrator();
+        this.zeroDriveMotors();
+        this.gyro_.resetZAxisIntegrator();
     }
 
     public void zeroDriveMotors(){
-        leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slave();
+        try {
+            this.leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.slave();
 
-        leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slave();
+            this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.slave();
+        }catch (Exception e){}
     }
 
     public void calibrateGyro(LinearOpMode opMode) throws InterruptedException {
-        gyro_.calibrate();
+        try {
+            this.gyro_.calibrate();
 
-        while (gyro_.isCalibrating()){
-            Thread.sleep(50);
+            while (this.gyro_.isCalibrating()){
+                Thread.sleep(50);
 
-            opMode.telemetry.addData("Calibrated", false);
+                opMode.telemetry.addData("Calibrated", false);
+                opMode.telemetry.update();
+            }
+
+            opMode.telemetry.addData("Calibrated", true);
             opMode.telemetry.update();
-        }
-
-        opMode.telemetry.addData("Calibrated", true);
-        opMode.telemetry.update();
+        } catch (Exception e){}
     }
 
     private void BRAKE(){
-        leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slave();
+        try {
+            this.leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            this.rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void FLOAT(){
-        leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        slave();
+        try {
+            this.leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            this.rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void POWER(){
-        leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slave();
+        try {
+            this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void SPEED(){
-        leftMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slave();
+        try {
+            this.leftMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            this.rightMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void POSITION(){
-        leftMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slave();
+        try {
+            this.leftMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            this.rightMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void OPERATOR_CONTROL(){
-        leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FLOAT();
-        slave();
+        try {
+            this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            this.FLOAT();
+            this.slave();
+        } catch (Exception e){}
     }
 
     private void slave(){
-        leftSlave_.setPower(leftMaster_.getPower());
-        rightSlave_.setPower(rightMaster_.getPower());
-        leftSlave_.setMode(leftMaster_.getMode());
-        rightSlave_.setMode(rightMaster_.getMode());
-        leftSlave_.setTargetPosition(leftMaster_.getTargetPosition());
-        rightSlave_.setTargetPosition(rightMaster_.getTargetPosition());
-        leftSlave_.setZeroPowerBehavior(leftMaster_.getZeroPowerBehavior());
-        rightSlave_.setZeroPowerBehavior(rightMaster_.getZeroPowerBehavior());
-        rightSlave_.setDirection(rightMaster_.getDirection());
-        leftSlave_.setDirection(leftMaster_.getDirection());
+        try {
+            this.leftSlave_.setPower(this.leftMaster_.getPower());
+            this.rightSlave_.setPower(this.rightMaster_.getPower());
+            this.leftSlave_.setMode(this.leftMaster_.getMode());
+            this.rightSlave_.setMode(this.rightMaster_.getMode());
+            this.leftSlave_.setTargetPosition(this.leftMaster_.getTargetPosition());
+            this.rightSlave_.setTargetPosition(this.rightMaster_.getTargetPosition());
+            this.leftSlave_.setZeroPowerBehavior(this.leftMaster_.getZeroPowerBehavior());
+            this.rightSlave_.setZeroPowerBehavior(this.rightMaster_.getZeroPowerBehavior());
+            this.rightSlave_.setDirection(this.rightMaster_.getDirection());
+            this.leftSlave_.setDirection(this.leftMaster_.getDirection());
+        } catch (Exception e){}
     }
 
 }

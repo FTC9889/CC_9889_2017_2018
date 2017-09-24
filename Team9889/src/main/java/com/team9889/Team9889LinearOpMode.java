@@ -33,7 +33,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     //Match settings
     public String alliance, frontBack;
-    public boolean getPartnerGlyph;
+    public boolean getPartnerGlyph, getPitGlyph;
 
     /**
      * Use this method instead of waitForStart.
@@ -52,21 +52,24 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
-            this.InternalopMode.telemetry.addData("Ready to Start", "");
-            this.InternalopMode.telemetry.addData("Alliance", alliance);
-            this.InternalopMode.telemetry.addData("Front or Back", frontBack);
-            this.InternalopMode.telemetry.addData("Pickup", getPartnerGlyph);
-            this.InternalopMode.telemetry.update();
 
             //Vuforia
             //Uses the camera on the screen side
             this.vuMark.setup(this.InternalopMode, VuforiaLocalizer.CameraDirection.FRONT);
             while(!isStarted()){
                 this.vuMark.updateTarget(this);
+                this.InternalopMode.telemetry.addData("Ready to Start", "");
+                this.InternalopMode.telemetry.addData("VuMark", "%s visible", this.vuMark.getOuputVuMark());
+                this.InternalopMode.telemetry.addData("","-----------------------");
+                this.InternalopMode.telemetry.addData("Alliance", alliance);
+                this.InternalopMode.telemetry.addData("Front or Back", frontBack);
+                this.InternalopMode.telemetry.addData("","-----------------------");
+                this.InternalopMode.telemetry.addData("Pickup from Glyph Pit", getPitGlyph);
+                this.InternalopMode.telemetry.addData("Pickup Alliance Partner's Glyph", getPartnerGlyph);
+                this.InternalopMode.telemetry.update();
                 idle();
             }
         }
-
 
         //Wait for DS start
         this.InternalopMode.waitForStart();
@@ -116,6 +119,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         alliance = preferences.getString("AllianceColor", "error");
         frontBack = preferences.getString("FrontBack", "error");
         getPartnerGlyph = preferences.getBoolean("PickupAllianceGlyph", false);
+        getPitGlyph = preferences.getBoolean("PickupPitGlyph", false);
     }
 
     //What column to score the glyph in

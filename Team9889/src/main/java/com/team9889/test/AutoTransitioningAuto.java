@@ -15,11 +15,9 @@ public class AutoTransitioningAuto extends LinearOpMode {
         telemetry.addData("Initializing Here", true);
         telemetry.update();
 
-
         AutoTransitioner.transitionOnStop(this, "Robot Teleop");
         // AutoTransitioner used before waitForStart()
         waitForStart();
-
 
         telemetry.addData("Timer", new Func<Double>() {
             @Override

@@ -83,4 +83,7 @@ public class CruiseLib {
     public static double degreesToRadians(double deg) {
         return (deg * Math.PI) / 180.0;
     }
+    public static double radianToDegrees(double rad) {
+        return (rad / Math.PI) * 180.0;
+    }
 }

@@ -23,7 +23,7 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
 
     private SharedPreferences globalPrefs;
     private Button RedFront, RedBack, BlueFront, BlueBack, saveAndExit;
-    private CheckBox PickupPartners;
+    private CheckBox PickupPartners, GlyphPit;
     private String allianceColor, frontBack;
 
     @Override
@@ -38,8 +38,7 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
         this.BlueFront = (Button)findViewById(R.id.blueFrontSetting);
         this.saveAndExit = (Button)findViewById(R.id.saveAndExit);
         this.PickupPartners = (CheckBox)findViewById(R.id.pickupAllianceGlyph);
-
-        try {Thread.sleep(10);}catch(InterruptedException e){e.printStackTrace();}
+        this.GlyphPit = (CheckBox)findViewById(R.id.pickupGlyphFromPit);
 
         if(this.globalPrefs.getString("AllianceColor", "") == "Blue" && this.globalPrefs.getString("FrontBack", "") == "Front"){
             this.BlueFront.setText("0");
@@ -52,6 +51,7 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
         }
 
         this.PickupPartners.setChecked(globalPrefs.getBoolean("PickupAllianceGlyph", false));
+        this.GlyphPit.setChecked(globalPrefs.getBoolean("PickupPitGlyph", false));
 
         this.RedBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +120,13 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
             }
         });
 
+        this.GlyphPit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                update();
+            }
+        });
+
         update();
     }
 
@@ -133,6 +140,7 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
         globalPrefs.edit().putString("AllianceColor", allianceColor).apply();
         globalPrefs.edit().putString("FrontBack", frontBack).apply();
         globalPrefs.edit().putBoolean("PickupAllianceGlyph", PickupPartners.isChecked()).apply();
+        globalPrefs.edit().putBoolean("PickupPitGlyph", GlyphPit.isChecked()).apply();
     }
 
     public void exit(){

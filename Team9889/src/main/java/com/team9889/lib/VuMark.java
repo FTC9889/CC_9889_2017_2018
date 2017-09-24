@@ -54,9 +54,6 @@ public class VuMark {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if(vuMark != RelicRecoveryVuMark.UNKNOWN)
             this.ouputVuMark = vuMark;
-
-        team9889LinearOpMode.telemetry.addData("VuMark", "%s visible", vuMark);
-        team9889LinearOpMode.telemetry.update();
     }
 
     public RelicRecoveryVuMark getOuputVuMark(){
