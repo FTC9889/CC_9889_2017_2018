@@ -398,6 +398,10 @@ def calculateSpeedsAndOutput(path_name="path", max_power_=1, display=False):
 
             right_power.append(right_power_)
             left_power.append(left_power_)
+        else:
+            right_power.append(0.0)
+            left_power.append(0.0)
+
 
     if display:
         print("==============================")
@@ -421,13 +425,34 @@ def calculateSpeedsAndOutput(path_name="path", max_power_=1, display=False):
 
     file_type="txt"
     filename = path_name + "." + file_type
-    file = open(filename, "w")
     outputText = ''
-    for i in range(len(x)):
-        outputText += str(left_pos[i])+ ',' + str(right_pos[i])+ ',' + str(left_power[i]) + ',' + str(right_power[i]) + '\n'
+    for i in range(len(left_pos)):
+        outputText += str(left_pos[i])+ ',' + str(right_pos[i])+ ',' + str(left_power[i]) + "," + str(right_power[i]) +'\n'
 
-    file.write(outputText)
-    file.close()
+
+    try:
+        fileCheck = open(filename, "r")
+        if fileCheck.readline()!= '':
+            i = input("Do you want to override the current path at " + str(filename) + "?")
+            if i == 't':
+                fileCheck.close()
+                file = open(filename, "w")
+                file.write(outputText)
+                file.close()
+            else:
+                r = input("Name of new path: ")
+                file = open(str(r)+ "." + file_type, "w")
+                file.write(outputText)
+                file.close()
+        else:
+            fileCheck.close()
+            file = open(filename, "w")
+            file.write(outputText)
+            file.close()
+    except:
+        file = open(filename, "w")
+        file.write(outputText)
+        file.close()
 
     print("Finished")
 
@@ -443,16 +468,19 @@ def calculateSpeedsAndOutput(path_name="path", max_power_=1, display=False):
 wheelbase = 16 # Set wheel base size here
 wheelsize = 4 # Set wheel diameter
 
+arc = Arc.getDistanceFromDegrees(-90, wheelbase, 8) # Calculate arc for a -16 in radius with a -90 degree outcome
+assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
+
 assignAll(Line.calculate(62-24, 0.0), x, y, theda, left_pos, right_pos) # Straight 38 in
 
 assignAll(Arc.calculate(Arc.getDistanceFromDegrees(-90, wheelbase, 0)[1], 0), x, y, theda, left_pos, right_pos) # Zero point turn, 90 degrees
 
 assignAll(Line.calculate(10, 0), x, y, theda, left_pos, right_pos) # Drive Straight 10 in
 
-arc = Arc.getDistanceFromDegrees(-90, wheelbase, 16) # Calculate arc for a -16 in radius with a -90 degree outcome
+arc = Arc.getDistanceFromDegrees(90, wheelbase, 16) # Calculate arc for a -16 in radius with a -90 degree outcome
 assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
 
-arc = Arc.getDistanceFromDegrees(90, wheelbase, 16) # Calculate arc for a 16 in radius with a 90 degree outcome
+arc = Arc.getDistanceFromDegrees(-90, wheelbase, 16) # Calculate arc for a 16 in radius with a 90 degree outcome
 assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
 
-calculateSpeedsAndOutput("test2", 0.5)
+calculateSpeedsAndOutput("help2", 0.5, True)

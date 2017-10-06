@@ -26,11 +26,6 @@ public class Drive extends Subsystem {
 
     //Sensors
     private ModernRoboticsI2cGyro gyro_;
-    private DeviceInterfaceModule CDI;
-
-    //Drive control states
-    private DriveControlState driveControlState_ = DriveControlState.POWER;
-    private DriveZeroPower driveZeroPower_ = DriveZeroPower.FLOAT;
 
     public enum DriveZeroPower{
         BRAKE, FLOAT
@@ -59,12 +54,6 @@ public class Drive extends Subsystem {
             return false;
         }
 
-        try {
-            this.CDI = hardwareMap.deviceInterfaceModule.get(Constants.kCoreDeviceInterfaceModule1Id);
-        } catch (Exception e) {
-            return false;
-        }
-
         this.slave();
 
         this.zeroSensors();
@@ -74,26 +63,24 @@ public class Drive extends Subsystem {
     }
 
     public void DriveControlState(DriveControlState state){
-        this.driveControlState_ = state;
-        switch (driveControlState_){
+        switch (state){
             case POWER:
-                this.POWER();
+                this.withoutEncoders();
                 break;
             case SPEED:
-                this.SPEED();
+                this.withEncoders();
                 break;
             case POSITION:
-                this.POSITION();
+                this.withEncoders();
                 break;
             case OPERATOR_CONTROL:
-                this.OPERATOR_CONTROL();
+                this.withoutEncoders();
                 break;
         }
     }
 
     public void DriveZeroPowerState(DriveZeroPower state){
-        this.driveZeroPower_ = state;
-        switch (driveZeroPower_){
+        switch (state){
             case BRAKE:
                 this.BRAKE();
                 break;
@@ -105,6 +92,7 @@ public class Drive extends Subsystem {
 
     @Override
     public void stop() {
+        this.DriveZeroPowerState(DriveZeroPower.BRAKE);
         this.setLeftRightPower(0,0);
         this.DriveZeroPowerState(DriveZeroPower.FLOAT);
     }
@@ -127,6 +115,21 @@ public class Drive extends Subsystem {
             this.rightMaster_.setPower(limitValue(right));
             this.rightSlave_.setPower(limitValue(right));
         }catch (Exception e){}
+    }
+
+    public void setLeftRightPath(int left_pos, int right_pos, double left_power, double right_power){
+        this.DriveControlState(DriveControlState.POSITION);
+        this.DriveZeroPowerState(DriveZeroPower.BRAKE);
+
+        this.leftMaster_.setTargetPosition(left_pos);
+        this.rightMaster_.setTargetPosition(right_pos);
+        this.leftMaster_.setPower(left_power);
+        this.rightMaster_.setPower(right_power);
+        this.slave();
+    }
+
+    public void finshedPath(){
+        this.stop();
     }
 
     public double getRightDistanceInches(){
@@ -215,7 +218,7 @@ public class Drive extends Subsystem {
         } catch (Exception e){}
     }
 
-    private void POWER(){
+    private void withoutEncoders(){
         try {
             this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -223,27 +226,10 @@ public class Drive extends Subsystem {
         } catch (Exception e){}
     }
 
-    private void SPEED(){
+    private void withEncoders(){
         try {
             this.leftMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             this.rightMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            this.slave();
-        } catch (Exception e){}
-    }
-
-    private void POSITION(){
-        try {
-            this.leftMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            this.rightMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            this.slave();
-        } catch (Exception e){}
-    }
-
-    private void OPERATOR_CONTROL(){
-        try {
-            this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            this.FLOAT();
             this.slave();
         } catch (Exception e){}
     }
