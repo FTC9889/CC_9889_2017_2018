@@ -20,11 +20,7 @@ public class Robot {
     private Team9889LinearOpMode mTeam9889LinearOpMode = null;
 
     private Drive mDrive = new Drive(); //Drivetrain
-
-    public void test(){
-
-    }
-
+    
     /**
      * Add each subsystem's outputToTelemetry in this method.
      * @param opMode Current Team9889LinearOpMode
