@@ -186,7 +186,7 @@
 ##      same "printed page" as the copyright notice for easier
 ##      identification within third-party archives.
 ##
-##   Copyright {yyyy} {name of copyright owner}
+##   Copyright 2017 Joshua Heinrich
 ##
 ##   Licensed under the Apache License, Version 2.0 (the "License");
 ##   you may not use this file except in compliance with the License.
@@ -366,41 +366,45 @@ def calculateSpeedsAndOutput(path_name="path", max_power_=1, display=False):
     left_power = [0.0]
     right_power = [0.0]
     for i in range(len(left_pos)):
-        if (left_pos[i] != 0.0) & (right_pos[i] !=0.0):
-            left_power_ = abs(left_pos[i]/right_pos[i])
-            right_power_ = abs(right_pos[i]/left_pos[i])
-
-            if left_power_ < right_power_:
-                left_power_ /= right_power_
-                right_power_ = 1.0
-            elif left_power_ > right_power_:
-                right_power_ /= left_power_
-                left_power_ = 1
-            else:
-                ratio = 1.0
-
-            if left_pos[i] < 0:
-                change = -1
-            else:
-                change = 1
-
-            left_power_ = left_power_ * change
-
-            if right_pos[i] < 0:
-                change = -1
-            else:
-                change = 1
-
-            right_power_ = right_power_ * change
-
-            right_power_ *= max_power
-            left_power_ *= max_power
-
-            right_power.append(right_power_)
-            left_power.append(left_power_)
+        if left_pos[i]-right_pos[i] == 0:
+            right_power.append(max_power)
+            right_power.append(max_power)
         else:
-            right_power.append(0.0)
-            left_power.append(0.0)
+            if (left_pos[i] != 0.0) & (right_pos[i] !=0.0):
+                left_power_ = abs(left_pos[i]/right_pos[i])
+                right_power_ = abs(right_pos[i]/left_pos[i])
+
+                if left_power_ < right_power_:
+                    left_power_ /= right_power_
+                    right_power_ = 1.0
+                elif left_power_ > right_power_:
+                    right_power_ /= left_power_
+                    left_power_ = 1
+                else:
+                    ratio = 1.0
+
+                if left_pos[i] < 0:
+                    change = -1
+                else:
+                    change = 1
+
+                left_power_ = left_power_ * change
+
+                if right_pos[i] < 0:
+                    change = -1
+                else:
+                    change = 1
+
+                right_power_ = right_power_ * change
+
+                right_power_ *= max_power
+                left_power_ *= max_power
+
+                right_power.append(right_power_)
+                left_power.append(left_power_)
+            else:
+                right_power.append(0.0)
+                left_power.append(0.0)
 
 
     if display:
@@ -468,8 +472,8 @@ def calculateSpeedsAndOutput(path_name="path", max_power_=1, display=False):
 wheelbase = 16 # Set wheel base size here
 wheelsize = 4 # Set wheel diameter
 
-arc = Arc.getDistanceFromDegrees(-90, wheelbase, 8) # Calculate arc for a -16 in radius with a -90 degree outcome
-assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
+#arc = Arc.getDistanceFromDegrees(-90, wheelbase, 8) # Calculate arc for a -16 in radius with a -90 degree outcome
+#assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
 
 assignAll(Line.calculate(62-24, 0.0), x, y, theda, left_pos, right_pos) # Straight 38 in
 
@@ -482,5 +486,3 @@ assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
 
 arc = Arc.getDistanceFromDegrees(-90, wheelbase, 16) # Calculate arc for a 16 in radius with a 90 degree outcome
 assignAll(Arc.calculate(arc[1], arc[2]), x, y, theda, left_pos, right_pos)
-
-calculateSpeedsAndOutput("help2", 0.5, True)

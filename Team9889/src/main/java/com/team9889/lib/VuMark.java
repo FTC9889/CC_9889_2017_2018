@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Run setup to setup vuforia.
  * Run activateVuforia to activate Vuforia.
  *
- * Run updateTarget in a while(!isStarted()) before start
+ * Run updateTarget in a while(!isStarted()) loop before start
  *
  * Use getOutputVuMark to get the image scanned in updateTarget.
  *
@@ -26,18 +26,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class VuMark {
     public VuMark(){}
 
-    private VuforiaLocalizer vuforia = null;
     private VuforiaTrackables relicTrackables = null;
     private VuforiaTrackable relicTemplate = null;
-    private VuforiaLocalizer.Parameters parameters = null;
     private RelicRecoveryVuMark ouputVuMark = RelicRecoveryVuMark.UNKNOWN;
 
-    public void setup(Team9889LinearOpMode team9889LinearOpMode, VuforiaLocalizer.CameraDirection cameraDirection) {
+    public void setup(VuforiaLocalizer.CameraDirection cameraDirection) {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = Constants.kVuforiaLicenceKey;
         parameters.cameraDirection = cameraDirection;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-        this.relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        parameters.useExtendedTracking = false;
+        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        this.relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         this.relicTemplate = relicTrackables.get(0);
         this.activateVuforia();
     }

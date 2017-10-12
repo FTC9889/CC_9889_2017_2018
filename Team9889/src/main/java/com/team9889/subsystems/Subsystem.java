@@ -21,7 +21,7 @@ import com.team9889.Team9889LinearOpMode;
 public abstract class Subsystem {
     public abstract void outputToTelemetry(Team9889LinearOpMode opMode);
 
-    public abstract boolean init(HardwareMap hardwareMap, boolean auton);
+    public abstract boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton);
 
     public abstract void stop();
 

@@ -13,8 +13,8 @@ public class Navigation {
     double x = 0, y = 0, heading = 0;
     double lastL, lastR;
     double gyroReference = 0;
-    private Drive drive = null;
-    public Navigation(Drive drive){this.drive = drive;}
+    private Drive mDrive = null;
+    public Navigation(Drive Drive_){this.mDrive = Drive_;}
 
     public void resetWithReferenceHeading(double reference) {
         this.x = this.y = this.heading = 0;

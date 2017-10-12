@@ -1,7 +1,6 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
-import com.team9889.subsystems.Drive;
 import com.team9889.lib.CruiseLib;
 
 
@@ -14,7 +13,7 @@ public class DriveStraightAction implements Action {
     private double mWantedDistance, mVelocity, mAngle;
     private double leftVelocity, rightVelocity;
     private boolean DriveBackward, rv = false;
-    private Drive mDrive;
+    private MRDrive mMRDrive;
 
     public DriveStraightAction(double distance, double velocity){
         this(distance, velocity, 0);
@@ -29,22 +28,22 @@ public class DriveStraightAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mSuperstructure.getDrive();
-        mWantedDistance = CruiseLib.Average(mDrive.getLeftDistanceInches(), mDrive.getRightDistanceInches()) + mWantedDistance;
+        mMRDrive = opMode.mSuperstructure.getDrive();
+        mWantedDistance = CruiseLib.Average(mMRDrive.getLeftDistanceInches(), mMRDrive.getRightDistanceInches()) + mWantedDistance;
     }
 
     @Override
     public void done() {
-        mDrive.setLeftRightPower(0,0);
+        mMRDrive.setLeftRightPower(0,0);
     }
 
     @Override
     public boolean isFinished() {
-        return !((Math.abs(mDrive.getRightDistanceInches())) > Math.abs(mWantedDistance));
+        return !((Math.abs(mMRDrive.getRightDistanceInches())) > Math.abs(mWantedDistance));
     }
 
     @Override
     public void update(Team9889LinearOpMode  opMode){
-        mDrive.setLeftRightPower(mVelocity, mVelocity);
+        mMRDrive.setLeftRightPower(mVelocity, mVelocity);
     }
 }

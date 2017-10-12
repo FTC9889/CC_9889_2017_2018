@@ -1,26 +1,29 @@
 package com.team9889.subsystems;
 
+import com.qualcomm.hardware.motors.RevRoboticsHdHexMotor;
 import com.team9889.Team9889LinearOpMode;
-import com.team9889.lib.Navigation;
 
 /**
- * Superstructure combines all of subsystems into one importable class.
- * Used for init robot hardware and vision.
+ * Robot combines all of subsystems into one importable class.
+ * Used for init all robot hardware.
  * Created by Joshua on 8/4/2017.
  */
 
-public class Superstructure{
+public class Robot {
 
-    private static Superstructure mInstance  = new Superstructure();
+    private static Robot mInstance  = new Robot();
+    public static Robot getInstance(){
+        return mInstance;
+    }
 
     //Internal Opmode to output telemetry.
     private Team9889LinearOpMode mTeam9889LinearOpMode = null;
 
-    public static Superstructure getInstance(){
-        return mInstance;
-    }
+    private Drive mDrive = new Drive(); //Drivetrain
 
-    private Drive mDrive = new Drive();
+    public void test(){
+
+    }
 
     /**
      * Add each subsystem's outputToTelemetry in this method.
@@ -41,8 +44,8 @@ public class Superstructure{
         this.mTeam9889LinearOpMode = team9889LinearOpMode;
 
         //Structure all inits like this.
-        if(!this.mDrive.init(mTeam9889LinearOpMode.hardwareMap, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Drive");
+        if(!this.mDrive.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " MRDrive");
             this.mTeam9889LinearOpMode.telemetry.update();
             error = true;
         }

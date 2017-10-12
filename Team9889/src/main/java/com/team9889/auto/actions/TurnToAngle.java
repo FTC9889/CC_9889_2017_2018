@@ -1,7 +1,8 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
-import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.DriveControlStates;
+import com.team9889.subsystems.DriveZeroPowerStates;
 
 /**
  * Created by joshua9889 on 4/17/2017.
@@ -14,7 +15,7 @@ public class TurnToAngle implements Action {
 
     private double mSpeed;
 
-    private Drive mDrive;
+    private MRDrive mMRDrive;
 
     /**
      *
@@ -32,11 +33,11 @@ public class TurnToAngle implements Action {
     public boolean isFinished() {
         boolean finished = false;
         if(mError < 0){
-            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
+            mMRDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
         }else if(mError > 0){
-            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
+            mMRDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
         }else{
-            mDrive.setLeftRightPower(0,0);
+            mMRDrive.setLeftRightPower(0,0);
             finished = true;
         }
 
@@ -45,21 +46,21 @@ public class TurnToAngle implements Action {
 
     @Override
     public void done() {
-        mDrive.setLeftRightPower(0,0);
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.FLOAT);
+        mMRDrive.setLeftRightPower(0,0);
+        mMRDrive.DriveZeroPowerState(DriveZeroPowerStates.FLOAT);
     }
 
     @Override
     public void update(Team9889LinearOpMode linearOpMode) {
-        currentAngle = mDrive.getGyroAngleDegrees();
+        currentAngle = mMRDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
     }
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mDrive = opMode.mSuperstructure.getDrive();
-        mDrive.setLeftRightPower(0,0);
-        mDrive.DriveControlState(Drive.DriveControlState.POWER);
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPower.BRAKE);
+        mMRDrive = opMode.mSuperstructure.getDrive();
+        mMRDrive.setLeftRightPower(0,0);
+        mMRDrive.DriveControlState(DriveControlStates.POWER);
+        mMRDrive.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
     }
 }

@@ -5,12 +5,16 @@ import android.preference.PreferenceManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
-import com.team9889.subsystems.Superstructure;
+import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+
+import java.io.File;
 
 /**
  * Created by joshua9889 on 4/17/17.
@@ -19,16 +23,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 public abstract class Team9889LinearOpMode extends LinearOpMode {
 
     //New Robot
-    public Superstructure mSuperstructure = Superstructure.getInstance();
+    public Robot Robot = com.team9889.subsystems.Robot.getInstance();
 
     //New Driver Station
-    Driver_Station driver_station = new Driver_Station();
+    public Driver_Station driver_station = new Driver_Station();
 
     //Used to reference the main opmode in this class
     public Team9889LinearOpMode InternalopMode = null;
 
     //For Vuforia
     private VuMark vuMark = new VuMark();
+
     private ElapsedTime period = new ElapsedTime();
 
     //Match settings
@@ -43,8 +48,14 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     protected void waitForTeamStart(Team9889LinearOpMode opMode, boolean autonomous){
         this.InternalopMode = opMode;
 
-        //this.mSuperstructure.init(this.InternalopMode, false);
-        //this.updateTelemetry();
+        try {
+            this.Robot.init(this.InternalopMode, false);
+            this.updateTelemetry();
+        } catch (Exception e){
+            this.InternalopMode.telemetry.addData("No Hardware attached", "");
+            this.InternalopMode.telemetry.update();
+        }
+
 
         if(autonomous){
             //Auto Transitioning
@@ -55,7 +66,7 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
 
             //Vuforia
             //Uses the camera on the screen side
-            this.vuMark.setup(this.InternalopMode, VuforiaLocalizer.CameraDirection.FRONT);
+            this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
             while(!isStarted()){
                 this.vuMark.updateTarget(this);
                 this.InternalopMode.telemetry.addData("Ready to Start", "");
@@ -71,6 +82,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
             }
         }
 
+        this.InternalopMode.telemetry.addData("Waiting for Start", "");
+        this.InternalopMode.telemetry.update();
         //Wait for DS start
         this.InternalopMode.waitForStart();
 
@@ -83,20 +96,20 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
      */
     public void updateTelemetry(){
         this.InternalopMode.telemetry.addData("Runtime> ", this.InternalopMode.getRuntime());
-        this.mSuperstructure.outputToTelemetry(this.InternalopMode);
+        this.Robot.outputToTelemetry(this.InternalopMode);
         this.InternalopMode.telemetry.update();
     }
 
     //Final Action to be run
     protected void finalAction(){
         try {
-            this.mSuperstructure.stop();
+            this.Robot.stop();
         } catch (Exception e){}
 
         this.InternalopMode.requestOpModeStop();
     }
 
-    //Built-in function by FIRST. Put in all loops
+    //Built-in function by FIRST.
     protected void waitForTick(long periodMs) {
         long  remaining = periodMs - (long)period.milliseconds();
 

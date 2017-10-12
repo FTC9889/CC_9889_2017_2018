@@ -1,8 +1,9 @@
 package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.DriveControlStates;
+
+import static com.team9889.lib.CruiseLib.power3MaintainSign;
 
 /**
  * Created by joshua9889 on 4/17/17.
@@ -13,47 +14,48 @@ public class Teleop extends Team9889LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        driver_station.init(this);
+        driver_station.init(this); // New Driver station
         waitForTeamStart(this, false);
-        mSuperstructure.getDrive().DriveControlState(Drive.DriveControlState.OPERATOR_CONTROL);
 
-        //Drive
+        Robot.getDrive().DriveControlState(DriveControlStates.OPERATOR_CONTROL);
+
         while (opModeIsActive() && !isStopRequested()){
+            try {
+                //Start of Drive//
+                double leftspeed, rightspeed, xvalue, yvalue;
+                int div;
 
-            //Start of Drive//
-            double leftspeed, rightspeed, xvalue, yvalue;
-            int div;
+                //Used to lower the max speed of the robot when lining up for shooting/beacons
+                if (driver_station.SlowDrivetrain()){
+                    div = 4;
+                }else {
+                    div = 1;
+                }
 
-            //Used to lower the max speed of the robot when lining up for shooting/beacons
-            if (driver_station.SlowDrivetrain()){
-                div = 4;
-            }else {
-                div = 1;
-            }
+                //Values from gamepads with modifications
+                xvalue = power3MaintainSign(gamepad1.right_stick_x)/div;
+                yvalue = -power3MaintainSign(gamepad1.left_stick_y)/div;
 
-            //Values from gamepads with modifications
-            xvalue = gamepad1.right_stick_x/div;
-            yvalue = -gamepad1.left_stick_y/div;
-
-            //Values to output to motors
-            leftspeed =  yvalue - xvalue;
-            rightspeed = yvalue + xvalue;
+                //Values to output to motors
+                leftspeed =  yvalue - xvalue;
+                rightspeed = yvalue + xvalue;
 
 
-            //Set Motor Speeds
-            try{
-                mSuperstructure.getDrive().setLeftRightPower(leftspeed, rightspeed);
-            }catch (Exception e){
+                //Set Motor Speeds
+                Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
+
+
+                //End of Drive//
+
+                //Push Telemetry
+                updateTelemetry();
+            } catch (Exception e) {
                 telemetry.addData("Exception", e);
-                mSuperstructure.getDrive().stop();
+                telemetry.addData("Try plugging in hardware","");
+                telemetry.update();
             }
 
-            //End of Drive//
-
-            //Push Telemetry
-            updateTelemetry();
-
-            idle();
+            idle();//Thread.yield();
         }
 
         finalAction();
