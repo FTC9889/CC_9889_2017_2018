@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by team 6934 on 5/5/2017.
  */
 
-@TeleOp(name = "Vuforia Follow target FIRST")
+@TeleOp(name = "VuMark Follow target FIRST")
 @Disabled
 public class Vuforia_Follow_target_FIRST extends OpMode {
 

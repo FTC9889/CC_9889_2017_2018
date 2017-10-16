@@ -9,8 +9,6 @@ import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-import java.security.spec.ECField;
-
 /**
  * Created by joshua9889 on 10/6/2017.
  */
@@ -60,6 +58,18 @@ public class Drive extends Subsystem {
     @Override
     public void zeroSensors() {
         resetEncoders();
+    }
+
+    public double getGyroAngleDegrees() {
+        return imu.getAbsAngle();
+    }
+
+    public double getLeftDistanceInches(){
+        return Constants.ticksToInches(this.leftMaster_.getCurrentPosition());
+    }
+
+    public double getRightDistanceInches(){
+        return Constants.ticksToInches(this.rightMaster_.getCurrentPosition());
     }
 
     public void setLeftRightPower(double left, double right) {

@@ -49,11 +49,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
- * This OpMode illustrates the basics of using the Vuforia engine to determine
- * the identity of Vuforia VuMarks encountered on the field. The code is structured as
+ * This OpMode illustrates the basics of using the VuMark engine to determine
+ * the identity of VuMark VuMarks encountered on the field. The code is structured as
  * a LinearOpMode. It shares much structure with {@link ConceptVuforiaNavigation}; we do not here
- * duplicate the core Vuforia documentation found there, but rather instead focus on the
- * differences between the use of Vuforia for navigation vs VuMark identification.
+ * duplicate the core VuMark documentation found there, but rather instead focus on the
+ * differences between the use of VuMark for navigation vs VuMark identification.
  *
  * @see ConceptVuforiaNavigation
  * @see VuforiaLocalizer
@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
+ * IMPORTANT: In order to use this OpMode, you need to obtain your own VuMark license key as
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
@@ -71,12 +71,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 @Disabled
 public class ConceptVuMarkIdentification extends LinearOpMode {
 
-    public static final String TAG = "Vuforia VuMark Sample";
+    public static final String TAG = "VuMark VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
 
     /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * {@link #vuforia} is the variable we will use to store our instance of the VuMark
      * localization engine.
      */
     VuforiaLocalizer vuforia;
@@ -84,7 +84,7 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
     @Override public void runOpMode() {
 
         /*
-         * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
+         * To start up VuMark, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
          */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -94,15 +94,15 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         /*
-         * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
+         * IMPORTANT: You need to obtain your own license key to use VuMark. The string below with which
          * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-         * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
+         * A VuMark 'Development' license key, can be obtained free of charge from the VuMark developer
          * web site at https://developer.vuforia.com/license-manager.
          *
-         * Vuforia license keys are always 380 characters long, and look as if they contain mostly
+         * VuMark license keys are always 380 characters long, and look as if they contain mostly
          * random data. As an example, here is a example of a fragment of a valid key:
          *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-         * Once you've obtained a license key, copy the string from the Vuforia web site
+         * Once you've obtained a license key, copy the string from the VuMark web site
          * and paste it in to your code onthe next line, between the double quotes.
          */
         parameters.vuforiaLicenseKey = Constants.kVuforiaLicenceKey;

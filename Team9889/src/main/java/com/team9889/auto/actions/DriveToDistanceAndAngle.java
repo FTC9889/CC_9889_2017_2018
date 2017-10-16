@@ -7,7 +7,7 @@ import com.team9889.Team9889LinearOpMode;
  */
 
 public class DriveToDistanceAndAngle implements Action {
-    private int mInitAngle;
+    private double mInitAngle;
     private double mInitLeftMotorPosition, mInitRightMotorPosition;
     private double mCalulatedLeftMotorPosition, mCalulatedRightMotorPosition;
 
@@ -26,9 +26,9 @@ public class DriveToDistanceAndAngle implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mInitAngle = opMode.mSuperstructure.getDrive().getGyroAngleDegrees();
-        mInitLeftMotorPosition = opMode.mSuperstructure.getDrive().getLeftDistanceInches();
-        mInitRightMotorPosition = opMode.mSuperstructure.getDrive().getRightDistanceInches();
+        mInitAngle = opMode.Robot.getDrive().getGyroAngleDegrees();
+        mInitLeftMotorPosition = opMode.Robot.getDrive().getLeftDistanceInches();
+        mInitRightMotorPosition = opMode.Robot.getDrive().getRightDistanceInches();
 
         mRadiusOfTurn = mRadiusOfTurn*(Math.PI/180);
 

@@ -2,6 +2,7 @@ package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.lib.CruiseLib;
+import com.team9889.subsystems.Drive;
 
 /**
  * Created by joshua9889 on 4/16/2017.
@@ -17,7 +18,7 @@ public class DriveUntilInRangeAction implements Action {
 
     private double mSpeed;
 
-    private MRDrive mMRDrive;
+    private Drive mDrive;
 
     public DriveUntilInRangeAction(double velocity, double minDistanceAway, double maxDistanceAway){
         mSpeed = velocity;
@@ -27,36 +28,36 @@ public class DriveUntilInRangeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
-        mMRDrive = opMode.mSuperstructure.getDrive();
+        mDrive = opMode.Robot.getDrive();
         isFinished = false;
-        LstartingDistance = mMRDrive.getLeftDistanceInches();
-        RstartingDistance = mMRDrive.getRightDistanceInches();
+        LstartingDistance = mDrive.getLeftDistanceInches();
+        RstartingDistance = mDrive.getRightDistanceInches();
     }
 
     @Override
     public void update(Team9889LinearOpMode linearOpMode) {
         isFinished = false;
 
-        double CurrentLDistance = mMRDrive.getLeftDistanceInches() - LstartingDistance;
-        double CurrentRDistance = mMRDrive.getRightDistanceInches() - RstartingDistance;
+        double CurrentLDistance = mDrive.getLeftDistanceInches() - LstartingDistance;
+        double CurrentRDistance = mDrive.getRightDistanceInches() - RstartingDistance;
 
         if(CurrentRDistance > mMaxWantedDistance && CurrentLDistance > mMaxWantedDistance)
-            mMRDrive.setLeftRightPower(-mSpeed, -mSpeed);
+            mDrive.setLeftRightPower(-mSpeed, -mSpeed);
         else if (CurrentRDistance < mMinWantedDistance && CurrentLDistance < mMinWantedDistance)
-            mMRDrive.setLeftRightPower(mSpeed, mSpeed);
+            mDrive.setLeftRightPower(mSpeed, mSpeed);
         else if(CurrentRDistance < mMinWantedDistance && CurrentLDistance > mMaxWantedDistance)
-            mMRDrive.setLeftRightPower(mSpeed, -mSpeed);
+            mDrive.setLeftRightPower(mSpeed, -mSpeed);
         else if(CurrentRDistance > mMaxWantedDistance && CurrentLDistance < mMinWantedDistance)
-            mMRDrive.setLeftRightPower(-mSpeed, mSpeed);
+            mDrive.setLeftRightPower(-mSpeed, mSpeed);
         else if(CruiseLib.isBetween(CurrentRDistance, mMinWantedDistance, mMaxWantedDistance) && CruiseLib.isBetween(CurrentLDistance, mMinWantedDistance,mMaxWantedDistance)){
-            mMRDrive.setLeftRightPower(0,0);
+            mDrive.setLeftRightPower(0,0);
             isFinished = true;
         }
     }
 
     @Override
     public void done() {
-        mMRDrive.setLeftRightPower(0,0);
+        mDrive.setLeftRightPower(0,0);
     }
 
     @Override

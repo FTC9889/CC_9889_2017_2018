@@ -1,26 +1,25 @@
 package com.team9889;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.ReadWriteFile;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
 import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
-import java.io.File;
+import camera_opmodes.LinearOpModeCamera;
 
 /**
  * Created by joshua9889 on 4/17/17.
  */
 
-public abstract class Team9889LinearOpMode extends LinearOpMode {
+public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     //New Robot
     public Robot Robot = com.team9889.subsystems.Robot.getInstance();
@@ -31,10 +30,14 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
     //Used to reference the main opmode in this class
     public Team9889LinearOpMode InternalopMode = null;
 
-    //For Vuforia
+    //For VuMark
     private VuMark vuMark = new VuMark();
 
-    private ElapsedTime period = new ElapsedTime();
+    //Used for camera init
+    private boolean first = true;
+    private String colorString = "NONE";
+
+
 
     //Match settings
     public String alliance, frontBack;
@@ -64,12 +67,80 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
 
-            //Vuforia
+            //VuMark
             //Uses the camera on the screen side
             this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+
             while(!isStarted()){
-                this.vuMark.updateTarget(this);
-                this.InternalopMode.telemetry.addData("Ready to Start", "");
+                //If we haven't found the pictograph yet, find it.
+                if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
+                    this.vuMark.updateTarget(this);
+                    first = true;
+                } else {
+                    //Stop Vuforia
+                    this.vuMark.closeVuforia();
+
+                    //Then get the jewel color
+                    try {
+                        setCameraDownsampling(8);
+
+                        //Init camera once
+                        if (first) {
+                            Thread startCamera = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startCamera();  // can take a while.
+                                    // best started before waitForStart
+                                    telemetry.addLine("Camera ready!");
+                                    telemetry.update();
+                                }
+                            });
+                            startCamera.run();
+
+                            first = false;
+                        }
+
+                        int redValue = 0;
+                        int blueValue = 0;
+                        int greenValue = 0;
+
+                        // get image, rotated so (0,0) is in the bottom left of the preview window
+                        Bitmap rgbImage;
+                        rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
+
+                        for (int x = rgbImage.getWidth()/2; x < rgbImage.getWidth(); x++) {
+                            for (int y = rgbImage.getHeight()/2; y < rgbImage.getHeight(); y++) {
+                                int pixel = rgbImage.getPixel(x, y);
+                                redValue += red(pixel);
+                                blueValue += blue(pixel);
+                                greenValue += green(pixel);
+                            }
+                        }
+
+                        int color = highestColor(redValue, greenValue, blueValue);
+
+                        switch (color) {
+                            case 0:
+                                colorString = "RED";
+                                break;
+                            case 1:
+                                colorString = "GREEN";
+                                break;
+                            case 2:
+                                colorString = "BLUE";
+                        }
+
+                        this.InternalopMode.telemetry.addData("Color", colorString);
+                        this.InternalopMode.telemetry.addData("Red", redValue);
+                        this.InternalopMode.telemetry.addData("Blue", blueValue);
+                        this.InternalopMode.telemetry.addData("Green", greenValue);
+                    } catch (Exception e) {
+                        this.InternalopMode.telemetry.addData("Error with camera bitmap", "");
+                    }
+                }
+
+                //Print the auto settings
+                this.InternalopMode.telemetry.addData("Runtime", this.InternalopMode.getRuntime());
                 this.InternalopMode.telemetry.addData("VuMark", "%s visible", this.vuMark.getOuputVuMark());
                 this.InternalopMode.telemetry.addData("","-----------------------");
                 this.InternalopMode.telemetry.addData("Alliance", alliance);
@@ -78,17 +149,22 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
                 this.InternalopMode.telemetry.addData("Pickup from Glyph Pit", getPitGlyph);
                 this.InternalopMode.telemetry.addData("Pickup Alliance Partner's Glyph", getPartnerGlyph);
                 this.InternalopMode.telemetry.update();
+
                 idle();
             }
+            stopCamera();
+
+        } else {
+            this.InternalopMode.telemetry.addData("Waiting for Start", "");
+            this.InternalopMode.telemetry.update();
         }
 
-        this.InternalopMode.telemetry.addData("Waiting for Start", "");
-        this.InternalopMode.telemetry.update();
         //Wait for DS start
         this.InternalopMode.waitForStart();
 
         if(autonomous)
             this.vuMark.disableVuforia();
+            this.vuMark.closeVuforia();
     }
 
     /**
@@ -100,7 +176,10 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         this.InternalopMode.telemetry.update();
     }
 
-    //Final Action to be run
+
+    /**
+     * Used to stop everything.
+     */
     protected void finalAction(){
         try {
             this.Robot.stop();
@@ -109,7 +188,8 @@ public abstract class Team9889LinearOpMode extends LinearOpMode {
         this.InternalopMode.requestOpModeStop();
     }
 
-    //Built-in function by FIRST.
+    //Built-in function by FIRST. Used for things
+    private ElapsedTime period = new ElapsedTime();
     protected void waitForTick(long periodMs) {
         long  remaining = periodMs - (long)period.milliseconds();
 

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.robotcontroller.internal;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.qualcomm.ftcrobotcontroller.R;
 

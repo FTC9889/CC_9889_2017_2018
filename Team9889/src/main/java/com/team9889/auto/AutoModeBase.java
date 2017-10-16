@@ -47,7 +47,7 @@ public abstract class AutoModeBase extends Team9889LinearOpMode {
         this.InternalopMode.telemetry.update();
 
         if(!error){
-            this.mSuperstructure.stop();
+            this.Robot.stop();
             this.InternalopMode.sleep(5000);
         }
     }

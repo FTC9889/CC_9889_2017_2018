@@ -1,6 +1,7 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
+import com.team9889.subsystems.Drive;
 
 /**
  * Created by joshua9889 on 5/5/17.
@@ -13,7 +14,7 @@ public class DriveTimeAction implements Action {
     private double mAngle;
     private boolean isFinished;
 
-    private MRDrive mMRDrive;
+    private Drive mDrive;
 
     public DriveTimeAction(int milliseconds, double Velocity) {
         Milliseconds = milliseconds;
@@ -27,8 +28,8 @@ public class DriveTimeAction implements Action {
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
-        mMRDrive = opMode.mSuperstructure.getDrive();
-        mAngle = mMRDrive.getGyroAngleDegrees();
+        mDrive = opMode.Robot.getDrive();
+        mAngle = mDrive.getGyroAngleDegrees();
         StartMilliseconds = opMode.getRuntime();
     }
 
@@ -39,20 +40,20 @@ public class DriveTimeAction implements Action {
         DriveBackward = mVelocity <0;
 
         if(DriveBackward) {
-            if(mAngle > mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
-            }else if(mAngle < mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
-            }else if(mAngle == mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
+            if(mAngle > mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
+            }else if(mAngle < mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
             }
         }else {
-            if(mAngle < mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
-            }else if(mAngle > mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
-            }else if(mAngle == mMRDrive.getGyroAngleDegrees()){
-                mMRDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
+            if(mAngle < mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
+            }else if(mAngle > mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
+            }else if(mAngle == mDrive.getGyroAngleDegrees()){
+                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
             }
         }
 
@@ -62,6 +63,6 @@ public class DriveTimeAction implements Action {
 
     @Override
     public void done() {
-        mMRDrive.setLeftRightPower(0,0);
+        mDrive.setLeftRightPower(0,0);
     }
 }

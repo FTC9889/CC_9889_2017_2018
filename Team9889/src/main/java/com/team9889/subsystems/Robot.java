@@ -1,6 +1,5 @@
 package com.team9889.subsystems;
 
-import com.qualcomm.hardware.motors.RevRoboticsHdHexMotor;
 import com.team9889.Team9889LinearOpMode;
 
 /**
