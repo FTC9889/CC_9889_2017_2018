@@ -2,6 +2,7 @@ package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
@@ -15,25 +16,36 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Drive extends Subsystem {
 
-    private DcMotorEx rightMaster_, leftMaster_ = null;
+    public DcMotorEx rightMaster_, leftMaster_ = null;
 
+    //TODO: Fix the imu class to work with an imu
     private RevIMU imu = null;
 
     private PIDCoefficients lPID, rPID;
 
+    public enum DriveZeroPowerStates {
+        BRAKE,
+        FLOAT
+    }
+
+    public enum DriveControlStates {
+        POWER,
+        SPEED,
+        POSITION,
+        OPERATOR_CONTROL
+    }
+
     @Override
     public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
         try{
-            this.rightMaster_ = (DcMotorEx)team9889LinearOpMode.InternalopMode.hardwareMap.
-                    dcMotor.get(Constants.kRightDriveMasterId);
-            this.leftMaster_ = (DcMotorEx)team9889LinearOpMode.InternalopMode.hardwareMap.
-                    dcMotor.get(Constants.kLeftDriveMasterId);
+            this.rightMaster_ = (DcMotorEx)team9889LinearOpMode.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
+            this.leftMaster_ = (DcMotorEx)team9889LinearOpMode.hardwareMap.get(DcMotor.class, Constants.kLeftDriveMasterId);
         } catch (Exception e){
             return false;
         }
 
         try {
-            this.imu = new RevIMU(team9889LinearOpMode.InternalopMode, Constants.kIMUId, "imu.json");
+            //this.imu = new RevIMU(team9889LinearOpMode.InternalopMode, Constants.kIMUId, "imu.json");
         } catch (Exception e){
             return false;
         }
@@ -49,7 +61,7 @@ public class Drive extends Subsystem {
 
     @Override
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
-        opMode.telemetry.addData("Left Position", this.leftMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Left Position", -this.leftMaster_.getCurrentPosition());
         opMode.telemetry.addData("Right Position", this.rightMaster_.getCurrentPosition());
         opMode.telemetry.addData("Left Power", this.leftMaster_.getPower());
         opMode.telemetry.addData("Right Power", this.rightMaster_.getPower());
@@ -65,7 +77,7 @@ public class Drive extends Subsystem {
     }
 
     public double getLeftDistanceInches(){
-        return Constants.ticksToInches(this.leftMaster_.getCurrentPosition());
+        return -Constants.ticksToInches(this.leftMaster_.getCurrentPosition());
     }
 
     public double getRightDistanceInches(){
@@ -74,7 +86,7 @@ public class Drive extends Subsystem {
 
     public void setLeftRightPower(double left, double right) {
         try {
-            this.rightMaster_.setPower(left);
+            this.rightMaster_.setPower(-left);
             this.leftMaster_.setPower(right);
         } catch (Exception e){}
 
@@ -170,12 +182,8 @@ public class Drive extends Subsystem {
     //Reset encoders and remember the previous RunMode
     public void resetEncoders() {
         try {
-            DcMotor.RunMode leftRunMode = leftMaster_.getMode();
-            DcMotor.RunMode rightRunMode = rightMaster_.getMode();
             leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            leftMaster_.setMode(leftRunMode);
-            rightMaster_.setMode(rightRunMode);
         } catch (Exception e) {}
     }
 

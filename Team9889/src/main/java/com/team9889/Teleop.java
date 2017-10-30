@@ -1,7 +1,7 @@
 package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.team9889.subsystems.DriveControlStates;
+import com.team9889.subsystems.Drive;
 
 import static com.team9889.lib.CruiseLib.power3MaintainSign;
 
@@ -17,35 +17,28 @@ public class Teleop extends Team9889LinearOpMode {
         driver_station.init(this); // New Driver station
         waitForTeamStart(this, false);
 
-        Robot.getDrive().DriveControlState(DriveControlStates.OPERATOR_CONTROL);
+        try {
+            Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
+        } catch (Exception e){
+
+        }
 
         while (opModeIsActive() && !isStopRequested()){
             try {
-                //Start of Drive//
                 double leftspeed, rightspeed, xvalue, yvalue;
-                int div;
-
-                //Used to lower the max speed of the robot when lining up for shooting/beacons
-                if (driver_station.SlowDrivetrain()){
-                    div = 4;
-                }else {
-                    div = 1;
-                }
 
                 //Values from gamepads with modifications
-                xvalue = power3MaintainSign(gamepad1.right_stick_x)/div;
-                yvalue = -power3MaintainSign(gamepad1.left_stick_y)/div;
+                yvalue = power3MaintainSign(-gamepad1.left_stick_y);
+                xvalue = power3MaintainSign(-gamepad1.right_stick_x);
 
                 //Values to output to motors
-                leftspeed =  yvalue - xvalue;
-                rightspeed = yvalue + xvalue;
-
+                leftspeed =  xvalue - yvalue;
+                rightspeed = xvalue + yvalue;
 
                 //Set Motor Speeds
                 Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
 
-
-                //End of Drive//
+                Robot.getJewel().retract();
 
                 //Push Telemetry
                 updateTelemetry();

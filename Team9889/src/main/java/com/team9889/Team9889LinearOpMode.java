@@ -162,9 +162,14 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         //Wait for DS start
         this.InternalopMode.waitForStart();
 
-        if(autonomous)
-            this.vuMark.disableVuforia();
-            this.vuMark.closeVuforia();
+        if(autonomous) {
+            try {
+                this.vuMark.disableVuforia();
+                this.vuMark.closeVuforia();
+            } catch(Exception e){
+
+            }
+        }
     }
 
     /**

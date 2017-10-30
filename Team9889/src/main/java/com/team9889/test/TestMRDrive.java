@@ -1,5 +1,6 @@
 package com.team9889.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,7 +31,6 @@ public class TestMRDrive extends LinearOpMode {
             //Values to output to motors
             leftspeed =  yvalue - xvalue;
             rightspeed = yvalue + xvalue;
-
 
             //Set Motor Speeds
             left.setPower(leftspeed);

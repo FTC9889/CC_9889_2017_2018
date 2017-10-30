@@ -1,8 +1,6 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
-import com.team9889.subsystems.DriveControlStates;
-import com.team9889.subsystems.DriveZeroPowerStates;
 import com.team9889.subsystems.Drive;
 
 /**
@@ -32,8 +30,8 @@ public class DrivePathAction implements Action {
         if((left_pos_.length == right_pos_.length)
                 == (left_power_.length == right_power_.length)){
             mDrive = opMode.Robot.getDrive();
-            mDrive.DriveControlState(DriveControlStates.POSITION);
-            mDrive.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
+            mDrive.DriveControlState(Drive.DriveControlStates.POSITION);
+            mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
             opMode.InternalopMode.telemetry.addData("Started Path Following", "");
             opMode.InternalopMode.telemetry.update();
         } else {
@@ -53,6 +51,6 @@ public class DrivePathAction implements Action {
     @Override
     public void done() {
         mDrive.stop();
-        mDrive.DriveZeroPowerState(DriveZeroPowerStates.FLOAT);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
     }
 }

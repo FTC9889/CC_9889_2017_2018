@@ -32,7 +32,7 @@ public class RevIMU {
         parameters.loggingTag          = "IMU_" + id;
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        imu = team9889LinearOpMode.InternalopMode.hardwareMap.get(BNO055IMU.class, id);
+        imu = team9889LinearOpMode.hardwareMap.get(BNO055IMU.class, id);
         imu.initialize(parameters);
     }
 

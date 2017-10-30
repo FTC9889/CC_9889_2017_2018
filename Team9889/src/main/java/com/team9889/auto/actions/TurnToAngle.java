@@ -2,8 +2,6 @@ package com.team9889.auto.actions;
 
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
-import com.team9889.subsystems.DriveControlStates;
-import com.team9889.subsystems.DriveZeroPowerStates;
 
 /**
  * Created by joshua9889 on 4/17/2017.
@@ -48,7 +46,7 @@ public class TurnToAngle implements Action {
     @Override
     public void done() {
         mDrive.setLeftRightPower(0,0);
-        mDrive.DriveZeroPowerState(DriveZeroPowerStates.FLOAT);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
     }
 
     @Override
@@ -61,7 +59,7 @@ public class TurnToAngle implements Action {
     public void start(Team9889LinearOpMode opMode) {
         mDrive = opMode.Robot.getDrive();
         mDrive.setLeftRightPower(0,0);
-        mDrive.DriveControlState(DriveControlStates.POWER);
-        mDrive.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
+        mDrive.DriveControlState(Drive.DriveControlStates.POWER);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
     }
 }
