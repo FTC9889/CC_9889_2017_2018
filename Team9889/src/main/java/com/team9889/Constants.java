@@ -9,6 +9,12 @@ public class Constants {
     //VuMark Licence Key
     public final static String kVuforiaLicenceKey = "AUEjQhP/////AAAAGV8qq1GGcE03gQHKWYPRZBNIZYZq8DoUn9lOpeWPY8PZKG1B5UtrsqkqPqh8Vcuv+HuUuobUNZE35fhYNPqxRIWqtoKbUmkZZCspmu0Aw685D5dxk87dT38/oYxzdKFs3EZaD8hvprmWj2Oww4+GtxS+fiImc23ZlkU20esE1MhwvX0xJ8tjoPS9pdTVSt1QtoYp3WxSxtZlKd0B0UMCxzj0KxN4JZRlTmF2W3dLU2G9SJ3hQO8jcC+Nuvbfk809C6LSWiijZ9L7IZNcQQiFKDa5yJP+ayX+Y1cpwcV19yqlPQTH7CQqcvnZDfwQZXmCpDhcQpW9h+bCXaerRH/uWNZMskyO0AXeFa1oCgB3EGPB";
 
+    /*---------------------
+    |                     |
+    |     Drivetrain!     |
+    |                     |
+    ---------------------*/
+
     //Settings for MRDrive class
     public final static String kLeftDriveMasterId = "left";
     public final static String kRightDriveMasterId = "right";
@@ -35,6 +41,12 @@ public class Constants {
         return ticks/Constants.CountsPerInch;
     }
 
+    /*---------------------
+    |                     |
+    |       Jewels!       |
+    |                     |
+    ---------------------*/
+
     //Settings for Jewels
     public final static String kJewelArmId = "jewel_arm";
     public final static String kJewelWristId = "jewel_wrist";
@@ -46,4 +58,46 @@ public class Constants {
     public final static double LeftJewelWrist = 0.0;
     public final static double RightJewelWrist = 1.0;
 
+    /*---------------------
+    |                     |
+    |    GlyphtLypht!     |
+    |                     |
+    ---------------------*/
+
+    //GlyphtLypht motor
+    public final static String LGlyphLypht = "lglyphlypht";
+    public final static String RGlyphLypht = "rglyphlypht";
+
+    public final static double GLintake = 0;
+    public final static double GLbottom = 1;
+    public final static double GLsecond = 2;
+    public final static double GLthird = 3;
+    public final static double GLtop = 4;
+
+    /*---------------------
+    |                     |
+    |       Intake!       |
+    |                     |
+    ---------------------*/
+
+    public final static String IntakeCRone = "intakecrone";
+    public final static String IntakeCRtwo = "intakecrtwo";
+    public final static String IntakeCRthree = "intakecrthree";
+    public final static String IntakeCRfour = "intakecrfour";
+
+    public final static double IntakeMoves = 1;
+    public final static double IntakeDontMove = 0;
+
+    /*---------------------
+    |                     |
+    |        Relic!       |
+    |                     |
+    ---------------------*/
+
+    public final static String RelicMotor = "relicmotor";
+
+    public final static double RelicRetract = 0;
+    public final static double RelicZone1 = 1;
+    public final static double RelicZone2 = 2;
+    public final static double RelicZone3 = 3; //Not sure we'll need this yet.
 }
