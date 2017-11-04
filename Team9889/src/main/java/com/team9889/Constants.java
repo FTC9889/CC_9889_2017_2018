@@ -70,11 +70,11 @@ public class Constants {
 
     public final static int GLintake = 195;
     public final static int GLbottom = 385;
-    public final static int GLsecond = 520;
+    public final static int GLsecond = 600;
     public final static int GLthird = 830;
     public final static int GLtop = 1270;
 
-    public final static double maxSpeed = 0.6;
+    public final static double maxSpeed = 0.4;
 
     /*---------------------
     |                     |

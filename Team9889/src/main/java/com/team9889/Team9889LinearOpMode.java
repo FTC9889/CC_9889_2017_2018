@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
+import com.team9889.subsystems.Jewel;
 import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -35,9 +36,13 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     //Used for camera init
     private boolean first = true;
+
+    public enum JewelColor {
+        Red, Blue
+    }
+    public JewelColor jewel_Color = null;
+
     private String colorString = "NONE";
-
-
 
     //Match settings
     public String alliance, frontBack;
@@ -170,6 +175,91 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
             }
         }
+    }
+
+    public void waitForStartNoVuforia(Team9889LinearOpMode opMode) {
+        this.InternalopMode = opMode;
+
+        try {
+            this.Robot.init(this.InternalopMode, false);
+            this.updateTelemetry();
+        } catch (Exception e){
+            this.InternalopMode.telemetry.addData("No Hardware attached", "");
+            this.InternalopMode.telemetry.update();
+        }
+
+        //Auto Transitioning
+        AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
+
+        //Autonomous Settings
+        this.InternalopMode.getAutonomousPrefs();
+
+        //Then get the jewel color
+        try {
+            setCameraDownsampling(8);
+
+            //Init camera once
+            if (first) {
+                Thread startCamera = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startCamera();  // can take a while.
+                        // best started before waitForStart
+                        telemetry.addLine("Camera ready!");
+                        telemetry.update();
+                    }
+                });
+                startCamera.run();
+
+                first = false;
+            }
+
+            while (!isStarted()) {
+                int redValue = 0;
+                int blueValue = 0;
+                int greenValue = 0;
+
+                // get image, rotated so (0,0) is in the bottom left of the preview window
+                Bitmap rgbImage;
+                rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
+
+                for (int x = rgbImage.getWidth()/3; x < rgbImage.getWidth(); x++) {
+                    for (int y = rgbImage.getHeight()/4; y < rgbImage.getHeight(); y++) {
+                        int pixel = rgbImage.getPixel(x, y);
+                        redValue += red(pixel);
+                        blueValue += blue(pixel);
+                        greenValue += green(pixel);
+                    }
+                }
+
+                int color = highestColor(redValue, greenValue, blueValue);
+
+                switch (color) {
+                    case 0:
+                        colorString = "RED";
+                        jewel_Color = JewelColor.Red;
+                        break;
+                    case 1:
+                        colorString = "GREEN";
+                        break;
+                    case 2:
+                        colorString = "BLUE";
+                        jewel_Color = JewelColor.Blue;
+                        break;
+                }
+
+                this.InternalopMode.telemetry.addData("Jewel Color", jewel_Color);
+                this.InternalopMode.telemetry.addData("Color", colorString);
+                this.InternalopMode.telemetry.addData("Red", redValue);
+                this.InternalopMode.telemetry.addData("Blue", blueValue);
+                this.InternalopMode.telemetry.addData("Green", greenValue);
+                this.InternalopMode.telemetry.update();
+            }
+        } catch (Exception e) {
+            this.InternalopMode.telemetry.addData("Error with camera bitmap", "");
+        }
+
+        this.waitForStart();
     }
 
     /**

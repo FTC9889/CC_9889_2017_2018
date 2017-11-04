@@ -43,28 +43,28 @@ public class Teleop extends Team9889LinearOpMode {
 
                 Robot.getJewel().retract();
 
-                if (gamepad1.a){
+                if (gamepad2.a){
                     Robot.getLift().goTo(GlyphLypht.Mode.Level1);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad1.b) {
+                } else if (gamepad2.b) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level2);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad1.x) {
+                } else if (gamepad2.x) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level3);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad1.y) {
+                } else if (gamepad2.y) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level4);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad1.dpad_down) {
+                } else if (gamepad2.dpad_down) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     Robot.getIntake().intakeTwo(1);
                 }
 
-                if (gamepad1.right_trigger >    0.4)
+                if (gamepad2.right_trigger >    0.4)
                     Robot.getIntake().intakeOne(1);
-                else if (gamepad1.left_bumper)
+                else if (gamepad2.left_trigger > 0.4)
                     Robot.getIntake().waitToScore();
-                else if (gamepad1.right_bumper)
+                else if (gamepad2.left_bumper || gamepad1.x)
                     Robot.getIntake().intakeTwo(-1);
 
                 //Push Telemetry

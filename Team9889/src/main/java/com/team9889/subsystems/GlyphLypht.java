@@ -10,6 +10,14 @@ import com.team9889.Team9889LinearOpMode;
 
 public class GlyphLypht extends Subsystem{
 
+    public int[] leftModPositions = {
+            0, 0, 0, 0, 0
+    };
+
+    public int[] rightModPositions = {
+            0, 0, 0, 0, 0
+    };
+
     public enum Mode {
         Intake, Level1, Level2, Level3, Level4
     }
@@ -58,11 +66,15 @@ public class GlyphLypht extends Subsystem{
     }
 
     public void setPosition(int position, double power){
+        this.setPosition(position, position, power);
+    }
+
+    public void setPosition(int leftPosition, int rightPosition, double power){
         this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        RightLift.setTargetPosition(position);
-        LeftLift.setTargetPosition(-position);
+        RightLift.setTargetPosition(rightPosition);
+        LeftLift.setTargetPosition(-leftPosition);
 
         setPower(power);
     }
@@ -70,19 +82,19 @@ public class GlyphLypht extends Subsystem{
     public void goTo(Mode level) {
         switch (level){
             case Intake:
-                setPosition(Constants.GLintake, Constants.maxSpeed);
+                setPosition(Constants.GLintake + leftModPositions[0], Constants.GLintake + rightModPositions[0], Constants.maxSpeed);
                 break;
             case Level1:
-                setPosition(Constants.GLbottom, Constants.maxSpeed);
+                setPosition(Constants.GLbottom + leftModPositions[1], Constants.GLbottom + rightModPositions[1], Constants.maxSpeed);
                 break;
             case Level2:
-                setPosition(Constants.GLsecond, Constants.maxSpeed);
+                setPosition(Constants.GLsecond + leftModPositions[2], Constants.GLsecond + rightModPositions[2], Constants.maxSpeed);
                 break;
             case Level3:
-                setPosition(Constants.GLthird, Constants.maxSpeed);
+                setPosition(Constants.GLthird + leftModPositions[3], Constants.GLthird + rightModPositions[3], Constants.maxSpeed);
                 break;
             case Level4:
-                setPosition(Constants.GLtop, Constants.maxSpeed);
+                setPosition(Constants.GLtop + leftModPositions[4], Constants.GLtop + rightModPositions[4], Constants.maxSpeed);
                 break;
         }
     }
