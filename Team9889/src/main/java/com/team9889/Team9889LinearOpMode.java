@@ -108,8 +108,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                         Bitmap rgbImage;
                         rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
 
-                        for (int x = rgbImage.getWidth()/2; x < rgbImage.getWidth(); x++) {
-                            for (int y = rgbImage.getHeight()/2; y < rgbImage.getHeight(); y++) {
+                        for (int x = rgbImage.getWidth()/3; x < rgbImage.getWidth(); x++) {
+                            for (int y = rgbImage.getHeight()/4; y < rgbImage.getHeight(); y++) {
                                 int pixel = rgbImage.getPixel(x, y);
                                 redValue += red(pixel);
                                 blueValue += blue(pixel);

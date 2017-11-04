@@ -22,19 +22,18 @@ public class Robot {
 
     private Drive mDrive = new Drive(); //Drivetrain
     private Jewel mJewel = new Jewel(); //Jewel Mech
+    private GlyphLypht mLift = new GlyphLypht(); // Glyph Lift
+    private Intake mIntake = new Intake(); // Intake for glyph
 
-    private List<Subsystem> subsystems;
-    
     /**
      * Add each subsystem's outputToTelemetry in this method.
      * @param opMode Current Team9889LinearOpMode
      */
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
-        for (int i=0;i<subsystems.size();i++){
-            subsystems.get(i).outputToTelemetry(opMode);
-        }
-        //mDrive.outputToTelemetry(opMode);
-        //mJewel.outputToTelemetry(opMode);
+        mDrive.outputToTelemetry(opMode);
+        mJewel.outputToTelemetry(opMode);
+        mLift.outputToTelemetry(opMode);
+        mIntake.outputToTelemetry(opMode);
     }
 
     /**
@@ -47,31 +46,26 @@ public class Robot {
         boolean error = false;
         this.mTeam9889LinearOpMode = team9889LinearOpMode;
 
-        subsystems.add(mDrive);
-        subsystems.add(mJewel);
-
-
-        for (int i=0;i<subsystems.size();i++){
-            if(!subsystems.get(i).init(mTeam9889LinearOpMode, auton)){
-                this.mTeam9889LinearOpMode.telemetry.addData("Error", i);
-                this.mTeam9889LinearOpMode.telemetry.update();
-                error = true;
-            }
+//        Structure all inits like this.
+        if(!this.mDrive.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Drive");
+            error = true;
         }
 
-//        Structure all inits like this.
-//        if(!this.mDrive.init(mTeam9889LinearOpMode, true)){
-//            this.mTeam9889LinearOpMode.telemetry.addData("Error", " MRDrive");
-//            this.mTeam9889LinearOpMode.telemetry.update();
-//            error = true;
-//        }
-//
-//        Structure all inits like this.
-//        if(!this.mJewel.init(mTeam9889LinearOpMode, true)){
-//            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Jewel");
-//            this.mTeam9889LinearOpMode.telemetry.update();
-//            error = true;
-//        }
+        if(!this.mJewel.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Jewel");
+            error = true;
+        }
+
+        if(!this.mLift.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Lift");
+            error = true;
+        }
+
+        if(!this.mIntake.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Intake");
+            error = true;
+        }
 
         //Code to check for errors.
         if(error){
@@ -91,12 +85,10 @@ public class Robot {
      */
     public void stop() {
         try {
-            for(int i=0;i<subsystems.size();i++) {
-                subsystems.get(i).stop();
-            }
-
-//            mDrive.stop();
-//            mJewel.stop();
+            mDrive.stop();
+            mJewel.stop();
+            mLift.stop();
+            mIntake.stop();
         } catch (Exception e){}
     }
 
@@ -106,11 +98,10 @@ public class Robot {
      */
     public void zeroSensors() {
         try {
-            for(int i=0;i<subsystems.size();i++){
-                subsystems.get(i).stop();
-            }
-//            mDrive.zeroSensors();
-//            mJewel.zeroSensors();
+            mDrive.zeroSensors();
+            mJewel.zeroSensors();
+            mLift.zeroSensors();
+            mIntake.zeroSensors();
         } catch (Exception e){}
     }
 
@@ -138,4 +129,19 @@ public class Robot {
         }
     }
 
+    public GlyphLypht getLift() {
+        try {
+            return mLift;
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public Intake getIntake() {
+        try {
+            return mIntake;
+        } catch (Exception e){
+            return null;
+        }
+    }
 }

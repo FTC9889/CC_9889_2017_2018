@@ -65,14 +65,16 @@ public class Constants {
     ---------------------*/
 
     //GlyphtLypht motor
-    public final static String LGlyphLypht = "lglyphlypht";
-    public final static String RGlyphLypht = "rglyphlypht";
+    public final static String kLeftGlyphLift = "llift";
+    public final static String kRightGlyphLift = "rlift";
 
-    public final static double GLintake = 0;
-    public final static double GLbottom = 1;
-    public final static double GLsecond = 2;
-    public final static double GLthird = 3;
-    public final static double GLtop = 4;
+    public final static int GLintake = 195;
+    public final static int GLbottom = 385;
+    public final static int GLsecond = 520;
+    public final static int GLthird = 830;
+    public final static int GLtop = 1270;
+
+    public final static double maxSpeed = 0.6;
 
     /*---------------------
     |                     |
@@ -80,10 +82,10 @@ public class Constants {
     |                     |
     ---------------------*/
 
-    public final static String IntakeCRone = "intakecrone";
-    public final static String IntakeCRtwo = "intakecrtwo";
-    public final static String IntakeCRthree = "intakecrthree";
-    public final static String IntakeCRfour = "intakecrfour";
+    public final static String kLeftFrontIntakeId = "id1";
+    public final static String kLeftBackIntakeId = "id2";
+    public final static String kRightFrontIntakeId = "id3";
+    public final static String kRightBackIntakeId = "id4";
 
     public final static double IntakeMoves = 1;
     public final static double IntakeDontMove = 0;
