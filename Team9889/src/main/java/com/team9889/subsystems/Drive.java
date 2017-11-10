@@ -3,6 +3,7 @@ package com.team9889.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
@@ -17,7 +18,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Drive extends Subsystem {
 
+    //Identify variables
     public DcMotorEx rightMaster_, leftMaster_ = null;
+    public ModernRoboticsI2cGyro gyro = null;
 
     //TODO: Fix the imu class to work with an imu
     private RevIMU imu = null;
@@ -38,7 +41,7 @@ public class Drive extends Subsystem {
         OPERATOR_CONTROL
     }
 
-    @Override
+    @Override //This is KINDA like the hardwareMap, but then again I'm not too sure.
     public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
         try{
             this.rightMaster_ = (DcMotorEx)team9889LinearOpMode.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
@@ -48,7 +51,7 @@ public class Drive extends Subsystem {
         }
 
         try {
-            this.imu = new RevIMU("imu", "imu");
+            gyro = (ModernRoboticsI2cGyro)team9889LinearOpMode.hardwareMap.get("gyro");
         } catch (Exception e){
             return false;
         }
@@ -73,11 +76,20 @@ public class Drive extends Subsystem {
     @Override
     public void zeroSensors() {
         resetEncoders();
-        imu.calibrate();
+        resetGyro();
     }
 
     public double getGyroAngleDegrees() {
-        return imu.getAbsAngle();
+        return gyro.getIntegratedZValue();
+    }
+
+    public void resetGyro(){
+        gyro.resetZAxisIntegrator();
+    }
+
+    //Calibrate Gyro
+    public void CalibrateGyro(){
+        gyro.calibrate();
     }
 
     public double getLeftDistanceInches(){
