@@ -13,43 +13,15 @@ public abstract class AutoModeBase extends Team9889LinearOpMode {
      * @param action All are defined in action folder
      */
     protected void runAction(Action action){
-        //If there is an error, Stop the OpMode
-        boolean error = false;
-        try {
-            action.start(this.InternalopMode);
+        action.start(this.InternalopMode);
+        while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
             this.updateTelemetry();
-        } catch (Exception e){
-            this.InternalopMode.telemetry.addData("Error in Starting Action", action);
-            this.InternalopMode.telemetry.update();
+            action.update(this.InternalopMode);
         }
-
-        while (!action.isFinished() && this.InternalopMode.opModeIsActive() && !error){
-            try {
-                action.update(this.InternalopMode);
-                this.updateTelemetry();
-            } catch (Exception e){
-                this.InternalopMode.telemetry.addData("Error in Updating Action", action);
-                this.InternalopMode.telemetry.update();
-            }
-        }
-
-        if (this.InternalopMode.opModeIsActive() && !error){
-            try {
-                action.done();
-                this.updateTelemetry();
-            } catch (Exception e){
-                this.InternalopMode.telemetry.addData("Error in Finishing Action", action);
-                this.InternalopMode.telemetry.update();
-            }
-        }
+        action.done();
 
         this.InternalopMode.telemetry.addData("Finished Action", "");
         this.InternalopMode.telemetry.update();
-
-        if(!error){
-            this.Robot.stop();
-            this.InternalopMode.sleep(5000);
-        }
     }
 
 }

@@ -23,17 +23,18 @@ public class Jewel extends Subsystem {
 
         try {
             this.arm = team9889LinearOpMode.hardwareMap.servo.get(Constants.kJewelArmId);
-            this.arm.setPosition(Constants.RetractedJewelArm);
         } catch (Exception e) {
             return false;
         }
 
         try {
             this.wrist = team9889LinearOpMode.hardwareMap.servo.get(Constants.kJewelWristId);
-            this.wrist.setPosition(Constants.RightJewelWrist);
         } catch (Exception e) {
             return false;
         }
+
+        this.retract();
+        this.right();
 
         return true;
     }
@@ -41,6 +42,7 @@ public class Jewel extends Subsystem {
     @Override
     public void stop() {
         this.retract();
+        this.right();
     }
 
     @Override
@@ -71,6 +73,12 @@ public class Jewel extends Subsystem {
     public void right(){
         try {
             this.wrist.setPosition(Constants.RightJewelWrist);
+        } catch (Exception e){}
+    }
+
+    public void outtake(){
+        try {
+            this.wrist.setPosition(Constants.CenterJewelWrist/2);
         } catch (Exception e){}
     }
 }

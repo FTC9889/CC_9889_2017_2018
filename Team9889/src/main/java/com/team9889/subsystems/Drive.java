@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
+import com.team9889.lib.CruiseLib;
 import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -22,6 +23,8 @@ public class Drive extends Subsystem {
     private RevIMU imu = null;
 
     private PIDCoefficients lPID, rPID;
+
+    private boolean isFinishedRunningToPosition = false;
 
     public enum DriveZeroPowerStates {
         BRAKE,
@@ -45,7 +48,7 @@ public class Drive extends Subsystem {
         }
 
         try {
-            //this.imu = new RevIMU(team9889LinearOpMode.InternalopMode, Constants.kIMUId, "imu.json");
+            this.imu = new RevIMU("imu", "imu");
         } catch (Exception e){
             return false;
         }
@@ -70,6 +73,7 @@ public class Drive extends Subsystem {
     @Override
     public void zeroSensors() {
         resetEncoders();
+        imu.calibrate();
     }
 
     public double getGyroAngleDegrees() {
@@ -77,11 +81,19 @@ public class Drive extends Subsystem {
     }
 
     public double getLeftDistanceInches(){
-        return -Constants.ticksToInches(this.leftMaster_.getCurrentPosition());
+        return Constants.ticksToInches(getLeftTicks());
+    }
+
+    public int getLeftTicks() {
+        return -this.leftMaster_.getCurrentPosition();
     }
 
     public double getRightDistanceInches(){
-        return Constants.ticksToInches(this.rightMaster_.getCurrentPosition());
+        return Constants.ticksToInches(getRightTicks());
+    }
+
+    public int getRightTicks(){
+        return this.rightMaster_.getCurrentPosition();
     }
 
     public void setLeftRightPower(double left, double right) {
@@ -93,12 +105,23 @@ public class Drive extends Subsystem {
     }
 
     public void setLeftRightPath(int left_pos, int right_pos, double left_power, double right_power){
+        isFinishedRunningToPosition = false;
         this.DriveControlState(DriveControlStates.POSITION);
         this.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
 
         this.leftMaster_.setTargetPosition(left_pos);
-        this.rightMaster_.setTargetPosition(right_pos);
+        this.rightMaster_.setTargetPosition(-right_pos);
         this.setLeftRightPower(left_power, right_power);
+
+        if(Math.abs(leftMaster_.getTargetPosition()) - Math.abs(leftMaster_.getCurrentPosition()) < 20
+                && Math.abs(rightMaster_.getTargetPosition())- Math.abs(rightMaster_.getCurrentPosition()) < 20) {
+            this.setLeftRightPower(0,0);
+            isFinishedRunningToPosition = true;
+        }
+    }
+
+    public boolean isFinishedRunningToPosition(){
+        return !isFinishedRunningToPosition;
     }
 
     public void DriveControlState(DriveControlStates state){

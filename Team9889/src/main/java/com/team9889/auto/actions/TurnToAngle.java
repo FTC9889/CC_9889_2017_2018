@@ -11,7 +11,7 @@ public class TurnToAngle implements Action {
     private double currentAngle;
     private double wantedAngle;
     private double mError;
-
+    boolean finished = false;
     private double mSpeed;
 
     private Drive mDrive;
@@ -30,16 +30,6 @@ public class TurnToAngle implements Action {
 
     @Override
     public boolean isFinished() {
-        boolean finished = false;
-        if(mError < 0){
-            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
-        }else if(mError > 0){
-            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
-        }else{
-            mDrive.setLeftRightPower(0,0);
-            finished = true;
-        }
-
         return finished;
     }
 
@@ -53,6 +43,15 @@ public class TurnToAngle implements Action {
     public void update(Team9889LinearOpMode linearOpMode) {
         currentAngle = mDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
+
+        if(mError < 2){
+            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
+        }else if(mError > 0){
+            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
+        }else{
+            mDrive.setLeftRightPower(0,0);
+            finished = true;
+        }
     }
 
     @Override

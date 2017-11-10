@@ -21,19 +21,11 @@ public class RevIMU {
     private Orientation angles = null;
     private Acceleration gravity = null;
     private String filename = "BNO055IMUCalibration.json";
+    private String id = "";
 
-    public RevIMU(Team9889LinearOpMode team9889LinearOpMode, String id, String filename){
+    public RevIMU(String filename, String id){
         this.filename = filename;
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = filename; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU_" + id;
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu = team9889LinearOpMode.hardwareMap.get(BNO055IMU.class, id);
-        imu.initialize(parameters);
+        this.id = id;
     }
 
     public double getAbsAngle() {
@@ -44,6 +36,19 @@ public class RevIMU {
         BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
         File file = AppUtil.getInstance().getSettingsFile(filename);
         ReadWriteFile.writeFile(file, calibrationData.serialize());
+    }
+
+    public void setup(Team9889LinearOpMode team9889LinearOpMode) {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = filename; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU_" + id;
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = team9889LinearOpMode.hardwareMap.get(BNO055IMU.class, id);
+        imu.initialize(parameters);
     }
 
 }

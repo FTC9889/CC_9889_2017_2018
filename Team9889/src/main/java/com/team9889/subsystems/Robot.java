@@ -129,6 +129,9 @@ public class Robot {
         }
     }
 
+    /**
+     * @return mLift
+     */
     public GlyphLypht getLift() {
         try {
             return mLift;
@@ -137,6 +140,9 @@ public class Robot {
         }
     }
 
+    /**
+     * @return mIntake
+     */
     public Intake getIntake() {
         try {
             return mIntake;

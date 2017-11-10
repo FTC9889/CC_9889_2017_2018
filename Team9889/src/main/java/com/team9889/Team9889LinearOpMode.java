@@ -4,11 +4,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
-import com.team9889.subsystems.Jewel;
 import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -41,8 +39,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         Red, Blue
     }
     public JewelColor jewel_Color = null;
-
-    private String colorString = "NONE";
+    private int redVotes, blueVotes = 0;
 
     //Match settings
     public String alliance, frontBack;
@@ -72,19 +69,37 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
 
+            ElapsedTime vuforiaTimer = new ElapsedTime();
+            ElapsedTime cameraTimer = new ElapsedTime();
+
             //VuMark
             //Uses the camera on the screen side
             this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
 
             while(!isStarted()){
-                //If we haven't found the pictograph yet, find it.
-                if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
-                    this.vuMark.updateTarget(this);
-                    first = true;
-                } else {
-                    //Stop Vuforia
-                    this.vuMark.closeVuforia();
+                //Print the auto settings
 
+                // Vuforia Loop
+                vuforiaTimer.reset();
+                while(vuforiaTimer.milliseconds() < 4000 && !isStarted()){
+                    this.InternalopMode.telemetry.update();
+
+                    if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
+                        this.vuMark.updateTarget(this);
+                    } else {
+                        this.vuMark.closeVuforia();
+
+                        break;
+                    }
+                    idle();
+                }
+
+
+                // Camera Loop
+                cameraTimer.reset();
+                redVotes = 0;
+                blueVotes = 0;
+                while(cameraTimer.milliseconds() < 2000 && !isStarted()){
                     //Then get the jewel color
                     try {
                         setCameraDownsampling(8);
@@ -107,57 +122,34 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
                         int redValue = 0;
                         int blueValue = 0;
-                        int greenValue = 0;
 
                         // get image, rotated so (0,0) is in the bottom left of the preview window
                         Bitmap rgbImage;
                         rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
 
-                        for (int x = rgbImage.getWidth()/3; x < rgbImage.getWidth(); x++) {
-                            for (int y = rgbImage.getHeight()/4; y < rgbImage.getHeight(); y++) {
+                        for (int x =0; x < rgbImage.getWidth()/4; x++) {
+                            for (int y = 0; y < rgbImage.getHeight()/6; y++) {
                                 int pixel = rgbImage.getPixel(x, y);
                                 redValue += red(pixel);
                                 blueValue += blue(pixel);
-                                greenValue += green(pixel);
                             }
                         }
 
-                        int color = highestColor(redValue, greenValue, blueValue);
+                        if (redValue > blueValue)
+                            redVotes++;
+                        else
+                            blueVotes++;
 
-                        switch (color) {
-                            case 0:
-                                colorString = "RED";
-                                break;
-                            case 1:
-                                colorString = "GREEN";
-                                break;
-                            case 2:
-                                colorString = "BLUE";
-                        }
+                        if (redVotes > 500 || blueVotes >500)
+                            break;
 
-                        this.InternalopMode.telemetry.addData("Color", colorString);
-                        this.InternalopMode.telemetry.addData("Red", redValue);
-                        this.InternalopMode.telemetry.addData("Blue", blueValue);
-                        this.InternalopMode.telemetry.addData("Green", greenValue);
-                    } catch (Exception e) {
-                        this.InternalopMode.telemetry.addData("Error with camera bitmap", "");
-                    }
+                    } catch (Exception e) {}
+
+                    idle();
                 }
-
-                //Print the auto settings
-                this.InternalopMode.telemetry.addData("Runtime", this.InternalopMode.getRuntime());
-                this.InternalopMode.telemetry.addData("VuMark", "%s visible", this.vuMark.getOuputVuMark());
-                this.InternalopMode.telemetry.addData("","-----------------------");
-                this.InternalopMode.telemetry.addData("Alliance", alliance);
-                this.InternalopMode.telemetry.addData("Front or Back", frontBack);
-                this.InternalopMode.telemetry.addData("","-----------------------");
-                this.InternalopMode.telemetry.addData("Pickup from Glyph Pit", getPitGlyph);
-                this.InternalopMode.telemetry.addData("Pickup Alliance Partner's Glyph", getPartnerGlyph);
-                this.InternalopMode.telemetry.update();
-
-                idle();
+                stopCamera();
             }
-            stopCamera();
+
 
         } else {
             this.InternalopMode.telemetry.addData("Waiting for Start", "");
@@ -167,6 +159,12 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         //Wait for DS start
         this.InternalopMode.waitForStart();
 
+        if (redVotes > blueVotes)
+            jewel_Color = JewelColor.Red;
+        else
+            jewel_Color = JewelColor.Blue;
+
+
         if(autonomous) {
             try {
                 this.vuMark.disableVuforia();
@@ -175,91 +173,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
             }
         }
-    }
-
-    public void waitForStartNoVuforia(Team9889LinearOpMode opMode) {
-        this.InternalopMode = opMode;
-
-        try {
-            this.Robot.init(this.InternalopMode, false);
-            this.updateTelemetry();
-        } catch (Exception e){
-            this.InternalopMode.telemetry.addData("No Hardware attached", "");
-            this.InternalopMode.telemetry.update();
-        }
-
-        //Auto Transitioning
-        AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
-
-        //Autonomous Settings
-        this.InternalopMode.getAutonomousPrefs();
-
-        //Then get the jewel color
-        try {
-            setCameraDownsampling(8);
-
-            //Init camera once
-            if (first) {
-                Thread startCamera = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startCamera();  // can take a while.
-                        // best started before waitForStart
-                        telemetry.addLine("Camera ready!");
-                        telemetry.update();
-                    }
-                });
-                startCamera.run();
-
-                first = false;
-            }
-
-            while (!isStarted()) {
-                int redValue = 0;
-                int blueValue = 0;
-                int greenValue = 0;
-
-                // get image, rotated so (0,0) is in the bottom left of the preview window
-                Bitmap rgbImage;
-                rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
-
-                for (int x = rgbImage.getWidth()/3; x < rgbImage.getWidth(); x++) {
-                    for (int y = rgbImage.getHeight()/4; y < rgbImage.getHeight(); y++) {
-                        int pixel = rgbImage.getPixel(x, y);
-                        redValue += red(pixel);
-                        blueValue += blue(pixel);
-                        greenValue += green(pixel);
-                    }
-                }
-
-                int color = highestColor(redValue, greenValue, blueValue);
-
-                switch (color) {
-                    case 0:
-                        colorString = "RED";
-                        jewel_Color = JewelColor.Red;
-                        break;
-                    case 1:
-                        colorString = "GREEN";
-                        break;
-                    case 2:
-                        colorString = "BLUE";
-                        jewel_Color = JewelColor.Blue;
-                        break;
-                }
-
-                this.InternalopMode.telemetry.addData("Jewel Color", jewel_Color);
-                this.InternalopMode.telemetry.addData("Color", colorString);
-                this.InternalopMode.telemetry.addData("Red", redValue);
-                this.InternalopMode.telemetry.addData("Blue", blueValue);
-                this.InternalopMode.telemetry.addData("Green", greenValue);
-                this.InternalopMode.telemetry.update();
-            }
-        } catch (Exception e) {
-            this.InternalopMode.telemetry.addData("Error with camera bitmap", "");
-        }
-
-        this.waitForStart();
     }
 
     /**

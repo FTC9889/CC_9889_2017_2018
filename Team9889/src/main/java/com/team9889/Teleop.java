@@ -20,19 +20,16 @@ public class Teleop extends Team9889LinearOpMode {
         driver_station.init(this); // New Driver station
         waitForTeamStart(this, false);
 
-        try {
-            Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
-        } catch (Exception e){
-
-        }
+        Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
+        Robot.getJewel().retract();
 
         while (opModeIsActive() && !isStopRequested()){
             try {
                 double leftspeed, rightspeed, xvalue, yvalue;
 
                 //Values from gamepads with modifications
-                xvalue = power3MaintainSign(-gamepad1.right_stick_x);
-                yvalue = power3MaintainSign(-gamepad1.left_stick_y);
+                xvalue = -power3MaintainSign(gamepad1.right_stick_x);
+                yvalue = -power3MaintainSign(gamepad1.left_stick_y);
 
                 //Values to output to motors
                 leftspeed =  yvalue - xvalue;
@@ -41,31 +38,39 @@ public class Teleop extends Team9889LinearOpMode {
                 //Set Motor Speeds
                 Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
 
-                Robot.getJewel().retract();
-
-                if (gamepad2.a){
+                if (driver_station.level1()){
                     Robot.getLift().goTo(GlyphLypht.Mode.Level1);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad2.b) {
+                    Robot.getJewel().left();
+                } else if (driver_station.level2()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level2);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad2.x) {
+                    Robot.getJewel().left();
+                } else if (gamepad2.y) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level3);
                     Robot.getIntake().waitToScore();
-                } else if (gamepad2.y) {
+                    Robot.getJewel().left();
+                } else if (gamepad2.x) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level4);
                     Robot.getIntake().waitToScore();
+                    Robot.getJewel().left();
                 } else if (gamepad2.dpad_down) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     Robot.getIntake().intakeTwo(1);
+                    Robot.getJewel().retract();
                 }
 
-                if (gamepad2.right_trigger >    0.4)
+                if (gamepad2.right_bumper){
                     Robot.getIntake().intakeOne(1);
-                else if (gamepad2.left_trigger > 0.4)
-                    Robot.getIntake().waitToScore();
-                else if (gamepad2.left_bumper || gamepad1.x)
+                    Robot.getJewel().retract();
+                } else if (!gamepad2.right_bumper && driver_station.outtake()){
                     Robot.getIntake().intakeTwo(-1);
+                    Robot.getJewel().outtake();
+                } else {
+                    Robot.getIntake().intakeTwo(0.0);
+                    Robot.getJewel().left();
+                }
+
 
                 //Push Telemetry
                 updateTelemetry();
