@@ -12,6 +12,7 @@ import static com.team9889.lib.CruiseLib.power3MaintainSign;
  */
 
 @TeleOp(name = "TestMRTeleop")
+@Disabled
 public class TestMRDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
