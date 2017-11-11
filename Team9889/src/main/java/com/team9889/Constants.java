@@ -72,7 +72,7 @@ public class Constants {
     public final static int GLbottom = 385;
     public final static int GLsecond = 600;
     public final static int GLthird = 830;
-    public final static int GLtop = 1270;
+    public final static int GLtop = 1255;
 
     public final static double maxSpeed = 0.4;
 
