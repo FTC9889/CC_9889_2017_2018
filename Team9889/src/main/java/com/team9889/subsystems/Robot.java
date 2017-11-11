@@ -24,6 +24,7 @@ public class Robot {
     private Jewel mJewel = new Jewel(); //Jewel Mech
     private GlyphLypht mLift = new GlyphLypht(); // Glyph Lift
     private Intake mIntake = new Intake(); // Intake for glyph
+    private BalancingStone mStone = new BalancingStone();
 
     /**
      * Add each subsystem's outputToTelemetry in this method.
@@ -31,6 +32,7 @@ public class Robot {
      */
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
         mDrive.outputToTelemetry(opMode);
+        mStone.outputToTelemetry(opMode);
         mJewel.outputToTelemetry(opMode);
         mLift.outputToTelemetry(opMode);
         mIntake.outputToTelemetry(opMode);
@@ -67,6 +69,11 @@ public class Robot {
             error = true;
         }
 
+        if(!this.mStone.init(mTeam9889LinearOpMode, true)){
+            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Stone");
+            error = true;
+        }
+
         //Code to check for errors.
         if(error){
             this.mTeam9889LinearOpMode.telemetry.addData("Error during Init","");
@@ -89,6 +96,7 @@ public class Robot {
             mJewel.stop();
             mLift.stop();
             mIntake.stop();
+            mStone.stop();
         } catch (Exception e){}
     }
 
@@ -102,6 +110,7 @@ public class Robot {
             mJewel.zeroSensors();
             mLift.zeroSensors();
             mIntake.zeroSensors();
+            mStone.zeroSensors();
         } catch (Exception e){}
     }
 
@@ -146,6 +155,14 @@ public class Robot {
     public Intake getIntake() {
         try {
             return mIntake;
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public BalancingStone getStone() {
+        try {
+            return mStone;
         } catch (Exception e){
             return null;
         }

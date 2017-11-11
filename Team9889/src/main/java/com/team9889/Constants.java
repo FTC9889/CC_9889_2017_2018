@@ -90,6 +90,10 @@ public class Constants {
     public final static double IntakeMoves = 1;
     public final static double IntakeDontMove = 0;
 
+    public final static String kBalanceThing = "bt";
+    public final static double BalanceThingLowered = 0.0;
+    public final static double BalanceThingRaised = 1.0;
+
     /*---------------------
     |                     |
     |        Relic!       |
