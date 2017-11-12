@@ -1,6 +1,7 @@
 package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 
@@ -13,7 +14,7 @@ import static com.team9889.lib.CruiseLib.power3MaintainSign;
 @TeleOp(name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
-    int liftPos = 0;
+    private ElapsedTime matchTime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,7 +24,9 @@ public class Teleop extends Team9889LinearOpMode {
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
         Robot.getJewel().retract();
 
-        while (opModeIsActive() && !isStopRequested()){
+        matchTime.reset();
+
+        while (opModeIsActive() && !isStopRequested() && matchTime.seconds() < 120){
             try {
                 double leftspeed, rightspeed, xvalue, yvalue;
 
@@ -41,26 +44,26 @@ public class Teleop extends Team9889LinearOpMode {
                 if (driver_station.level1()){
                     Robot.getLift().goTo(GlyphLypht.Mode.Level1);
                     Robot.getIntake().waitToScore();
-                    Robot.getJewel().left();
+                    Robot.getJewel().right();
                 } else if (driver_station.level2()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level2);
                     Robot.getIntake().waitToScore();
-                    Robot.getJewel().left();
-                } else if (gamepad2.y) {
+                    Robot.getJewel().right();
+                } else if (driver_station.level3()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level3);
                     Robot.getIntake().waitToScore();
-                    Robot.getJewel().left();
-                } else if (gamepad2.x) {
+                    Robot.getJewel().right();
+                } else if (driver_station.level4()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level4);
                     Robot.getIntake().waitToScore();
-                    Robot.getJewel().left();
-                } else if (gamepad2.dpad_down) {
+                    Robot.getJewel().right();
+                } else if (driver_station.intake()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     Robot.getIntake().intakeTwo(1);
                     Robot.getJewel().retract();
                 }
 
-                if (gamepad2.right_bumper){
+                if (gamepad1.right_bumper){
                     Robot.getIntake().intakeOne(1);
                     Robot.getJewel().retract();
                 } else if (!gamepad2.right_bumper && driver_station.outtake()){
@@ -68,7 +71,7 @@ public class Teleop extends Team9889LinearOpMode {
                     Robot.getJewel().outtake();
                 } else {
                     Robot.getIntake().intakeTwo(0.0);
-                    Robot.getJewel().left();
+                    Robot.getJewel().right();
                 }
 
 

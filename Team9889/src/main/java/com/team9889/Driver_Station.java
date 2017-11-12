@@ -20,14 +20,26 @@ public class Driver_Station{
     }
 
     public boolean level1() {
-        return this.team9889LinearOpMode.gamepad2.a;
+        return this.team9889LinearOpMode.gamepad1.a;
     }
 
     public boolean level2() {
-        return this.team9889LinearOpMode.gamepad2.b;
+        return this.team9889LinearOpMode.gamepad1.b;
     }
 
     public boolean outtake() {
-        return this.team9889LinearOpMode.gamepad2.left_bumper || this.team9889LinearOpMode.gamepad1.right_bumper;
+        return this.team9889LinearOpMode.gamepad2.left_bumper || this.team9889LinearOpMode.gamepad1.right_trigger > 0.4;
+    }
+
+    public boolean level3() {
+        return this.team9889LinearOpMode.gamepad1.y;
+    }
+
+    public boolean level4() {
+        return this.team9889LinearOpMode.gamepad1.x;
+    }
+
+    public boolean intake() {
+        return this.team9889LinearOpMode.gamepad1.dpad_down;
     }
 }
