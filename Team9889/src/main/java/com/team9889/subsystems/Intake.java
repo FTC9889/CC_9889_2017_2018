@@ -68,4 +68,14 @@ public class Intake extends Subsystem{
     public void waitToScore(){
         intakeTwo(0.0);
     }
+
+    public void intakeLeft(double power){
+        frontLeft.setPower(-power);
+        backLeft.setPower(-power);
+    }
+
+    public void intakeRight(double power){
+        frontRight.setPower(power);
+        backRight.setPower(power);
+    }
 }

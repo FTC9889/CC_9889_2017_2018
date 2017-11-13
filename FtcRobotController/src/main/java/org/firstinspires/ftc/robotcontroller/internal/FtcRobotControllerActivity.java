@@ -47,6 +47,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -549,6 +550,11 @@ public class FtcRobotControllerActivity extends Activity
     }
     else if (id == R.id.action_exit_app) {
       finish();
+      return true;
+    }
+    else if(id == R.id.autonSettings) {
+      Intent intent = new Intent(AppUtil.getDefContext(), AutonomousSettings.class);
+      startActivity(intent);
       return true;
     }
 

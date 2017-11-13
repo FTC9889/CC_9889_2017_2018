@@ -63,17 +63,21 @@ public class Teleop extends Team9889LinearOpMode {
                     Robot.getJewel().retract();
                 }
 
-                if (gamepad1.right_bumper){
-                    Robot.getIntake().intakeOne(1);
-                    Robot.getJewel().retract();
-                } else if (!gamepad2.right_bumper && driver_station.outtake()){
+                if(gamepad1.right_trigger > 0.4){
                     Robot.getIntake().intakeTwo(-1);
-                    Robot.getJewel().outtake();
                 } else {
-                    Robot.getIntake().intakeTwo(0.0);
-                    Robot.getJewel().right();
-                }
+                    if (gamepad1.right_bumper){
+                        Robot.getIntake().intakeRight(1);
+                    } else {
+                        Robot.getIntake().intakeRight(0);
+                    }
 
+                    if (gamepad1.left_bumper){
+                        Robot.getIntake().intakeLeft(1);
+                    } else {
+                        Robot.getIntake().intakeLeft(0);
+                    }
+                }
 
                 //Push Telemetry
                 updateTelemetry();
@@ -83,7 +87,7 @@ public class Teleop extends Team9889LinearOpMode {
                 telemetry.update();
             }
 
-            idle();//Thread.yield();
+            idle();
         }
 
         finalAction();

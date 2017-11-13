@@ -12,7 +12,7 @@ public class DriveToPositionAction implements Action {
     private Drive mDrive = null;
     private double left_power, right_power;
     private int left_pos, right_pos;
-    private int tolerance;
+    private int tolerence;
 
     public DriveToPositionAction(int left_pos, int right_pos, double left_power, double right_power){
         new DriveToPositionAction(left_pos, right_pos, left_power, right_power, 10);
@@ -23,24 +23,14 @@ public class DriveToPositionAction implements Action {
         this.right_pos = right_pos;
         this.left_power = left_power;
         this.right_power =  right_power;
-        this.tolerance = tolerence;
+        this.tolerence = tolerence;
     }
 
     @Override
     public boolean isFinished() {
-        boolean left;
-        if(left_pos < 0)
-            left = Math.abs(this.left_pos) - Math.abs(mDrive.getLeftTicks()) > Math.abs(tolerance);
-        else
-            left = Math.abs(this.left_pos) - Math.abs(mDrive.getLeftTicks()) < Math.abs(tolerance);
-
-        boolean right;
-        if(right_pos < 0)
-            right = Math.abs(this.right_pos) - Math.abs(mDrive.getRightTicks()) > Math.abs(tolerance);
-        else
-            right = Math.abs(this.right_pos) - Math.abs(mDrive.getRightTicks()) < Math.abs(tolerance);
-
-        return left && right;
+        return Math.abs(this.left_pos) - Math.abs(mDrive.leftMaster_.getCurrentPosition()) < this.tolerence
+                &&
+                Math.abs(this.right_pos) - Math.abs(mDrive.rightMaster_.getCurrentPosition()) < this.tolerence;
     }
 
     @Override

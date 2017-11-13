@@ -68,11 +68,11 @@ public class Constants {
     public final static String kLeftGlyphLift = "llift";
     public final static String kRightGlyphLift = "rlift";
 
-    public final static int GLintake = 195;
-    public final static int GLbottom = 385;
+    public final static int GLintake = 20;
+    public final static int GLbottom = 100;
     public final static int GLsecond = 600;
     public final static int GLthird = 830;
-    public final static int GLtop = 1255;
+    public final static int GLtop = 1230;
 
     public final static double maxSpeed = 0.4;
 
@@ -90,6 +90,7 @@ public class Constants {
     public final static double IntakeMoves = 1;
     public final static double IntakeDontMove = 0;
 
+    // Balance Stone
     public final static String kBalanceThing = "bt";
     public final static double BalanceThingLowered = 0.0;
     public final static double BalanceThingRaised = 1.0;

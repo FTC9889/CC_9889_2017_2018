@@ -51,7 +51,7 @@ public class Drive extends Subsystem {
         }
 
         try {
-            gyro = (ModernRoboticsI2cGyro)team9889LinearOpMode.hardwareMap.get("gyro");
+            gyro = (ModernRoboticsI2cGyro)team9889LinearOpMode.hardwareMap.get(Constants.kGyroId);
         } catch (Exception e){
             return false;
         }
@@ -71,6 +71,7 @@ public class Drive extends Subsystem {
         opMode.telemetry.addData("Right Position", this.rightMaster_.getCurrentPosition());
         opMode.telemetry.addData("Left Power", this.leftMaster_.getPower());
         opMode.telemetry.addData("Right Power", this.rightMaster_.getPower());
+        opMode.telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
     }
 
     @Override

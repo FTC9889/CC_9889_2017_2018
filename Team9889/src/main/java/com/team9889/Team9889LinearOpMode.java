@@ -82,13 +82,13 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 // Vuforia Loop
                 vuforiaTimer.reset();
                 while(vuforiaTimer.milliseconds() < 4000 && !isStarted()){
+                    telemetry.addData("VuMark", vuMark.getOuputVuMark());
                     this.InternalopMode.telemetry.update();
 
                     if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
                         this.vuMark.updateTarget(this);
                     } else {
                         this.vuMark.closeVuforia();
-
                         break;
                     }
                     idle();
@@ -140,6 +140,10 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                         else
                             blueVotes++;
 
+                        telemetry.addData("Red", redVotes);
+                        telemetry.addData("Blue", blueVotes);
+                        telemetry.update();
+
                         if (redVotes > 500 || blueVotes >500)
                             break;
 
@@ -151,10 +155,9 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             }
 
 
-        } else {
-            this.InternalopMode.telemetry.addData("Waiting for Start", "");
-            this.InternalopMode.telemetry.update();
         }
+        this.InternalopMode.telemetry.addData("Waiting for Start", "");
+        this.InternalopMode.telemetry.update();
 
         //Wait for DS start
         this.InternalopMode.waitForStart();
@@ -165,14 +168,13 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             jewel_Color = JewelColor.Blue;
 
 
-        if(autonomous) {
-            try {
-                this.vuMark.disableVuforia();
-                this.vuMark.closeVuforia();
-            } catch(Exception e){
+//        if(autonomous) {
+//            try {
+//                this.vuMark.closeVuforia();
+//            } catch(Exception e){
 
-            }
-        }
+//            }
+//        }
     }
 
     /**

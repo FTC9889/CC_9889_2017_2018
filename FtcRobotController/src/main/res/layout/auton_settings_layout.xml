@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.firstinspires.ftc.robotcontroller.internal.AutonomousSettings">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="10sp"
+        android:text="Autonomous Settings"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
+        android:textSize="30dp"
+        tools:text="Autonomous Settings"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@mipmap/above_view_of_field"
+        android:layout_below="@+id/textView14"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/blueFrontSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text=""
+        android:textColorHint="?android:attr/textColorHint"
+
+        android:layout_alignBaseline="@+id/redFrontSetting"
+        android:layout_alignBottom="@+id/redFrontSetting"
+        android:layout_alignStart="@+id/textView14" />
+
+    <Button
+        android:id="@+id/redFrontSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="71dp"
+        android:layout_below="@+id/textView14"
+        android:layout_toEndOf="@+id/saveAndExit" />
+
+    <Button
+        android:id="@+id/redBackSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/blueBackSetting"
+        android:layout_alignBottom="@+id/blueBackSetting"
+        android:layout_alignStart="@+id/redFrontSetting" />
+
+    <Button
+        android:id="@+id/blueBackSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignStart="@+id/blueFrontSetting"
+        android:layout_marginBottom="22dp"/>
+
+    <CheckBox
+        android:id="@+id/pickupAllianceGlyph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_below="@+id/blueBackSetting"
+        android:text="Pickup Alliance Partner Glyph"
+        android:layout_alignEnd="@+id/imageView" />
+
+    <CheckBox
+        android:id="@+id/pickupGlyphFromPit"
+        style="@android:style/Widget.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/pickupAllianceGlyph"
+        android:layout_alignStart="@+id/pickupAllianceGlyph"
+        android:layout_below="@+id/pickupAllianceGlyph"
+        android:text="Go to the PIT OF DESPAIR and Collect" />
+
+    <Button
+        android:id="@+id/saveAndExit"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save and Exit"
+        android:layout_below="@+id/pickupGlyphFromPit"
+        android:layout_centerHorizontal="true" />
+
+
+
+</RelativeLayout>

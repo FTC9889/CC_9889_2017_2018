@@ -1,6 +1,7 @@
 package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.auto.actions.JewelHitColor;
@@ -22,7 +23,7 @@ public class TestDriveOpMode extends AutoModeBase {
         else if(alliance == "Blue")
             runAction(new JewelHitColor(JewelColor.Blue));
 
-        Robot.getLift().goTo(GlyphLypht.Mode.Level1);
+        Robot.getLift().goTo(GlyphLypht.Mode.Level2);
         sleep(200);
 
         runAction(new DriveToPositionAction(1100, 1100, 0.1, 0.1, 5));

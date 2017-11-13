@@ -1,6 +1,7 @@
 package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
@@ -11,6 +12,7 @@ import com.team9889.subsystems.GlyphLypht;
  */
 
 @Autonomous (name = "Red")
+@Disabled
 public class TestAuto extends Team9889LinearOpMode{
     @Override
     public void runOpMode() {
