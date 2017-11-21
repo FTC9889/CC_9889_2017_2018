@@ -67,15 +67,13 @@ public class Teleop extends Team9889LinearOpMode {
                     Robot.getIntake().intakeTwo(-1);
                 } else {
                     if (gamepad1.right_bumper){
-                        Robot.getIntake().intakeRight(1);
+                        Robot.getIntake().intake(1);
                     } else {
-                        Robot.getIntake().intakeRight(0);
+                        Robot.getIntake().intake(0);
                     }
 
                     if (gamepad1.left_bumper){
-                        Robot.getIntake().intakeLeft(1);
-                    } else {
-                        Robot.getIntake().intakeLeft(0);
+                        Robot.getIntake().intake(1);
                     }
                 }
 

@@ -82,10 +82,10 @@ public class Constants {
     |                     |
     ---------------------*/
 
-    public final static String kLeftFrontIntakeId = "id1";
-    public final static String kLeftBackIntakeId = "id2";
-    public final static String kRightFrontIntakeId = "id3";
-    public final static String kRightBackIntakeId = "id4";
+    public final static String kLeftIntakeId = "id1";
+    public final static String kRightIntakeId = "id2";
+    public final static String kRightArmId = "id3";
+    public final static String kLeftArmId = "id4";
 
     public final static double IntakeMoves = 1;
     public final static double IntakeDontMove = 0;

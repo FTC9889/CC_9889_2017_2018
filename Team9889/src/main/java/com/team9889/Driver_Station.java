@@ -40,6 +40,6 @@ public class Driver_Station{
     }
 
     public boolean intake() {
-        return this.team9889LinearOpMode.gamepad1.dpad_down;
+        return this.team9889LinearOpMode.gamepad2.right_bumper;
     }
 }
