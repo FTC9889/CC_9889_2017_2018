@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
+import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -63,6 +64,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
 
         if(autonomous){
+            this.Robot.getLift().goTo(GlyphLypht.Mode.Auto);
+
             //Auto Transitioning
             AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
 

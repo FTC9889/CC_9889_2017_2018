@@ -20,10 +20,8 @@ public class Drive extends Subsystem {
 
     //Identify variables
     public DcMotorEx rightMaster_, leftMaster_ = null;
-    public ModernRoboticsI2cGyro gyro = null;
 
-    //TODO: Fix the imu class to work with an imu
-    private RevIMU imu = null;
+    private RevIMU imu1, imu2 = null;
 
     private PIDCoefficients lPID, rPID;
 
@@ -51,10 +49,13 @@ public class Drive extends Subsystem {
         }
 
         try {
-            gyro = (ModernRoboticsI2cGyro)team9889LinearOpMode.hardwareMap.get(Constants.kGyroId);
-        } catch (Exception e){
-            return false;
-        }
+            this.imu1 = new RevIMU("imu 1", team9889LinearOpMode.hardwareMap);
+        } catch (Exception e){return false;}
+
+
+        try {
+            this.imu2 = new RevIMU("imu", team9889LinearOpMode.hardwareMap);
+        } catch (Exception e){return false;}
 
         return true;
     }
@@ -77,20 +78,10 @@ public class Drive extends Subsystem {
     @Override
     public void zeroSensors() {
         resetEncoders();
-        resetGyro();
     }
 
     public double getGyroAngleDegrees() {
-        return gyro.getIntegratedZValue();
-    }
-
-    public void resetGyro(){
-        gyro.resetZAxisIntegrator();
-    }
-
-    //Calibrate Gyro
-    public void CalibrateGyro(){
-        gyro.calibrate();
+        return (imu1.getHeading()+imu2.getHeading())/2;
     }
 
     public double getLeftDistanceInches(){

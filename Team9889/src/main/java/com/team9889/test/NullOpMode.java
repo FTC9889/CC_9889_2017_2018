@@ -12,16 +12,10 @@ import com.team9889.lib.VuMark;
  */
 
 @Autonomous(name = "Null OpMode")
-//@Disabled
+@Disabled
 public class NullOpMode extends AutoModeBase {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForTeamStart(this, true);
-        if(alliance == "Red")
-            runAction(new JewelHitColor(JewelColor.Red));
-        else if(alliance == "Blue")
-            runAction(new JewelHitColor(JewelColor.Blue));
-
-        sleep(4000);
     }
 }

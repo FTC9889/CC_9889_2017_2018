@@ -11,6 +11,7 @@ public class TurnToAngle implements Action {
     private double currentAngle;
     private double wantedAngle;
     private double mError;
+    private double mTolerance;
     boolean finished = false;
     private double mSpeed;
 
@@ -19,13 +20,25 @@ public class TurnToAngle implements Action {
     /**
      *
      * @param angle Desired angle
-     *              Positive angle is right
-     *              Negative angle is left
+     *              Positive angle is left
+     *              Negative angle is right
      * @param speed Speed of turn
      */
     public TurnToAngle(int angle, double speed){
+        new TurnToAngle(angle, speed, 2);
+    }
+
+    /**
+     * @param angle Desired angle
+     *              Positive angle is left
+     *              Negative angle is right
+     * @param speed Speed of turn
+     * @param tolerance Angle
+     */
+    public TurnToAngle(int angle, double speed, double tolerance){
         wantedAngle = angle;
         mSpeed = speed;
+        mTolerance = tolerance;
     }
 
     @Override
@@ -43,15 +56,6 @@ public class TurnToAngle implements Action {
     public void update(Team9889LinearOpMode linearOpMode) {
         currentAngle = mDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
-
-        if(mError < 2){
-            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
-        }else if(mError > 0){
-            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
-        }else{
-            mDrive.setLeftRightPower(0,0);
-            finished = true;
-        }
     }
 
     @Override

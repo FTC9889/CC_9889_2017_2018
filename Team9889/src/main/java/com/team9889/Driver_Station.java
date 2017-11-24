@@ -19,9 +19,6 @@ public class Driver_Station{
         return this.team9889LinearOpMode.gamepad1.left_trigger > 0.3;
     }
 
-    public boolean level1() {
-        return this.team9889LinearOpMode.gamepad1.a;
-    }
 
     public boolean level2() {
         return this.team9889LinearOpMode.gamepad1.b;
@@ -40,6 +37,6 @@ public class Driver_Station{
     }
 
     public boolean intake() {
-        return this.team9889LinearOpMode.gamepad2.right_bumper;
+        return this.team9889LinearOpMode.gamepad1.a;
     }
 }

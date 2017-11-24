@@ -2,8 +2,6 @@ package com.team9889.subsystems;
 
 import com.team9889.Team9889LinearOpMode;
 
-import java.util.List;
-
 /**
  * Robot combines all of subsystems into one importable class.
  * Used for init all robot hardware.
@@ -17,14 +15,10 @@ public class Robot {
         return mInstance;
     }
 
-    //Internal Opmode to output telemetry.
-    private Team9889LinearOpMode mTeam9889LinearOpMode = null;
-
     private Drive mDrive = new Drive(); //Drivetrain
     private Jewel mJewel = new Jewel(); //Jewel Mech
     private GlyphLypht mLift = new GlyphLypht(); // Glyph Lift
     private Intake mIntake = new Intake(); // Intake for glyph
-    private BalancingStone mStone = new BalancingStone();
 
     /**
      * Add each subsystem's outputToTelemetry in this method.
@@ -32,7 +26,6 @@ public class Robot {
      */
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
         mDrive.outputToTelemetry(opMode);
-        mStone.outputToTelemetry(opMode);
         mJewel.outputToTelemetry(opMode);
         mLift.outputToTelemetry(opMode);
         mIntake.outputToTelemetry(opMode);
@@ -46,41 +39,35 @@ public class Robot {
      */
     public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
         boolean error = false;
-        this.mTeam9889LinearOpMode = team9889LinearOpMode;
 
 //        Structure all inits like this.
-        if(!this.mDrive.init(mTeam9889LinearOpMode, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Drive");
+        if(!this.mDrive.init(team9889LinearOpMode, true)){
+            team9889LinearOpMode.telemetry.addData("Error", " Drive");
             error = true;
         }
 
-        if(!this.mJewel.init(mTeam9889LinearOpMode, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Jewel");
+        if(!this.mJewel.init(team9889LinearOpMode, true)){
+            team9889LinearOpMode.telemetry.addData("Error", " Jewel");
             error = true;
         }
 
-        if(!this.mLift.init(mTeam9889LinearOpMode, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Lift");
+        if(!this.mLift.init(team9889LinearOpMode, true)){
+            team9889LinearOpMode.telemetry.addData("Error", " Lift");
             error = true;
         }
 
-        if(!this.mIntake.init(mTeam9889LinearOpMode, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Intake");
-            error = true;
-        }
-
-        if(!this.mStone.init(mTeam9889LinearOpMode, true)){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error", " Stone");
+        if(!this.mIntake.init(team9889LinearOpMode, true)){
+            team9889LinearOpMode.telemetry.addData("Error", " Intake");
             error = true;
         }
 
         //Code to check for errors.
         if(error){
-            this.mTeam9889LinearOpMode.telemetry.addData("Error during Init","");
-            this.mTeam9889LinearOpMode.telemetry.update();
+            team9889LinearOpMode.telemetry.addData("Error during Init","");
+            team9889LinearOpMode.telemetry.update();
         }else {
-            this.mTeam9889LinearOpMode.telemetry.addData("No Errors Init","");
-            this.mTeam9889LinearOpMode.telemetry.update();
+            team9889LinearOpMode.telemetry.addData("No Errors Init","");
+            team9889LinearOpMode.telemetry.update();
         }
 
         return !error;
@@ -96,7 +83,6 @@ public class Robot {
             mJewel.stop();
             mLift.stop();
             mIntake.stop();
-            mStone.stop();
         } catch (Exception e){}
     }
 
@@ -110,7 +96,6 @@ public class Robot {
             mJewel.zeroSensors();
             mLift.zeroSensors();
             mIntake.zeroSensors();
-            mStone.zeroSensors();
         } catch (Exception e){}
     }
 
@@ -155,14 +140,6 @@ public class Robot {
     public Intake getIntake() {
         try {
             return mIntake;
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public BalancingStone getStone() {
-        try {
-            return mStone;
         } catch (Exception e){
             return null;
         }

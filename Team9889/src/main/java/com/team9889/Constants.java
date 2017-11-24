@@ -19,9 +19,6 @@ public class Constants {
     public final static String kLeftDriveMasterId = "left";
     public final static String kRightDriveMasterId = "right";
 
-    public final static String kGyroId = "gyro";
-    public final static String kIMUId = "imu";
-
     //DcMotor Encoders
     private final static float PPR = 28;
     private final static double FinalGearReduction = 40 / 1.5;
@@ -68,11 +65,17 @@ public class Constants {
     public final static String kLeftGlyphLift = "llift";
     public final static String kRightGlyphLift = "rlift";
 
-    public final static int GLintake = 20;
-    public final static int GLbottom = 100;
-    public final static int GLsecond = 600;
-    public final static int GLthird = 830;
-    public final static int GLtop = 1230;
+    public final static int GLintake = 0;
+    public final static int GLsecond = 400;
+    public final static int GLtop = 900;
+
+    //Lift Servos
+    public final static String kLeftGlyphServoId = "id1";
+    public final static String kRightGlyphServoId = "id2";
+
+    //Finger Servos
+    public final static String kLeftFingerId = "id3";
+    public final static String kRightFingerId = "id4";
 
     public final static double maxSpeed = 0.4;
 
@@ -82,29 +85,14 @@ public class Constants {
     |                     |
     ---------------------*/
 
-    public final static String kLeftIntakeId = "id1";
-    public final static String kRightIntakeId = "id2";
-    public final static String kRightArmId = "id3";
-    public final static String kLeftArmId = "id4";
+    public final static String kLeftMotorIntakeId = "li";
+    public final static String kRightMotorIntakeId = "ri";
 
-    public final static double IntakeMoves = 1;
-    public final static double IntakeDontMove = 0;
+    public final static String kLeftServoIntakeId = "ls";
+    public final static String kRightServoIntakeId = "rs";
 
     // Balance Stone
     public final static String kBalanceThing = "bt";
     public final static double BalanceThingLowered = 0.0;
     public final static double BalanceThingRaised = 1.0;
-
-    /*---------------------
-    |                     |
-    |        Relic!       |
-    |                     |
-    ---------------------*/
-
-    public final static String RelicMotor = "relicmotor";
-
-    public final static double RelicRetract = 0;
-    public final static double RelicZone1 = 1;
-    public final static double RelicZone2 = 2;
-    public final static double RelicZone3 = 3; //Not sure we'll need this yet.
 }

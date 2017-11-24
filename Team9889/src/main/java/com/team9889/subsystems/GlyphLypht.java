@@ -1,6 +1,7 @@
 package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889LinearOpMode;
 
@@ -9,20 +10,13 @@ import com.team9889.Team9889LinearOpMode;
  */
 
 public class GlyphLypht extends Subsystem{
-
-    public int[] leftModPositions = {
-            0, 0, 0, 0, 0
-    };
-
-    public int[] rightModPositions = {
-            0, 0, 0, 0, 0
-    };
-
     public enum Mode {
-        Intake, Level1, Level2, Level3, Level4
+        Auto, Intake, Level1, Level2, Level3, Level4
     }
 
     private DcMotor RightLift, LeftLift = null;
+    private Servo RightServo, LeftServo = null;
+    private Servo RightFinger, LeftFinger = null;
 
     @Override
     public void outputToTelemetry(Team9889LinearOpMode opMode) {
@@ -40,16 +34,33 @@ public class GlyphLypht extends Subsystem{
             return false;
         }
 
+        try {
+            this.RightServo = team9889LinearOpMode.hardwareMap.servo.get(Constants.kRightGlyphServoId);
+            this.LeftServo = team9889LinearOpMode.hardwareMap.servo.get(Constants.kLeftGlyphServoId);
+            this.LeftServo.setDirection(Servo.Direction.REVERSE);
+        } catch (Exception e){
+            return false;
+        }
+
+        try {
+            this.RightFinger = team9889LinearOpMode.hardwareMap.servo.get(Constants.kRightFingerId);
+            this.LeftFinger = team9889LinearOpMode.hardwareMap.servo.get(Constants.kLeftFingerId);
+            this.LeftFinger.setDirection(Servo.Direction.REVERSE);
+        } catch (Exception e){
+            return false;
+        }
+
+        this.goTo(Mode.Auto);
         this.zeroSensors();
         this.stop();
-        this.setPosition(0,0.2);
 
         return true;
     }
 
     @Override
     public void stop() {
-        this.setPower(0.0);
+        this.RightLift.setPower(0);
+        this.LeftLift.setPower(0);
     }
 
     @Override
@@ -60,41 +71,63 @@ public class GlyphLypht extends Subsystem{
         this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void setPower(double power){
-        this.RightLift.setPower(power);
-        this.LeftLift.setPower(-power);
+    public void clamp(){
+        setFingerPosition(0.3);
     }
 
-    public void setPosition(int position, double power){
-        this.setPosition(position, position, power);
+    public void release(){
+        setFingerPosition(0.0);
     }
 
-    public void setPosition(int leftPosition, int rightPosition, double power){
+    private void setFingerPosition(double position){
+        RightFinger.setPosition(position);
+        LeftFinger.setPosition(position);
+    }
+
+    public void setLiftPosition(int position, double power){
+        this.setLiftPosition(position, position, power);
+    }
+
+    public void setLiftPosition(int leftPosition, int rightPosition, double power){
         this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         RightLift.setTargetPosition(rightPosition);
         LeftLift.setTargetPosition(-leftPosition);
 
-        setPower(power);
+        this.RightLift.setPower(power);
+        this.LeftLift.setPower(-power);
     }
 
+    public void setServoPosition(double position){
+        this.RightServo.setPosition(position);
+        this.LeftServo.setPosition(position);
+    }
+
+    /**
+     * @param level What row level to goto
+     */
     public void goTo(Mode level) {
         switch (level){
             case Intake:
-                setPosition(Constants.GLintake + leftModPositions[0], Constants.GLintake + rightModPositions[0], Constants.maxSpeed);
-                break;
-            case Level1:
-                setPosition(Constants.GLbottom + leftModPositions[1], Constants.GLbottom + rightModPositions[1], Constants.maxSpeed);
+                setServoPosition(0.36);
+                setLiftPosition(Constants.GLintake, Constants.maxSpeed);
+                release();
                 break;
             case Level2:
-                setPosition(Constants.GLsecond + leftModPositions[2], Constants.GLsecond + rightModPositions[2], Constants.maxSpeed);
-                break;
-            case Level3:
-                setPosition(Constants.GLthird + leftModPositions[3], Constants.GLthird + rightModPositions[3], Constants.maxSpeed);
+                setServoPosition(0.2);
+                setLiftPosition(Constants.GLsecond, Constants.GLsecond, Constants.maxSpeed);
+                clamp();
                 break;
             case Level4:
-                setPosition(Constants.GLtop + leftModPositions[4], Constants.GLtop + rightModPositions[4], Constants.maxSpeed);
+                setServoPosition(0.6);
+                setLiftPosition(Constants.GLtop, Constants.GLtop, Constants.maxSpeed-0.1);
+                clamp();
+                break;
+            case Auto:
+                setServoPosition(0.0);
+                setLiftPosition(0, 0);
+                clamp();
                 break;
         }
     }

@@ -34,6 +34,8 @@ public class Teleop extends Team9889LinearOpMode {
                 xvalue = -power3MaintainSign(gamepad1.right_stick_x);
                 yvalue = -power3MaintainSign(gamepad1.left_stick_y);
 
+                yvalue /= 1.2;
+
                 //Values to output to motors
                 leftspeed =  yvalue - xvalue;
                 rightspeed = yvalue + xvalue;
@@ -41,41 +43,32 @@ public class Teleop extends Team9889LinearOpMode {
                 //Set Motor Speeds
                 Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
 
-                if (driver_station.level1()){
-                    Robot.getLift().goTo(GlyphLypht.Mode.Level1);
-                    Robot.getIntake().waitToScore();
+                if (driver_station.level2()) {
                     Robot.getJewel().right();
-                } else if (driver_station.level2()) {
+                    Robot.getIntake().stopIntake();
+                    Robot.getIntake().clearArm();
                     Robot.getLift().goTo(GlyphLypht.Mode.Level2);
-                    Robot.getIntake().waitToScore();
-                    Robot.getJewel().right();
-                } else if (driver_station.level3()) {
-                    Robot.getLift().goTo(GlyphLypht.Mode.Level3);
-                    Robot.getIntake().waitToScore();
-                    Robot.getJewel().right();
                 } else if (driver_station.level4()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Level4);
-                    Robot.getIntake().waitToScore();
                     Robot.getJewel().right();
+                    Robot.getIntake().stopIntake();
+                    Robot.getIntake().retract();
                 } else if (driver_station.intake()) {
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
-                    Robot.getIntake().intakeTwo(1);
+                    Robot.getIntake().intake();
                     Robot.getJewel().retract();
                 }
 
-                if(gamepad1.right_trigger > 0.4){
-                    Robot.getIntake().intakeTwo(-1);
-                } else {
-                    if (gamepad1.right_bumper){
-                        Robot.getIntake().intake(1);
-                    } else {
-                        Robot.getIntake().intake(0);
-                    }
-
-                    if (gamepad1.left_bumper){
-                        Robot.getIntake().intake(1);
-                    }
+                if(driver_station.outtake()){
+                    Robot.getLift().release();
+                    Robot.getIntake().outtake();
+                } else if(driver_station.level3()){
+                    Robot.getLift().clamp();
+                    Robot.getIntake().stopIntake();
                 }
+
+                if(gamepad1.y)
+                    Robot.getLift().clamp();
 
                 //Push Telemetry
                 updateTelemetry();

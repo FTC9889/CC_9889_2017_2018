@@ -32,7 +32,7 @@ public class TestAuto extends Team9889LinearOpMode{
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.POSITION);
 
-        Robot.getLift().setPosition(0, 0.2);
+        Robot.getLift().setLiftPosition(0, 0.2);
         sleep(1000);
         finalAction();
     }

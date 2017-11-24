@@ -15,7 +15,6 @@ public abstract class AutoModeBase extends Team9889LinearOpMode {
     protected void runAction(Action action){
         action.start(this.InternalopMode);
         while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
-            this.updateTelemetry();
             action.update(this.InternalopMode);
         }
         action.done();
