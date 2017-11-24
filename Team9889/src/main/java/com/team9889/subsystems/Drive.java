@@ -214,10 +214,10 @@ public class Drive extends Subsystem {
         } catch (Exception e) {}
     }
 
-    public void setTargetTolerence(int tolerence) {
+    public void setTargetTolerence(int tolerance) {
         try {
-            this.leftMaster_.setTargetPositionTolerance(tolerence);
-            this.rightMaster_.setTargetPositionTolerance(tolerence);
+            this.leftMaster_.setTargetPositionTolerance(tolerance);
+            this.rightMaster_.setTargetPositionTolerance(tolerance);
         } catch (Exception e){}
     }
 

@@ -80,6 +80,7 @@ public class Teleop extends Team9889LinearOpMode {
                     Robot.getIntake().outtake();
                 else if(gamepad2.y)
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
+                    Robot.getIntake().intake();
 
                 //Push Telemetry
                 updateTelemetry();
