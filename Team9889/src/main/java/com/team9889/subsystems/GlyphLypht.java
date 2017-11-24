@@ -110,17 +110,17 @@ public class GlyphLypht extends Subsystem{
     public void goTo(Mode level) {
         switch (level){
             case Intake:
-                setServoPosition(0.36);
+                setServoPosition(0.37);
                 setLiftPosition(Constants.GLintake, Constants.maxSpeed);
                 release();
                 break;
             case Level2:
-                setServoPosition(0.2);
+                setServoPosition(0.1);
                 setLiftPosition(Constants.GLsecond, Constants.GLsecond, Constants.maxSpeed);
                 clamp();
                 break;
             case Level4:
-                setServoPosition(0.6);
+                setServoPosition(0.5);
                 setLiftPosition(Constants.GLtop, Constants.GLtop, Constants.maxSpeed-0.1);
                 clamp();
                 break;
