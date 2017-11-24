@@ -79,4 +79,20 @@ public class Intake extends Subsystem{
         this.armRight.setPosition(0.6);
     }
 
+    public void leftRetract(){
+        this.armLeft.setPosition(0.6);
+        this.armRight.setPosition(0.12);
+        this.rightIntake.setPower(0.5);
+        this.leftIntake.setPower(-1);
+    }
+
+    public void rightRetract(){
+        this.armLeft.setPosition(0.12);
+        this.armRight.setPosition(0.6);
+        this.rightIntake.setPower(-1);
+        this.leftIntake.setPower(0.5);
+    }
+
+
+
 }

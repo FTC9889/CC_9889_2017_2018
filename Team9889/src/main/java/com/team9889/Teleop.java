@@ -61,7 +61,6 @@ public class Teleop extends Team9889LinearOpMode {
 
                 if(driver_station.outtake()){
                     Robot.getLift().release();
-                    Robot.getIntake().outtake();
                 } else if(driver_station.level3()){
                     Robot.getLift().clamp();
                     Robot.getIntake().stopIntake();
@@ -69,6 +68,18 @@ public class Teleop extends Team9889LinearOpMode {
 
                 if(gamepad1.y)
                     Robot.getLift().clamp();
+
+                if(gamepad2.left_bumper)
+                    Robot.getIntake().retract();
+                else if(gamepad2.b)
+                    Robot.getIntake().leftRetract();
+                else if(gamepad2.x)
+                    Robot.getIntake().rightRetract();
+
+                if(gamepad2.a)
+                    Robot.getIntake().outtake();
+                else if(gamepad2.y)
+                    Robot.getLift().goTo(GlyphLypht.Mode.Intake);
 
                 //Push Telemetry
                 updateTelemetry();

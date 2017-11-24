@@ -1,5 +1,6 @@
 package com.team9889.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.auto.actions.JewelHitColor;
 import com.team9889.subsystems.GlyphLypht;
@@ -7,7 +8,7 @@ import com.team9889.subsystems.GlyphLypht;
 /**
  * Created by Jin on 11/10/2017.
  */
-
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class Autonomous extends AutoModeBase {
 
     @Override
