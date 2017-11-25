@@ -108,7 +108,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 cameraTimer.reset();
                 redVotes = 0;
                 blueVotes = 0;
-                while(cameraTimer.milliseconds() < 2000 && !isStarted()){
+                while(!isStarted()){
                     //Then get the jewel color
                     try {
                         setCameraDownsampling(8);
@@ -153,8 +153,11 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                         telemetry.addData("Blue", blueVotes);
                         telemetry.update();
 
-                        if (redVotes > 500 || blueVotes >500)
+                        if (redVotes > 500 || blueVotes >500){
+                            first = true;
                             break;
+                        }
+
 
                     } catch (Exception e) {}
 

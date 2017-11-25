@@ -127,7 +127,7 @@ public class GlyphLypht extends Subsystem{
             case Auto:
                 setServoPosition(0.37);
                 setLiftPosition(0, 0);
-                clamp();
+                release();
                 break;
         }
     }

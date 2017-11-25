@@ -14,8 +14,6 @@ import static com.team9889.lib.CruiseLib.power3MaintainSign;
 @TeleOp(name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
-    private ElapsedTime matchTime = new ElapsedTime();
-
     @Override
     public void runOpMode() throws InterruptedException {
         driver_station.init(this); // New Driver station
@@ -24,9 +22,8 @@ public class Teleop extends Team9889LinearOpMode {
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
         Robot.getJewel().retract();
 
-        matchTime.reset();
 
-        while (opModeIsActive() && !isStopRequested() && matchTime.seconds() < 120){
+        while (opModeIsActive() && !isStopRequested()){
             try {
                 double leftspeed, rightspeed, xvalue, yvalue;
 
@@ -76,11 +73,12 @@ public class Teleop extends Team9889LinearOpMode {
                 else if(gamepad2.x)
                     Robot.getIntake().rightRetract();
 
-                if(gamepad2.a)
+                if(gamepad2.a){
                     Robot.getIntake().outtake();
-                else if(gamepad2.y)
+                } else if(gamepad2.y){
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     Robot.getIntake().intake();
+                }
 
                 //Push Telemetry
                 updateTelemetry();
