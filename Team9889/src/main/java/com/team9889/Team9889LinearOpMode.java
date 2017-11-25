@@ -33,6 +33,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     //For VuMark
     private VuMark vuMark = new VuMark();
 
+    private boolean runVuforia = false;
+
     //Used for camera init
     private boolean first = true;
 
@@ -77,24 +79,28 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
             //VuMark
             //Uses the camera on the screen side
-            this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+            if (runVuforia)
+                this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
 
             while(!isStarted()){
                 //Print the auto settings
 
                 // Vuforia Loop
-                vuforiaTimer.reset();
-                while(vuforiaTimer.milliseconds() < 4000 && !isStarted()){
-                    telemetry.addData("VuMark", vuMark.getOuputVuMark());
-                    this.InternalopMode.telemetry.update();
+                if (runVuforia) {
+                    vuforiaTimer.reset();
+                    while (vuforiaTimer.milliseconds() < 4000 && !isStarted()) {
+                        telemetry.addData("VuMark", vuMark.getOuputVuMark());
+                        this.InternalopMode.telemetry.update();
 
-                    if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
-                        this.vuMark.updateTarget(this);
-                    } else {
-                        this.vuMark.closeVuforia();
-                        break;
+                        if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
+                            this.vuMark.
+                                    updateTarget(this);
+                        } else {
+                            this.vuMark.closeVuforia();
+                            break;
+                        }
+                        idle();
                     }
-                    idle();
                 }
 
 
@@ -169,15 +175,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             jewel_Color = JewelColor.Red;
         else
             jewel_Color = JewelColor.Blue;
-
-
-//        if(autonomous) {
-//            try {
-//                this.vuMark.closeVuforia();
-//            } catch(Exception e){
-
-//            }
-//        }
     }
 
     /**

@@ -12,7 +12,7 @@ public abstract class AutoModeBase extends Team9889LinearOpMode {
     /**
      * @param action All are defined in action folder
      */
-    protected void runAction(Action action){
+    public void runAction(Action action){
         action.start(this.InternalopMode);
         while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
             action.update(this.InternalopMode);

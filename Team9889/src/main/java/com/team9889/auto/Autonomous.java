@@ -3,6 +3,10 @@ package com.team9889.auto;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.auto.actions.JewelHitColor;
+import com.team9889.auto.modes.BLUE_BACK;
+import com.team9889.auto.modes.BLUE_FOWARD;
+import com.team9889.auto.modes.RED_BACK;
+import com.team9889.auto.modes.RED_FOWARD;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 
@@ -12,59 +16,33 @@ import com.team9889.subsystems.GlyphLypht;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class Autonomous extends AutoModeBase {
 
+    RED_BACK red_back = new RED_BACK();
+    RED_FOWARD red_foward = new RED_FOWARD();
+    BLUE_BACK blue_back = new BLUE_BACK();
+    BLUE_FOWARD blue_foward = new BLUE_FOWARD();
+
     @Override
     public void runOpMode() {
 
         waitForTeamStart(this, true);
-
-        Robot.getLift().goTo(GlyphLypht.Mode.Level1);
 
         if(alliance == "Red")
             runAction(new JewelHitColor(JewelColor.Red));
         else if (alliance == "Blue")
             runAction(new JewelHitColor(JewelColor.Blue));
 
-        // Drive off platform
-        runAction(new DriveToPositionAction(1307, 1307, 0.1, 0.1, 5));
-        sleep(200);
+        if (alliance == "Red" && frontBack == "Back")
+            red_back.runOpMode(this);
+        else if (alliance == "Red" && frontBack == "Front")
+            red_foward.runOpMode(this);
+        else if (alliance == "Blue" && frontBack == "Back")
+            blue_back.runOpMode(this);
+        else if (alliance == "Blue" && frontBack == "Front")
+            blue_foward.runOpMode(this);
 
-        this.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
-        this.Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
+        Robot.getJewel().stop();
+        sleep(1000);
 
-        // Turn 90 degrees
-        this.Robot.getDrive().setLeftRightPower(-0.6, 0.6);
-        boolean turning = true;
-        while (turning){
-            updateTelemetry();
-            if (this.Robot.getDrive().getGyroAngleDegrees() > 90)
-                turning = false;
-            idle();
-        }
-
-        this.Robot.getDrive().setLeftRightPower(0.35, -0.35);
-
-        turning = true;
-        while (turning) {
-            updateTelemetry();
-            if (this.Robot.getDrive().getGyroAngleDegrees() < 90)
-                turning = false;
-            idle();
-        }
-
-        this.Robot.getDrive().setLeftRightPower(-0.35, 0.35);
-
-        turning = true;
-        while (turning){
-            updateTelemetry();
-            if (this.Robot.getDrive().getGyroAngleDegrees() > 90)
-                turning = false;
-            idle();
-        }
-
-        this.Robot.getDrive().setLeftRightPower(0,0);
-
-        sleep(200);
-        runAction(new DriveToPositionAction(1307, 1307, 0.1, 0.1, 5));
         finalAction();
     }
 

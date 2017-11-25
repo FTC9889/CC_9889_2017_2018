@@ -13,6 +13,7 @@ import com.team9889.subsystems.GlyphLypht;
  */
 
 @Autonomous(name = "testDrive")
+@Disabled
 public class TestDriveOpMode extends AutoModeBase {
 
     @Override

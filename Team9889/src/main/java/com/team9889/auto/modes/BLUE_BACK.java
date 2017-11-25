@@ -5,11 +5,10 @@ import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.subsystems.Drive;
 
 /**
- * Created by joshua9889 on 4/10/2017.
+ * Created by joshua9889 on 11/24/2017.
  */
 
-public class RED_BACK{
-
+public class BLUE_BACK {
     public void runOpMode(AutoModeBase M){
         // Drive off platform
         M.runAction(new DriveToPositionAction(1400, 1400, 0.1, 0.1, 5));
@@ -19,21 +18,21 @@ public class RED_BACK{
         M.Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
         // Turn 45 degrees
-        M.Robot.getDrive().setLeftRightPower(0, 0.6);
+        M.Robot.getDrive().setLeftRightPower(0.6, 0);
         boolean turning = true;
         while (turning){
             M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() > 45)
+            if (M.Robot.getDrive().getGyroAngleDegrees() < -45)
                 turning = false;
             M.idle();
         }
 
-        M.Robot.getDrive().setLeftRightPower(0, -0.35);
+        M.Robot.getDrive().setLeftRightPower(-0.35, 0);
 
         turning = true;
         while (turning) {
             M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() < 45)
+            if (M.Robot.getDrive().getGyroAngleDegrees() > -45)
                 turning = false;
             M.idle();
         }
