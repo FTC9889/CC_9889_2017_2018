@@ -10,7 +10,6 @@ import com.team9889.lib.RevIMU;
  */
 
 @TeleOp
-@Disabled
 public class TestingIMUCode extends LinearOpMode {
     RevIMU imu1;
     RevIMU imu2;

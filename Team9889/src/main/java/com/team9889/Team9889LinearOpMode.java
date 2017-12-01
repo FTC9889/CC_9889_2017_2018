@@ -33,7 +33,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     //For VuMark
     private VuMark vuMark = new VuMark();
 
-    private boolean runVuforia = false;
+    private boolean runVuforia = true;
+    private boolean runCamera = true;
 
     //Used for camera init
     private boolean first = true;
@@ -56,86 +57,110 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     protected void waitForTeamStart(Team9889LinearOpMode opMode, boolean autonomous){
         this.InternalopMode = opMode;
 
-        try {
-            this.Robot.init(this.InternalopMode, false);
-            this.updateTelemetry();
-        } catch (Exception e){
-            this.InternalopMode.telemetry.addData("No Hardware attached", "");
-            this.InternalopMode.telemetry.update();
-        }
+        this.Robot.init(this.InternalopMode, autonomous);
 
-
+        // Start of Auto Code for Camera and the like
         if(autonomous){
-            this.Robot.getLift().goTo(GlyphLypht.Mode.Auto);
-
             //Auto Transitioning
             AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
 
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
 
+            // Timeout stuff
             ElapsedTime vuforiaTimer = new ElapsedTime();
             ElapsedTime cameraTimer = new ElapsedTime();
 
-            //VuMark
-            //Uses the camera on the screen side
-            if (runVuforia)
-                this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+            // It's a weird world
+            try{
+                stopCamera();
+            } catch (Exception e){}
 
+            try{
+                vuMark.closeVuforia();
+            } catch (Exception e){}
+
+            // Start of Scanning Code
             while(!isStarted()){
-                //Print the auto settings
 
-                // Vuforia Loop
+                // Start of Vuforia Code
                 if (runVuforia) {
+                    // Reset Timer
                     vuforiaTimer.reset();
-                    while (vuforiaTimer.milliseconds() < 4000 && !isStarted()) {
-                        telemetry.addData("VuMark", vuMark.getOuputVuMark());
-                        this.InternalopMode.telemetry.update();
+                    boolean runningVuforia = true;
 
+                    boolean thingForCheckingIfCameraWorks = true;
+                    while(thingForCheckingIfCameraWorks && !isStarted()){
+                        try {
+                            this.stopCamera();
+                            sleep(10);
+                        } catch (Exception e){}
+
+                        try {
+                            this.vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+                            thingForCheckingIfCameraWorks = false;
+                        } catch (Exception e){
+                            thingForCheckingIfCameraWorks = true;
+                        }
+                    }
+
+                    telemetry.addData("Running Vuforia","");
+                    telemetry.update();
+
+                    //Scan Image
+                    while(vuforiaTimer.milliseconds() < 4000 && !isStarted() && runningVuforia){
                         if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
-                            this.vuMark.
-                                    updateTarget(this);
+                            this.vuMark.updateTarget(this);
                         } else {
                             this.vuMark.closeVuforia();
-                            break;
+                            runningVuforia = false;
                         }
+
+                        telemetry.addData("Vuforia", vuMark.getOuputVuMark());
+                        telemetry.addData("Alliance Color", alliance);
+                        telemetry.addData("Stone", frontBack);
+                        telemetry.addData("Pickup Partner's Glyph", getPartnerGlyph);
+                        telemetry.addData("Go to PIT?", getPitGlyph);
+                        telemetry.update();
+
                         idle();
                     }
-                }
+                }// End of Vuforia Code
 
+                // Start of Camera Code
+                if(runCamera){
+                    cameraTimer.reset();
+                    boolean runningCamera = true;
 
-                // Camera Loop
-                cameraTimer.reset();
-                redVotes = 0;
-                blueVotes = 0;
-                while(!isStarted()){
-                    //Then get the jewel color
-                    try {
-                        setCameraDownsampling(8);
+                    telemetry.addData("Starting Camera","");
+                    telemetry.update();
+                    boolean thingForCheckingIfCameraWorks = true;
+                    while(thingForCheckingIfCameraWorks && !isStarted()){
+                        try {
+                            this.vuMark.closeVuforia();
+                            sleep(10);
+                        } catch (Exception e){}
 
-                        //Init camera once
-                        if (first) {
-                            Thread startCamera = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startCamera();  // can take a while.
-                                    // best started before waitForStart
-                                    telemetry.addLine("Camera ready!");
-                                    telemetry.update();
-                                }
-                            });
-                            startCamera.run();
-
-                            first = false;
+                        try {
+                            setCameraDownsampling(8);
+                            startCamera();
+                            thingForCheckingIfCameraWorks = false;
+                        } catch (Exception e){
+                            thingForCheckingIfCameraWorks = true;
                         }
+                    }
 
+                    telemetry.addData("Running Camera","");
+                    telemetry.update();
+                    sleep(1000);
+
+                    while (cameraTimer.milliseconds() < 4000 && !isStarted() && runningCamera){
                         int redValue = 0;
                         int blueValue = 0;
 
                         // get image, rotated so (0,0) is in the bottom left of the preview window
                         Bitmap rgbImage;
                         rgbImage = convertYuvImageToRgb(yuvImage, width, height, 2);
-
                         for (int x =0; x < rgbImage.getWidth()/4; x++) {
                             for (int y = 0; y < rgbImage.getHeight()/6; y++) {
                                 int pixel = rgbImage.getPixel(x, y);
@@ -144,47 +169,66 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                             }
                         }
 
+                        // Single votes
                         if (redValue > blueValue)
                             redVotes++;
                         else
                             blueVotes++;
 
-                        telemetry.addData("Red", redVotes);
-                        telemetry.addData("Blue", blueVotes);
-                        telemetry.update();
+                        // Store the color of jewel
+                        if (redVotes > blueVotes)
+                            jewel_Color = JewelColor.Red;
+                        else
+                            jewel_Color = JewelColor.Blue;
 
+                        // Exit the loop when one of the votes is more then 500
                         if (redVotes > 500 || blueVotes >500){
                             first = true;
-                            break;
+                            runningCamera = false;
+                            redVotes = 0;
+                            blueVotes = 0;
+                            stopCamera();
+                            sleep(10);
                         }
 
+                        // Output Telemetry
+                        telemetry.addData("Red", redVotes);
+                        telemetry.addData("Blue", blueVotes);
+                        //telemetry.addData("Vuforia", vuMark.getOuputVuMark());
+                        telemetry.addData("Alliance Color", alliance);
+                        telemetry.addData("Stone", frontBack);
+                        telemetry.addData("Pickup Partner's Glyph", getPartnerGlyph);
+                        telemetry.addData("Go to PIT?", getPitGlyph);
+                        telemetry.update();
 
-                    } catch (Exception e) {}
+                        idle();
+                    }
+                }// End of Camera Code
 
-                    idle();
-                }
+            }// End of Scanning Code
+            try{
                 stopCamera();
-            }
+            } catch (Exception e){}
 
+            try{
+                vuMark.closeVuforia();
+            } catch (Exception e){}
 
+        }// End of Auto Code for Camera and the like
+        else{
+            this.InternalopMode.telemetry.addData("Waiting for Start", "");
+            this.InternalopMode.telemetry.update();
         }
-        this.InternalopMode.telemetry.addData("Waiting for Start", "");
-        this.InternalopMode.telemetry.update();
 
         //Wait for DS start
         this.InternalopMode.waitForStart();
-
-        if (redVotes > blueVotes)
-            jewel_Color = JewelColor.Red;
-        else
-            jewel_Color = JewelColor.Blue;
     }
 
     /**
      * Run this to update the Default Telemetry
      */
     public void updateTelemetry(){
-        this.InternalopMode.telemetry.addData("Runtime> ", this.InternalopMode.getRuntime());
+        this.InternalopMode.telemetry.addData("Runtime", this.InternalopMode.getRuntime());
         this.Robot.outputToTelemetry(this.InternalopMode);
         this.InternalopMode.telemetry.update();
     }
@@ -194,10 +238,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
      * Used to stop everything.
      */
     protected void finalAction(){
-        try {
-            this.Robot.stop();
-        } catch (Exception e){}
-
+        this.Robot.stop();
         this.InternalopMode.requestOpModeStop();
     }
 

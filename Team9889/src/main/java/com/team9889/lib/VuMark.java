@@ -33,6 +33,7 @@ public class VuMark {
         vuforia = new ClosableVuforiaLocalizer(parameters);
         this.relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         this.relicTemplate = relicTrackables.get(0);
+        this.ouputVuMark = RelicRecoveryVuMark.UNKNOWN;
         this.activateVuforia();
     }
 

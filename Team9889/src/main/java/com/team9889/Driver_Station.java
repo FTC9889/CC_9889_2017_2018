@@ -25,11 +25,7 @@ public class Driver_Station{
     }
 
     public boolean outtake() {
-        return this.team9889LinearOpMode.gamepad1.right_trigger > 0.4;
-    }
-
-    public boolean level3() {
-        return this.team9889LinearOpMode.gamepad1.y;
+        return this.team9889LinearOpMode.gamepad1.right_bumper;
     }
 
     public boolean level4() {

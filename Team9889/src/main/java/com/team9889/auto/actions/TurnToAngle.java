@@ -14,6 +14,7 @@ public class TurnToAngle implements Action {
     private double mTolerance;
     boolean finished = false;
     private double mSpeed;
+    private int timesRun = 0;
 
     private Drive mDrive;
 
@@ -56,6 +57,21 @@ public class TurnToAngle implements Action {
     public void update(Team9889LinearOpMode linearOpMode) {
         currentAngle = mDrive.getGyroAngleDegrees();
         mError = wantedAngle - currentAngle;
+
+        switch (timesRun){
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+                finished = true;
+                break;
+        }
     }
 
     @Override

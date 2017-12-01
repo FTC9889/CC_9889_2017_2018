@@ -34,34 +34,34 @@ public class Robot {
     /**
      * Init all subsytems in this method.
      * @param team9889LinearOpMode The OpMode Object
-     * @param auton If the OpMode is for autonomous mode or not.
+     * @param autonomous If the OpMode is for autonomous mode or not.
      * @return If all subsystems init properly, return true.
      */
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
+    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean autonomous) {
         boolean error = false;
 
-//        Structure all inits like this.
-        if(!this.mDrive.init(team9889LinearOpMode, true)){
+        // Structure all inits like this.
+        if(!this.mDrive.init(team9889LinearOpMode, autonomous)){
             team9889LinearOpMode.telemetry.addData("Error", " Drive");
             error = true;
         }
 
-        if(!this.mJewel.init(team9889LinearOpMode, true)){
+        if(!this.mJewel.init(team9889LinearOpMode, autonomous)){
             team9889LinearOpMode.telemetry.addData("Error", " Jewel");
             error = true;
         }
 
-        if(!this.mLift.init(team9889LinearOpMode, true)){
+        if(!this.mLift.init(team9889LinearOpMode, autonomous)){
             team9889LinearOpMode.telemetry.addData("Error", " Lift");
             error = true;
         }
 
-        if(!this.mIntake.init(team9889LinearOpMode, true)){
+        if(!this.mIntake.init(team9889LinearOpMode, autonomous)){
             team9889LinearOpMode.telemetry.addData("Error", " Intake");
             error = true;
         }
 
-        //Code to check for errors.
+        // Code to check for errors.
         if(error){
             team9889LinearOpMode.telemetry.addData("Error during Init","");
             team9889LinearOpMode.telemetry.update();
