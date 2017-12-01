@@ -48,14 +48,16 @@ public class Drive extends Subsystem {
             return false;
         }
 
-        try {
-            this.imu1 = new RevIMU("imu 1", team9889LinearOpMode.hardwareMap);
-        } catch (Exception e){return false;}
+        if(auton){
+            try {
+                this.imu1 = new RevIMU("imu 1", team9889LinearOpMode.hardwareMap);
+            } catch (Exception e){return false;}
 
 
-        try {
-            this.imu2 = new RevIMU("imu", team9889LinearOpMode.hardwareMap);
-        } catch (Exception e){return false;}
+            try {
+                this.imu2 = new RevIMU("imu", team9889LinearOpMode.hardwareMap);
+            } catch (Exception e){return false;}
+        }
 
         return true;
     }
@@ -81,11 +83,16 @@ public class Drive extends Subsystem {
     }
 
     public double getGyroAngleDegrees() {
-        return (imu1.getHeading()+imu2.getHeading())/2;
+        try {
+            return (imu1.getHeading()+imu2.getHeading())/2;
+        } catch (Exception e){
+            return 0;
+        }
+
     }
 
     public double getLeftDistanceInches(){
-        return Constants.ticksToInches(getLeftTicks());
+        return Constants.ticks2Inches(getLeftTicks());
     }
 
     public int getLeftTicks() {
@@ -93,7 +100,7 @@ public class Drive extends Subsystem {
     }
 
     public double getRightDistanceInches(){
-        return Constants.ticksToInches(getRightTicks());
+        return Constants.ticks2Inches(getRightTicks());
     }
 
     public int getRightTicks(){

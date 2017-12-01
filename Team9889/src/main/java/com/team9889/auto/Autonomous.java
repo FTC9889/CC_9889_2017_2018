@@ -12,36 +12,30 @@ import com.team9889.auto.modes.RED_FOWARD;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class Autonomous extends AutoModeBase {
 
-    RED_BACK red_back = new RED_BACK();
-    RED_FOWARD red_foward = new RED_FOWARD();
-    BLUE_BACK blue_back = new BLUE_BACK();
-    BLUE_FOWARD blue_foward = new BLUE_FOWARD();
-
     @Override
     public void runOpMode() {
 
         waitForTeamStart(this, true);
 
+        // Jewel thing
         if(alliance == "Red")
             runAction(new JewelHitColor(JewelColor.Red));
         else if (alliance == "Blue")
             runAction(new JewelHitColor(JewelColor.Blue));
 
-        if(!getPitGlyph){
-            if (alliance == "Red" && frontBack == "Back") {
-                red_back.runOpMode(this, WhatColumnToScoreIn());
-            }
-            else if (alliance == "Red" && frontBack == "Front") {
-                red_foward.runOpMode(this, WhatColumnToScoreIn());
-            }
-            else if (alliance == "Blue" && frontBack == "Back") {
-                blue_back.runOpMode(this, WhatColumnToScoreIn());
-            }
-            else if (alliance == "Blue" && frontBack == "Front") {
-                blue_foward.runOpMode(this, WhatColumnToScoreIn());
-            }
-        } else {
-
+        // Real Code for moving
+        if (alliance == "Red" && frontBack == "Back") {
+            new RED_BACK(this, WhatColumnToScoreIn());
+        }
+        else if (alliance == "Red" && frontBack == "Front") {
+            // This one scores the glyph now
+            new RED_FOWARD(this, WhatColumnToScoreIn());
+        }
+        else if (alliance == "Blue" && frontBack == "Back") {
+            new BLUE_BACK(this, WhatColumnToScoreIn());
+        }
+        else if (alliance == "Blue" && frontBack == "Front") {
+            new BLUE_FOWARD(this, WhatColumnToScoreIn());
         }
 
         Robot.getJewel().stop();

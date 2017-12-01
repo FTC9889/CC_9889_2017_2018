@@ -34,8 +34,12 @@ public class Constants {
     //Distance between wheels
     public final static double TrackWidth = 16;
 
-    public static double ticksToInches(int ticks){
+    public static double ticks2Inches(int ticks){
         return ticks/Constants.CountsPerInch;
+    }
+
+    public static int inches2Ticks(int in){
+        return in * (int)CountsPerInch;
     }
 
     /*---------------------

@@ -10,10 +10,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Created by joshua9889 on 4/10/2017.
  */
 
-public class RED_BACK implements AutoModeContainer{
+public class RED_BACK{
 
-    @Override
-    public void runOpMode(AutoModeBase M, RelicRecoveryVuMark column){
+    public RED_BACK(AutoModeBase M, RelicRecoveryVuMark column){
         // Drive off platform
         M.runAction(new DriveToPositionAction(1400, 1400, 0.1, 0.1, 5));
         M.sleep(200);

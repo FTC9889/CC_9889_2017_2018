@@ -36,6 +36,9 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     private boolean runVuforia = true;
     private boolean runCamera = true;
 
+    private RelicRecoveryVuMark currentVumark = RelicRecoveryVuMark.UNKNOWN;
+    private RelicRecoveryVuMark lastVumark = RelicRecoveryVuMark.UNKNOWN;
+
     //Used for camera init
     private boolean first = true;
 
@@ -107,10 +110,12 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                     telemetry.addData("Running Vuforia","");
                     telemetry.update();
 
+                    currentVumark = RelicRecoveryVuMark.UNKNOWN;
                     //Scan Image
                     while(vuforiaTimer.milliseconds() < 4000 && !isStarted() && runningVuforia){
                         if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
                             this.vuMark.updateTarget(this);
+                            currentVumark = vuMark.getOuputVuMark();
                         } else {
                             this.vuMark.closeVuforia();
                             runningVuforia = false;
@@ -125,6 +130,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
                         idle();
                     }
+                    lastVumark = this.vuMark.getOuputVuMark();
                 }// End of Vuforia Code
 
                 // Start of Camera Code
@@ -214,6 +220,10 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 vuMark.closeVuforia();
             } catch (Exception e){}
 
+            if(vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN)
+                currentVumark = lastVumark;
+
+
         }// End of Auto Code for Camera and the like
         else{
             this.InternalopMode.telemetry.addData("Waiting for Start", "");
@@ -271,6 +281,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
     //What column to score the glyph in
     public RelicRecoveryVuMark WhatColumnToScoreIn(){
-        return vuMark.getOuputVuMark();
+        return currentVumark;
     }
 }
