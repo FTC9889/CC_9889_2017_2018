@@ -87,7 +87,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             while(!isStarted()){
 
                 // Start of Vuforia Code
-                if (runVuforia) {
+                if (runVuforia && !opMode.isStarted()) {
                     // Reset Timer
                     vuforiaTimer.reset();
                     boolean runningVuforia = true;
@@ -108,15 +108,21 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                     }
 
                     telemetry.addData("Running Vuforia","");
+                    telemetry.addData("Alliance Color", alliance);
+                    telemetry.addData("Stone", frontBack);
+                    telemetry.addData("Pickup Partner's Glyph", getPartnerGlyph);
+                    telemetry.addData("Go to PIT?", getPitGlyph);
                     telemetry.update();
 
-                    currentVumark = RelicRecoveryVuMark.UNKNOWN;
                     //Scan Image
                     while(vuforiaTimer.milliseconds() < 4000 && !isStarted() && runningVuforia){
                         if (vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN) {
                             this.vuMark.updateTarget(this);
-                            currentVumark = vuMark.getOuputVuMark();
+                            currentVumark = lastVumark;
                         } else {
+                            currentVumark = vuMark.getOuputVuMark();
+                            if(currentVumark != RelicRecoveryVuMark.UNKNOWN)
+                                lastVumark = currentVumark;
                             this.vuMark.closeVuforia();
                             runningVuforia = false;
                         }
@@ -134,11 +140,15 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 }// End of Vuforia Code
 
                 // Start of Camera Code
-                if(runCamera){
+                if(runCamera&& !opMode.isStarted()){
                     cameraTimer.reset();
                     boolean runningCamera = true;
 
                     telemetry.addData("Starting Camera","");
+                    telemetry.addData("Alliance Color", alliance);
+                    telemetry.addData("Stone", frontBack);
+                    telemetry.addData("Pickup Partner's Glyph", getPartnerGlyph);
+                    telemetry.addData("Go to PIT?", getPitGlyph);
                     telemetry.update();
                     boolean thingForCheckingIfCameraWorks = true;
                     while(thingForCheckingIfCameraWorks && !isStarted()){
@@ -219,10 +229,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
             try{
                 vuMark.closeVuforia();
             } catch (Exception e){}
-
-            if(vuMark.getOuputVuMark() == RelicRecoveryVuMark.UNKNOWN)
-                currentVumark = lastVumark;
-
 
         }// End of Auto Code for Camera and the like
         else{

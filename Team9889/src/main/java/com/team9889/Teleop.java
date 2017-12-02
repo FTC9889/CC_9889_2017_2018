@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 
-import static com.team9889.lib.CruiseLib.power3MaintainSign;
-
 /**
  * Created by joshua9889 on 4/17/17.
  * Our Teleop Code
@@ -15,7 +13,7 @@ import static com.team9889.lib.CruiseLib.power3MaintainSign;
 @TeleOp(name = "Teleop")
 public class Teleop extends Team9889LinearOpMode {
 
-    private GlyphLypht.Mode wantedLevel = GlyphLypht.Mode.Intake;
+    private ElapsedTime matchTime = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
         driver_station.init(this); // New Driver station
@@ -23,13 +21,13 @@ public class Teleop extends Team9889LinearOpMode {
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
         Robot.getJewel().retract();
-
+        matchTime.reset();
         while (opModeIsActive() && !isStopRequested()){
             double leftspeed, rightspeed, xvalue, yvalue;
 
             //Values from gamepads with modifications
-            xvalue = -power3MaintainSign(gamepad1.right_stick_x);
-            yvalue = -power3MaintainSign(gamepad1.left_stick_y);
+            xvalue = -gamepad1.right_stick_x;
+            yvalue = -gamepad1.left_stick_y;
 
             yvalue /= 1.2;
 
@@ -89,6 +87,7 @@ public class Teleop extends Team9889LinearOpMode {
             }
 
             //Push Telemetry to phone
+            telemetry.addData("Match Time", 120-matchTime.seconds());
             updateTelemetry();
             idle();
         }

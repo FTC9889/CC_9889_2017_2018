@@ -14,7 +14,6 @@ public class Autonomous extends AutoModeBase {
 
     @Override
     public void runOpMode() {
-
         waitForTeamStart(this, true);
 
         // Jewel thing
@@ -24,11 +23,11 @@ public class Autonomous extends AutoModeBase {
             runAction(new JewelHitColor(JewelColor.Blue));
 
         // Real Code for moving
+        // THEY ALL SCORE GLYPHS!!!
         if (alliance == "Red" && frontBack == "Back") {
             new RED_BACK(this, WhatColumnToScoreIn());
         }
         else if (alliance == "Red" && frontBack == "Front") {
-            // This one scores the glyph now
             new RED_FOWARD(this, WhatColumnToScoreIn());
         }
         else if (alliance == "Blue" && frontBack == "Back") {

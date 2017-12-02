@@ -31,7 +31,6 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.e("NEW INTENT", "PROBLENM");
         setContentView(R.layout.auton_settings_layout);
 
         this.globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
