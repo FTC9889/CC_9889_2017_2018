@@ -74,7 +74,7 @@ public class BLUE_FOWARD {
         M.Robot.getIntake().retract();
 
         switch (column){
-            case LEFT:
+            case RIGHT:
                 M.Robot.getDrive().setLeftRightPower(-0.2, 0.2);
                 turning = true;
                 while (turning && M.opModeIsActive()) {
@@ -141,7 +141,7 @@ public class BLUE_FOWARD {
                 M.sleep(400);
 
                 break;
-            case RIGHT:
+            case LEFT:
                 M.Robot.getDrive().setLeftRightPower(-0.2, 0.2);
                 turning = true;
                 while (turning && M.opModeIsActive()) {

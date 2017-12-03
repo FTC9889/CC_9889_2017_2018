@@ -46,6 +46,7 @@ public class RED_FOWARD {
 
         M.sleep(200);
 
+		//Drive 25" to cryptobox
         int left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(25);
         int right = M.Robot.getDrive().getRightTicks() + inches2Ticks(25);
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
@@ -66,6 +67,7 @@ public class RED_FOWARD {
         }
         M.Robot.getDrive().setLeftRightPower(0,0);
 
+		// Deploy arm w/glyph inside
         M.Robot.getIntake().clearArm();
         M.Robot.getLift().clamp();
         M.sleep(200);
@@ -73,13 +75,15 @@ public class RED_FOWARD {
         M.sleep(500);
         M.Robot.getIntake().retract();
 
+		// Determine what column to score the glpyh in
         switch (column){
             case LEFT:
+				// Turn to Left column
                 M.Robot.getDrive().setLeftRightPower(0.2, -0.2);
                 turning = true;
                 while (turning && M.opModeIsActive()) {
                     M.updateTelemetry();
-                    if (M.Robot.getDrive().getGyroAngleDegrees() < -100)
+                    if (M.Robot.getDrive().getGyroAngleDegrees() < -90)
                         turning = false;
                     M.idle();
                 }
@@ -87,6 +91,7 @@ public class RED_FOWARD {
                 M.Robot.getDrive().setLeftRightPower(0,0);
                 M.sleep(100);
 
+				// Drive foward to place glpyh
                 left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(4);
                 right = M.Robot.getDrive().getRightTicks() + inches2Ticks(4);
 
@@ -97,9 +102,10 @@ public class RED_FOWARD {
                     if(right < M.Robot.getDrive().getRightTicks())
                         break;
 
-                    if(M.Robot.getDrive().getGyroAngleDegrees() > -100)
-                        M.Robot.getDrive().setLeftRightPower(0.4, 0.2);
-                    else if(M.Robot.getDrive().getGyroAngleDegrees() < -100)
+                    if(M.Robot.getDrive().getGyroAngleDegrees() > -90)
+                        M.Robot.getDrive().setLeftRightPower(0.4,
+                                0.2);
+                    else if(M.Robot.getDrive().getGyroAngleDegrees() < -90)
                         M.Robot.getDrive().setLeftRightPower(0.2, 0.4);
                     else
                         M.Robot.getDrive().setLeftRightPower(0.4, 0.4);
@@ -108,6 +114,7 @@ public class RED_FOWARD {
                 M.sleep(500);
                 break;
             case CENTER:
+				// Turn to Center column
                 M.Robot.getDrive().setLeftRightPower(0.2, -0.2);
                 turning = true;
                 while (turning && M.opModeIsActive()) {
@@ -120,6 +127,7 @@ public class RED_FOWARD {
                 M.Robot.getDrive().setLeftRightPower(0,0);
                 M.sleep(100);
 
+				// Drive foward to place glyph
                 left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(7);
                 right = M.Robot.getDrive().getRightTicks() + inches2Ticks(7);
 
@@ -142,6 +150,7 @@ public class RED_FOWARD {
 
                 break;
             case RIGHT:
+				// Turn to Right column
                 M.Robot.getDrive().setLeftRightPower(0.2, -0.2);
                 turning = true;
                 while (turning && M.opModeIsActive()) {
@@ -154,6 +163,7 @@ public class RED_FOWARD {
                 M.Robot.getDrive().setLeftRightPower(0,0);
                 M.sleep(100);
 
+				// Drive foward to place glyph
                 left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(14);
                 right = M.Robot.getDrive().getRightTicks() + inches2Ticks(14);
 
@@ -177,16 +187,23 @@ public class RED_FOWARD {
                 break;
         }
 
+		// Release glpyh
         M.Robot.getLift().release();
         M.sleep(1000);
+		
+		// Backup
         M.Robot.getDrive().setLeftRightPower(-1, -1);
         M.sleep(500);
         M.Robot.getDrive().setLeftRightPower(0,0);
         M.sleep(100);
+		
+		// Retract everything
         M.Robot.getLift().goTo(GlyphLypht.Mode.Intake);
         M.Robot.getIntake().retract();
         M.Robot.getIntake().stopIntake();
         M.sleep(500);
+		
+		// RAM INTO THINGS!!
         M.Robot.getDrive().setLeftRightPower(0.4, 0.4);
         M.sleep(750);
         M.Robot.getDrive().setLeftRightPower(0,0);

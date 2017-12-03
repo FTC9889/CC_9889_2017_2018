@@ -169,8 +169,8 @@ public class RED_BACK{
         M.Robot.getDrive().setLeftRightPower(0,0);
 
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
-        left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
-        right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
+        left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(5);
+        right = M.Robot.getDrive().getRightTicks() + inches2Ticks(5);
 
         while(M.opModeIsActive()){
             if(left < M.Robot.getDrive().getLeftTicks())

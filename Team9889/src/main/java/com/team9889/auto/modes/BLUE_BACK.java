@@ -56,7 +56,8 @@ public class BLUE_BACK {
         M.Robot.getDrive().setLeftRightPower(0,0);
 
         M.sleep(200);
-
+		
+		// Drive Straight 10"
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
 
         int left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
@@ -79,7 +80,8 @@ public class BLUE_BACK {
         M.Robot.getDrive().setLeftRightPower(0,0);
 
         M.sleep(250);
-
+		
+		// Turn to 135 degrees
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
 
         ElapsedTime timeOut = new ElapsedTime();
@@ -115,6 +117,7 @@ public class BLUE_BACK {
 
         M.sleep(200);
 
+		// Drive Straight 30" to cryptobox
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
 
         left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(30);
@@ -138,6 +141,7 @@ public class BLUE_BACK {
 
         M.sleep(100);
 
+		// Turn to face cryptobox
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
         turning = true;
         while (turning && M.opModeIsActive()){
@@ -167,6 +171,7 @@ public class BLUE_BACK {
         }
         M.Robot.getDrive().setLeftRightPower(0,0);
 
+		// Drive foward to depost glyph in box
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
         left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
         right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
@@ -186,21 +191,29 @@ public class BLUE_BACK {
                 M.Robot.getDrive().setLeftRightPower(0.3, 0.3);
         }
         M.Robot.getDrive().setLeftRightPower(0,0);
-
         M.sleep(500);
+		
+		// Release glyph
         M.Robot.getLift().release();
         M.sleep(1000);
+		
+		// Back away
         M.Robot.getDrive().setLeftRightPower(-0.5, -0.5);
         M.sleep(500);
         M.Robot.getDrive().setLeftRightPower(0,0);
+		
+		// Pull everything in
         M.Robot.getLift().goTo(GlyphLypht.Mode.Intake);
         M.Robot.getIntake().retract();
         M.Robot.getIntake().stopIntake();
         M.sleep(500);
+		
+		// Push glyph all the way in
         M.Robot.getDrive().setLeftRightPower(0.2, 0.2);
         M.sleep(750);
         M.Robot.getDrive().setLeftRightPower(0,0);
         M.sleep(100);
+		// Back away from glyph
         M.Robot.getDrive().setLeftRightPower(-0.1, -0.1);
         M.sleep(300);
         M.Robot.getDrive().setLeftRightPower(0,0);

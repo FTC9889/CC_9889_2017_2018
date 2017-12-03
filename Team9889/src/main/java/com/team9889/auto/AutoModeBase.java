@@ -10,7 +10,7 @@ import com.team9889.auto.actions.Action;
 public abstract class AutoModeBase extends Team9889LinearOpMode {
 
     /**
-     * @param action All are defined in action folder
+     * @param action All actions are defined in action folder
      */
     public void runAction(Action action){
         action.start(this.InternalopMode);
