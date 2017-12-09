@@ -16,7 +16,6 @@ public class Teleop extends Team9889LinearOpMode {
     private ElapsedTime matchTime = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
-        driver_station.init(this); // New Driver station
         waitForTeamStart(this, false);
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
@@ -29,7 +28,12 @@ public class Teleop extends Team9889LinearOpMode {
             xvalue = -gamepad1.right_stick_x;
             yvalue = -gamepad1.left_stick_y;
 
-            yvalue /= 1.2;
+            if(gamepad1.dpad_up)
+                yvalue = 1.0;
+            else if(gamepad1.dpad_down)
+                yvalue = -1.0;
+            else
+                yvalue /= 1.2;
 
             //Values to output to motors
             leftspeed =  yvalue - xvalue;
@@ -67,6 +71,7 @@ public class Teleop extends Team9889LinearOpMode {
             if(driver_station.outtake()){
                 Robot.getLift().release();
             } else if(gamepad1.y){
+                Robot.getLift().setServoPosition(0.4);
                 Robot.getLift().clamp();
                 Robot.getIntake().stopIntake();
             }

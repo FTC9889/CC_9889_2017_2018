@@ -232,6 +232,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
 
         }// End of Auto Code for Camera and the like
         else{
+            driver_station.init(InternalopMode); // New Driver station
             this.InternalopMode.telemetry.addData("Waiting for Start", "");
             this.InternalopMode.telemetry.update();
         }
