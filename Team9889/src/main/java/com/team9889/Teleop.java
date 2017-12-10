@@ -28,13 +28,6 @@ public class Teleop extends Team9889LinearOpMode {
             xvalue = -gamepad1.right_stick_x;
             yvalue = -gamepad1.left_stick_y;
 
-            if(gamepad1.dpad_up)
-                yvalue = 1.0;
-            else if(gamepad1.dpad_down)
-                yvalue = -1.0;
-            else
-                yvalue /= 1.2;
-
             //Values to output to motors
             leftspeed =  yvalue - xvalue;
             rightspeed = yvalue + xvalue;

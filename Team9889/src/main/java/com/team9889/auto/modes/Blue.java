@@ -1,6 +1,7 @@
 package com.team9889.auto.modes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.JewelHitColor;
 
@@ -9,6 +10,7 @@ import com.team9889.auto.actions.JewelHitColor;
  */
 
 @Autonomous(name = "Blue FAIL PROOF")
+@Disabled
 public class Blue extends AutoModeBase{
     @Override
     public void runOpMode(){
