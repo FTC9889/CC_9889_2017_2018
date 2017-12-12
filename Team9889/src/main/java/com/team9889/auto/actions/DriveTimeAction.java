@@ -8,58 +8,30 @@ import com.team9889.subsystems.Drive;
  */
 
 public class DriveTimeAction implements Action {
-    private double Milliseconds;
-    private double StartMilliseconds;
-    private double mVelocity;
-    private double mAngle;
-    private boolean isFinished;
-
+    private double mSpeed;
+    private int Milliseconds;
     private Drive mDrive;
 
-    public DriveTimeAction(int milliseconds, double Velocity) {
+    public DriveTimeAction(int milliseconds, double speed) {
         Milliseconds = milliseconds;
-        mVelocity = Velocity;
+        mSpeed = speed;
     }
 
     @Override
     public boolean isFinished() {
-        return isFinished;
+        return true;
     }
 
     @Override
     public void start(Team9889LinearOpMode  opMode) {
         mDrive = opMode.Robot.getDrive();
-        mAngle = mDrive.getGyroAngleDegrees();
-        StartMilliseconds = opMode.getRuntime();
+        mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
+        mDrive.setLeftRightPower(mSpeed, mSpeed);
+        opMode.sleep(Milliseconds);
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {
-        boolean DriveBackward;
-
-        DriveBackward = mVelocity <0;
-
-        if(DriveBackward) {
-            if(mAngle > mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity)/2, Math.abs(mVelocity));
-            }else if(mAngle < mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(Math.abs(mVelocity), Math.abs(mVelocity));
-            }
-        }else {
-            if(mAngle < mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity)/2, -Math.abs(mVelocity));
-            }else if(mAngle > mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity)/2);
-            }else if(mAngle == mDrive.getGyroAngleDegrees()){
-                mDrive.setLeftRightPower(-Math.abs(mVelocity), -Math.abs(mVelocity));
-            }
-        }
-
-        double CurrentMilliseconds = linearOpMode.getRuntime() - StartMilliseconds;
-        isFinished = CurrentMilliseconds>Milliseconds;
-    }
+    public void update(Team9889LinearOpMode linearOpMode) {}
 
     @Override
     public void done() {

@@ -1,5 +1,6 @@
 package com.team9889.auto;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889LinearOpMode;
 import com.team9889.auto.actions.Action;
 
@@ -9,6 +10,8 @@ import com.team9889.auto.actions.Action;
 
 public abstract class AutoModeBase extends Team9889LinearOpMode {
 
+    public ElapsedTime timeToCollect = new ElapsedTime();
+
     /**
      * @param action All actions are defined in action folder
      */
@@ -16,6 +19,7 @@ public abstract class AutoModeBase extends Team9889LinearOpMode {
         action.start(this.InternalopMode);
         while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
             action.update(this.InternalopMode);
+            Thread.yield();
         }
         action.done();
 

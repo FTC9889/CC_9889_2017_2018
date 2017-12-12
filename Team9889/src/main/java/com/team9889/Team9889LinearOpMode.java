@@ -65,7 +65,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         // Start of Auto Code for Camera and the like
         if(autonomous){
             //Auto Transitioning
-            AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
+            //AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
 
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();

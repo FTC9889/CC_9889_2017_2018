@@ -1,4 +1,4 @@
-package com.team9889.auto.modes;
+package com.team9889.test.JustJewel;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

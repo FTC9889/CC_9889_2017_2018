@@ -8,13 +8,9 @@ import com.team9889.subsystems.Drive;
  */
 
 public class TurnToAngle implements Action {
-    private double currentAngle;
-    private double wantedAngle;
-    private double mError;
-    private double mTolerance;
-    boolean finished = false;
-    private double mSpeed;
-    private int timesRun = 0;
+    private double wantedAngle, mSpeed;
+    private int timeOutTimerThing = 0;
+    private int timeOut = 300;
 
     private Drive mDrive;
 
@@ -26,59 +22,76 @@ public class TurnToAngle implements Action {
      * @param speed Speed of turn
      */
     public TurnToAngle(int angle, double speed){
-        new TurnToAngle(angle, speed, 2);
-    }
-
-    /**
-     * @param angle Desired angle
-     *              Positive angle is left
-     *              Negative angle is right
-     * @param speed Speed of turn
-     * @param tolerance Angle
-     */
-    public TurnToAngle(int angle, double speed, double tolerance){
         wantedAngle = angle;
         mSpeed = speed;
-        mTolerance = tolerance;
     }
 
     @Override
     public boolean isFinished() {
-        return finished;
+        return true;
     }
 
     @Override
     public void done() {
         mDrive.setLeftRightPower(0,0);
+        Thread.yield();
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {
-        currentAngle = mDrive.getGyroAngleDegrees();
-        mError = wantedAngle - currentAngle;
-
-        switch (timesRun){
-            case 0:
-
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-                finished = true;
-                break;
-        }
-    }
+    public void update(Team9889LinearOpMode linearOpMode) {}
 
     @Override
     public void start(Team9889LinearOpMode opMode) {
         mDrive = opMode.Robot.getDrive();
-        mDrive.setLeftRightPower(0,0);
         mDrive.DriveControlState(Drive.DriveControlStates.POWER);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
+
+        if(wantedAngle>0){
+            mDrive.setLeftRightPower(-Math.abs(mSpeed), Math.abs(mSpeed));
+            boolean turning = true;
+            while (turning && opMode.opModeIsActive()){
+                opMode.updateTelemetry();
+                timeOutTimerThing++;
+                if (mDrive.getGyroAngleDegrees() > wantedAngle || timeOutTimerThing>timeOut)
+                    turning = false;
+                Thread.yield();
+            }
+
+            mDrive.setLeftRightPower(Math.abs(mSpeed)/1.3, -Math.abs(mSpeed)/1.3);
+
+            turning = true;
+            timeOutTimerThing = 0;
+            while (turning && opMode.opModeIsActive()) {
+                opMode.updateTelemetry();
+                timeOutTimerThing++;
+                if (mDrive.getGyroAngleDegrees() < wantedAngle|| timeOutTimerThing>timeOut)
+                    turning = false;
+                Thread.yield();
+            }
+        } else {
+            mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
+            boolean turning = true;
+            while (turning && opMode.opModeIsActive()){
+                opMode.updateTelemetry();
+                timeOutTimerThing++;
+                if (mDrive.getGyroAngleDegrees() < wantedAngle|| timeOutTimerThing>timeOut)
+                    turning = false;
+                Thread.yield();
+            }
+
+            mDrive.setLeftRightPower(-Math.abs(mSpeed)/1.3, Math.abs(mSpeed)/1.3);
+
+            turning = true;
+            while (turning && opMode.opModeIsActive()) {
+                opMode.updateTelemetry();
+                timeOutTimerThing++;
+                if (mDrive.getGyroAngleDegrees() > wantedAngle|| timeOutTimerThing>timeOut)
+                    turning = false;
+                Thread.yield();
+            }
+        }
+
+        mDrive.setLeftRightPower(0,0);
     }
 }

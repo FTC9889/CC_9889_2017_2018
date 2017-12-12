@@ -1,10 +1,12 @@
 package com.team9889.auto;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.auto.actions.JewelHitColor;
-import com.team9889.auto.modes.BLUE_BACK;
-import com.team9889.auto.modes.BLUE_FOWARD;
-import com.team9889.auto.modes.RED_BACK;
-import com.team9889.auto.modes.RED_FOWARD;
+import com.team9889.auto.modes.SingleGlyph.BLUE_BACK;
+import com.team9889.auto.modes.SingleGlyph.BLUE_FOWARD;
+import com.team9889.auto.modes.SingleGlyph.RED_BACK;
+import com.team9889.auto.modes.SingleGlyph.RED_FOWARD;
+import com.team9889.auto.modes.MultiGlyph.RED_FOWARD_TWO_GLYPH;
 
 /**
  * Created by Jin on 11/10/2017.
@@ -16,6 +18,7 @@ public class Autonomous extends AutoModeBase {
     public void runOpMode() {
         waitForTeamStart(this, true);
 
+        timeToCollect.reset();
         // Jewel thing
         if(alliance == "Red")
             runAction(new JewelHitColor(JewelColor.Red));
@@ -28,7 +31,10 @@ public class Autonomous extends AutoModeBase {
             new RED_BACK(this, WhatColumnToScoreIn());
         }
         else if (alliance == "Red" && frontBack == "Front") {
-            new RED_FOWARD(this, WhatColumnToScoreIn());
+            if(getPitGlyph)
+                new RED_FOWARD_TWO_GLYPH(this, WhatColumnToScoreIn());
+            else
+                new RED_FOWARD(this, WhatColumnToScoreIn());
         }
         else if (alliance == "Blue" && frontBack == "Back") {
             new BLUE_BACK(this, WhatColumnToScoreIn());

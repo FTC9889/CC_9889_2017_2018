@@ -11,7 +11,7 @@ import com.team9889.Team9889LinearOpMode;
 
 public class GlyphLypht extends Subsystem{
     public enum Mode {
-        Auto, Intake, Level1, Level2, Level3, Level4
+        Auto, Teleop, Intake, Level2, Level4
     }
 
     private DcMotor RightLift, LeftLift = null;
@@ -50,7 +50,10 @@ public class GlyphLypht extends Subsystem{
             return false;
         }
 
-        this.goTo(Mode.Auto);
+        if(auton)
+            this.goTo(Mode.Auto);
+        else
+            this.goTo(Mode.Teleop);
         this.zeroSensors();
         this.stop();
 
@@ -125,6 +128,11 @@ public class GlyphLypht extends Subsystem{
                 clamp();
                 break;
             case Auto:
+                setServoPosition(0.0);
+                setLiftPosition(0, 0);
+                clamp();
+                break;
+            case Teleop:
                 setServoPosition(0.37);
                 setLiftPosition(0, 0);
                 release();

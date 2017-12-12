@@ -84,7 +84,7 @@ public class Drive extends Subsystem {
 
     public double getGyroAngleDegrees() {
         try {
-            return (imu1.getHeading());//+imu2.getHeading())/2;
+            return (imu1.getHeading()+imu2.getHeading())/2;
         } catch (Exception e){
             return 0;
         }

@@ -1,4 +1,4 @@
-package com.team9889.auto.modes;
+package com.team9889.auto.modes.SingleGlyph;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.auto.AutoModeBase;

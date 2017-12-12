@@ -24,7 +24,7 @@ public class JewelHitColor implements Action {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
             opMode.Robot.getJewel().deploy();
-            opMode.sleep(830);
+            opMode.sleep(730);
             if (opMode.jewel_Color == this.jewelColor)
                 opMode.Robot.getJewel().left();
             else if (opMode.jewel_Color != jewelColor)

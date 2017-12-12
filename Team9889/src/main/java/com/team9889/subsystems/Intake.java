@@ -54,6 +54,13 @@ public class Intake extends Subsystem{
         deploy();
     }
 
+    public void autoIntake(){
+        this.rightIntake.setPower(-1);
+        this.leftIntake.setPower(-1);
+        this.armLeft.setPosition(0.1);
+        this.armRight.setPosition(0.1);
+    }
+
     public void outtake(){
         this.rightIntake.setPower(1);
         this.leftIntake.setPower(1);
