@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by joshua9889 on 11/10/2017.
@@ -8,9 +8,9 @@ import com.team9889.Team9889LinearOpMode;
 
 public class JewelHitColor implements Action {
     // The ball we leave on the thing
-    private Team9889LinearOpMode.JewelColor jewelColor;
+    private Team9889Linear.JewelColor jewelColor;
 
-    public JewelHitColor(Team9889LinearOpMode.JewelColor jewelColor){
+    public JewelHitColor(Team9889Linear.JewelColor jewelColor){
         this.jewelColor = jewelColor;
     }
 
@@ -20,7 +20,7 @@ public class JewelHitColor implements Action {
     }
 
     @Override
-    public void start(Team9889LinearOpMode opMode) {
+    public void start(Team9889Linear opMode) {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
             opMode.Robot.getJewel().deploy();
@@ -35,7 +35,7 @@ public class JewelHitColor implements Action {
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {
+    public void update(Team9889Linear linearOpMode) {
 
     }
 

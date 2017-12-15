@@ -1,6 +1,6 @@
 package com.team9889.subsystems;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Robot combines all of subsystems into one importable class.
@@ -22,9 +22,9 @@ public class Robot {
 
     /**
      * Add each subsystem's outputToTelemetry in this method.
-     * @param opMode Current Team9889LinearOpMode
+     * @param opMode Current Team9889Linear
      */
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889Linear opMode) {
         mDrive.outputToTelemetry(opMode);
         mJewel.outputToTelemetry(opMode);
         mLift.outputToTelemetry(opMode);
@@ -33,41 +33,41 @@ public class Robot {
 
     /**
      * Init all subsytems in this method.
-     * @param team9889LinearOpMode The OpMode Object
+     * @param team9889Linear The OpMode Object
      * @param autonomous If the OpMode is for autonomous mode or not.
      * @return If all subsystems init properly, return true.
      */
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean autonomous) {
+    public boolean init(Team9889Linear team9889Linear, boolean autonomous) {
         boolean error = false;
 
         // Structure all inits like this.
-        if(!this.mDrive.init(team9889LinearOpMode, autonomous)){
-            team9889LinearOpMode.telemetry.addData("Error", " Drive");
+        if(!this.mDrive.init(team9889Linear, autonomous)){
+            team9889Linear.telemetry.addData("Error", " Drive");
             error = true;
         }
 
-        if(!this.mJewel.init(team9889LinearOpMode, autonomous)){
-            team9889LinearOpMode.telemetry.addData("Error", " Jewel");
+        if(!this.mJewel.init(team9889Linear, autonomous)){
+            team9889Linear.telemetry.addData("Error", " Jewel");
             error = true;
         }
 
-        if(!this.mLift.init(team9889LinearOpMode, autonomous)){
-            team9889LinearOpMode.telemetry.addData("Error", " Lift");
+        if(!this.mLift.init(team9889Linear, autonomous)){
+            team9889Linear.telemetry.addData("Error", " Lift");
             error = true;
         }
 
-        if(!this.mIntake.init(team9889LinearOpMode, autonomous)){
-            team9889LinearOpMode.telemetry.addData("Error", " Intake");
+        if(!this.mIntake.init(team9889Linear, autonomous)){
+            team9889Linear.telemetry.addData("Error", " Intake");
             error = true;
         }
 
         // Code to check for errors.
         if(error){
-            team9889LinearOpMode.telemetry.addData("Error during Init","");
-            team9889LinearOpMode.telemetry.update();
+            team9889Linear.telemetry.addData("Error during Init","");
+            team9889Linear.telemetry.update();
         }else {
-            team9889LinearOpMode.telemetry.addData("No Errors Init","");
-            team9889LinearOpMode.telemetry.update();
+            team9889Linear.telemetry.addData("No Errors Init","");
+            team9889Linear.telemetry.update();
         }
 
         return !error;

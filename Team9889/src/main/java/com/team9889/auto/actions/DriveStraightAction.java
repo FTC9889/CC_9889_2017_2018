@@ -1,7 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
-import com.team9889.lib.CruiseLib;
+import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
 
 
@@ -28,7 +27,7 @@ public class DriveStraightAction implements Action {
     }
 
     @Override
-    public void start(Team9889LinearOpMode opMode) {
+    public void start(Team9889Linear opMode) {
         mDrive = opMode.Robot.getDrive();
     }
 
@@ -43,7 +42,7 @@ public class DriveStraightAction implements Action {
     }
 
     @Override
-    public void update(Team9889LinearOpMode  opMode){
+    public void update(Team9889Linear opMode){
         mDrive.setLeftRightPower(mVelocity, mVelocity);
     }
 }

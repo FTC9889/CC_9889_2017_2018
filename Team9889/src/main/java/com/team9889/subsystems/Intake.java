@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by joshua9889 on 10/29/2017.
@@ -15,21 +15,21 @@ public class Intake extends Subsystem{
     private Servo armRight, armLeft = null;
 
     @Override
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {}
+    public void outputToTelemetry(Team9889Linear opMode) {}
 
     @Override
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
+    public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try {
-            this.rightIntake = team9889LinearOpMode.hardwareMap.dcMotor.get(Constants.kRightMotorIntakeId);
-            this.leftIntake = team9889LinearOpMode.hardwareMap.dcMotor.get(Constants.kLeftMotorIntakeId);
+            this.rightIntake = team9889Linear.hardwareMap.dcMotor.get(Constants.kRightMotorIntakeId);
+            this.leftIntake = team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftMotorIntakeId);
             this.leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;
         }
 
         try {
-            this.armRight = team9889LinearOpMode.hardwareMap.servo.get(Constants.kRightServoIntakeId);
-            this.armLeft = team9889LinearOpMode.hardwareMap.servo.get(Constants.kLeftServoIntakeId);
+            this.armRight = team9889Linear.hardwareMap.servo.get(Constants.kRightServoIntakeId);
+            this.armLeft = team9889Linear.hardwareMap.servo.get(Constants.kLeftServoIntakeId);
             this.armLeft.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e){
             return false;

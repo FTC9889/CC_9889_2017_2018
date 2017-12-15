@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
 
 /**
@@ -39,10 +39,10 @@ public class TurnToAngle implements Action {
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {}
+    public void update(Team9889Linear linearOpMode) {}
 
     @Override
-    public void start(Team9889LinearOpMode opMode) {
+    public void start(Team9889Linear opMode) {
         mDrive = opMode.Robot.getDrive();
         mDrive.DriveControlState(Drive.DriveControlStates.POWER);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);

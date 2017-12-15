@@ -2,7 +2,13 @@ package com.team9889.auto.modes.SingleGlyph;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.auto.AutoModeBase;
+import com.team9889.auto.actions.DriveTimeAction;
+import com.team9889.auto.actions.DriveToDistance;
 import com.team9889.auto.actions.DriveToPositionAction;
+import com.team9889.auto.actions.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.GlyphRelease;
+import com.team9889.auto.actions.GlyphRetractArm;
+import com.team9889.auto.actions.TurnToAngle;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 
@@ -17,133 +23,26 @@ import static com.team9889.Constants.inches2Ticks;
 public class BLUE_BACK {
     public BLUE_BACK(AutoModeBase M, RelicRecoveryVuMark column) {
         // Drive off platform
-        M.runAction(new DriveToPositionAction(inches2Ticks(20), inches2Ticks(20), 0.1, 0.1, 5));
-        M.sleep(200);
+        M.runAction(new DriveToDistance(20, 0));
+        M.sleep(250);
 
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
-        M.Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
-
-        // Turn 90 degrees
-        M.Robot.getDrive().setLeftRightPower(-0.6, 0.6);
-        boolean turning = true;
-        while (turning && M.opModeIsActive()){
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() > 90)
-                turning = false;
-            M.idle();
-        }
-
-        M.Robot.getDrive().setLeftRightPower(0.4, -0.4);
-
-        turning = true;
-        while (turning && M.opModeIsActive()) {
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() < 90)
-                turning = false;
-            M.idle();
-        }
-
-        M.Robot.getDrive().setLeftRightPower(-0.3, 0.3);
-
-        turning = true;
-        while (turning && M.opModeIsActive()) {
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() > 90)
-                turning = false;
-            M.idle();
-        }
-
-        M.Robot.getDrive().setLeftRightPower(0,0);
-
+        M.runAction(new TurnToAngle(90, 0.6));
         M.sleep(200);
 		
 		// Drive Straight 10"
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
-
-        int left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
-        int right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
-
-        while(M.opModeIsActive()){
-            if(left < M.Robot.getDrive().getLeftTicks())
-                break;
-
-            if(right < M.Robot.getDrive().getRightTicks())
-                break;
-
-            if(M.Robot.getDrive().getGyroAngleDegrees() < 90)
-                M.Robot.getDrive().setLeftRightPower(0.2, 0.3);
-            else if(M.Robot.getDrive().getGyroAngleDegrees() > 90)
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.2);
-            else
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.3);
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
-
+        M.runAction(new DriveToDistance(10, 90));
         M.sleep(250);
 		
 		// Turn to 135 degrees
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
-
-        ElapsedTime timeOut = new ElapsedTime();
-        M.Robot.getDrive().setLeftRightPower(-0.4, 0.4);
-        turning = true;
-        while (turning && M.opModeIsActive()){
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() >= 135)
-                turning = false;
-            M.idle();
-        }
-
-        timeOut.reset();
-        M.Robot.getDrive().setLeftRightPower(0.3, -0.3);
-        turning = true;
-        while (turning && M.opModeIsActive() && timeOut.milliseconds()<2000){
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() < 135)
-                turning = false;
-            M.idle();
-        }
-
-        timeOut.reset();
-        M.Robot.getDrive().setLeftRightPower(-0.2, 0.2);
-        turning = true;
-        while (turning && M.opModeIsActive()&& timeOut.milliseconds()<2000){
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() >= 135)
-                turning = false;
-            M.idle();
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
-
-        M.sleep(200);
+        M.runAction(new TurnToAngle(135, 0.6));
 
 		// Drive Straight 30" to cryptobox
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
-
-        left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(30);
-        right = M.Robot.getDrive().getRightTicks() + inches2Ticks(30);
-
-        while(M.opModeIsActive()){
-            if(left < M.Robot.getDrive().getLeftTicks())
-                break;
-
-            if(right < M.Robot.getDrive().getRightTicks())
-                break;
-
-            if(M.Robot.getDrive().getGyroAngleDegrees() < 135)
-                M.Robot.getDrive().setLeftRightPower(0.2, 0.3);
-            else if(M.Robot.getDrive().getGyroAngleDegrees() > 135)
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.2);
-            else
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.3);
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
-
+        M.runAction(new DriveToDistance(10, 135));
         M.sleep(100);
 
 		// Turn to face cryptobox
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
-        turning = true;
+        boolean turning = true;
         while (turning && M.opModeIsActive()){
             M.Robot.getDrive().setLeftRightPower(-0.4, 0.4);
             M.updateTelemetry();
@@ -154,12 +53,7 @@ public class BLUE_BACK {
         }
         M.Robot.getDrive().setLeftRightPower(0,0);
 
-        M.Robot.getIntake().clearArm();
-        M.Robot.getLift().clamp();
-        M.sleep(200);
-        M.Robot.getLift().goTo(GlyphLypht.Mode.Level2);
-        M.sleep(500);
-        M.Robot.getIntake().retract();
+        M.runAction(new GlyphDeployToFirstLevel());
 
         M.Robot.getDrive().setLeftRightPower(0.35, -0.35);
         turning = true;
@@ -173,8 +67,8 @@ public class BLUE_BACK {
 
 		// Drive foward to depost glyph in box
         M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
-        left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
-        right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
+        int left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
+        int right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
 
         while(M.opModeIsActive()){
             if(left < M.Robot.getDrive().getLeftTicks())
@@ -194,28 +88,19 @@ public class BLUE_BACK {
         M.sleep(500);
 		
 		// Release glyph
-        M.Robot.getLift().release();
-        M.sleep(1000);
+        M.runAction(new GlyphRelease());
 		
 		// Back away
-        M.Robot.getDrive().setLeftRightPower(-0.5, -0.5);
-        M.sleep(500);
-        M.Robot.getDrive().setLeftRightPower(0,0);
+        M.runAction(new DriveTimeAction(500, -0.3));
 		
 		// Pull everything in
-        M.Robot.getLift().goTo(GlyphLypht.Mode.Intake);
-        M.Robot.getIntake().retract();
-        M.Robot.getIntake().stopIntake();
-        M.sleep(500);
+        M.runAction(new GlyphRetractArm());
 		
 		// Push glyph all the way in
-        M.Robot.getDrive().setLeftRightPower(0.2, 0.2);
-        M.sleep(750);
-        M.Robot.getDrive().setLeftRightPower(0,0);
+        M.runAction(new DriveTimeAction(750, 0.2));
         M.sleep(100);
+
 		// Back away from glyph
-        M.Robot.getDrive().setLeftRightPower(-0.1, -0.1);
-        M.sleep(300);
-        M.Robot.getDrive().setLeftRightPower(0,0);
+        M.runAction(new DriveTimeAction(300, -0.1));
     }
 }

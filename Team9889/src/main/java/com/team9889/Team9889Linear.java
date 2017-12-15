@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.lib.AutoTransitioner;
 import com.team9889.lib.VuMark;
-import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -19,7 +18,7 @@ import camera_opmodes.LinearOpModeCamera;
  * Created by joshua9889 on 4/17/17.
  */
 
-public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
+public abstract class Team9889Linear extends LinearOpModeCamera {
 
     //New Robot
     public Robot Robot = com.team9889.subsystems.Robot.getInstance();
@@ -28,7 +27,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     public Driver_Station driver_station = new Driver_Station();
 
     //Used to reference the main opmode in this class
-    public Team9889LinearOpMode InternalopMode = null;
+    public Team9889Linear InternalopMode = null;
 
     //For VuMark
     private VuMark vuMark = new VuMark();
@@ -48,16 +47,18 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     public JewelColor jewel_Color = null;
     private int redVotes, blueVotes = 0;
 
+    public ElapsedTime timeToCollect = new ElapsedTime();
+
     //Match settings
     public String alliance, frontBack;
     public boolean getPartnerGlyph, getPitGlyph;
 
     /**
      * Use this method instead of waitForStart.
-     * @param opMode The Team9889LinearOpMode reference
+     * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    protected void waitForTeamStart(Team9889LinearOpMode opMode, boolean autonomous){
+    protected void waitForTeamStart(Team9889Linear opMode, boolean autonomous){
         this.InternalopMode = opMode;
 
         this.Robot.init(this.InternalopMode, autonomous);
@@ -65,7 +66,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
         // Start of Auto Code for Camera and the like
         if(autonomous){
             //Auto Transitioning
-            //AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
+            AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
 
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
@@ -140,7 +141,7 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 }// End of Vuforia Code
 
                 // Start of Camera Code
-                if(runCamera&& !opMode.isStarted()){
+                if(runCamera && !opMode.isStarted()){
                     cameraTimer.reset();
                     boolean runningCamera = true;
 
@@ -165,10 +166,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                             thingForCheckingIfCameraWorks = true;
                         }
                     }
-
-                    telemetry.addData("Running Camera","");
-                    telemetry.update();
-                    sleep(1000);
 
                     while (cameraTimer.milliseconds() < 4000 && !isStarted() && runningCamera){
                         int redValue = 0;
@@ -230,6 +227,8 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
                 vuMark.closeVuforia();
             } catch (Exception e){}
 
+            timeToCollect.reset();
+
         }// End of Auto Code for Camera and the like
         else{
             driver_station.init(InternalopMode); // New Driver station
@@ -257,24 +256,6 @@ public abstract class Team9889LinearOpMode extends LinearOpModeCamera {
     protected void finalAction(){
         this.Robot.stop();
         this.InternalopMode.requestOpModeStop();
-    }
-
-    //Built-in function by FIRST. Used for things
-    private ElapsedTime period = new ElapsedTime();
-    protected void waitForTick(long periodMs) {
-        long  remaining = periodMs - (long)period.milliseconds();
-
-        // sleep for the remaining portion of the regular cycle period.
-        if (remaining > 0) {
-            try {
-                Thread.sleep(remaining);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        // Reset the cycle clock for the next pass.
-        period.reset();
     }
 
     //Get the Autonomous prefs from the app's activity and convert them to local variables instead.

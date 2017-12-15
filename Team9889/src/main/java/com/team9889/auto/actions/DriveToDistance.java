@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
 
 import static com.team9889.Constants.inches2Ticks;
@@ -37,7 +37,7 @@ public class DriveToDistance implements Action {
     }
 
     @Override
-    public void start(Team9889LinearOpMode opMode) {
+    public void start(Team9889Linear opMode) {
         mDrive = opMode.Robot.getDrive();
         left = mDrive.getLeftTicks() + inches2Ticks(mWantedDistance);
         right = mDrive.getRightTicks() + inches2Ticks(mWantedDistance);
@@ -46,7 +46,7 @@ public class DriveToDistance implements Action {
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {
+    public void update(Team9889Linear linearOpMode) {
         if(mWantedDistance > 0){
             if(left < mDrive.getLeftTicks())
                 isFinished = true;

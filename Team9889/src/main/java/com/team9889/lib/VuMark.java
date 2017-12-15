@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.team9889.Constants;
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 
@@ -45,7 +45,7 @@ public class VuMark {
         this.relicTrackables.deactivate();
     }
 
-    public void updateTarget(Team9889LinearOpMode team9889LinearOpMode){
+    public void updateTarget(Team9889Linear team9889Linear){
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if(vuMark != RelicRecoveryVuMark.UNKNOWN)
             this.ouputVuMark = vuMark;

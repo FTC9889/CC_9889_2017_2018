@@ -2,10 +2,7 @@ package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.team9889.Team9889LinearOpMode;
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.JewelHitColor;
-import com.team9889.lib.VuMark;
 
 /**
  * Created by joshua9889 on 9/10/2017.

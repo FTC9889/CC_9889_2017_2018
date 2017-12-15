@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by joshua9889 on 4/10/2017.
@@ -14,10 +14,10 @@ public interface Action {
     public abstract boolean isFinished();
 
     //Called once before the Action is updated
-    public abstract void start(Team9889LinearOpMode opMode);
+    public abstract void start(Team9889Linear opMode);
 
     //Called in a continuously after start
-    public abstract void update(Team9889LinearOpMode linearOpMode);
+    public abstract void update(Team9889Linear linearOpMode);
     
     //Called after the Action is finished
     public abstract void done();

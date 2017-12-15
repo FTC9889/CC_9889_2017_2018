@@ -10,14 +10,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class RED_FOWARD_TWO_GLYPH {
     public RED_FOWARD_TWO_GLYPH(AutoModeBase M, RelicRecoveryVuMark column){
+        // Drive off Balance Stone
         M.runAction(new DriveToDistance(17, 0.0, 0.1));
         M.sleep(250);
+
+        // Turn to the cb
         M.runAction(new TurnToAngle(-90, 0.6));
         M.runAction(new DriveToDistance(16, -90, 0.3));
         M.runAction(new GlyphDeployToFirstLevel());
 
         M.runAction(new TurnToAngle(-110, 0.6));
-        M.runAction(new DriveTimeAction(700, 0.3));
+        M.runAction(new DriveToDistance(10, -110, 0.2));
         M.runAction(new DriveTimeAction(200, -0.3));
         M.sleep(100);
         M.runAction(new GlyphRelease());
@@ -25,27 +28,17 @@ public class RED_FOWARD_TWO_GLYPH {
         M.runAction(new DriveTimeAction(500, -0.2));
         M.runAction(new GlyphRetractArm());
         M.runAction(new IntakeDeployWideIntake());
-        M.runAction(new TurnToAngle(60, 0.6));
-        M.runAction(new DriveToDistance(14, 45, 0.6));
-
-        M.sleep(1000);
-
-
-
-
-        /*M.runAction(new IntakeDeployAndCollect());
-
-        M.runAction(new TurnToAngle(50, 0.6));
-        M.runAction(new DriveToDistance(5, 50, 1.0));
-        M.sleep(250);
-        M.runAction(new TurnToAngle(45, 1.0));
-        M.sleep(1000);
-
-        M.runAction(new DriveToDistance(5, 45, 1.0));
-        M.sleep(250);
+        M.runAction(new TurnToAngle(65, 0.6));
+        M.runAction(new DriveToDistance(30, 65, 0.6));
+        M.sleep(500);
         M.runAction(new TurnToAngle(50, 1.0));
-        M.sleep(1000);
+        M.sleep(500);
+        M.runAction(new DriveToDistance(5, 50, 1.0));
+        M.sleep(500);
+        M.runAction(new DriveTimeAction(700, -0.1));
+        M.runAction(new TurnToAngle(-90, 0.6));
+        M.runAction(new DriveToDistance(14, -90, 0.4));
 
-        M.runAction(new DriveToDistance(-10, 45, 0.4));*/
+        M.sleep(1000);
     }
 }

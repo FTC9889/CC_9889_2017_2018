@@ -11,7 +11,7 @@ import com.team9889.subsystems.GlyphLypht;
  */
 
 @TeleOp(name = "Teleop")
-public class Teleop extends Team9889LinearOpMode {
+public class Teleop extends Team9889Linear {
 
     private ElapsedTime matchTime = new ElapsedTime();
 

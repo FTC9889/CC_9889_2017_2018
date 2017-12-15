@@ -2,12 +2,9 @@ package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
-import com.team9889.Team9889LinearOpMode;
-import com.team9889.lib.CruiseLib;
+import com.team9889.Team9889Linear;
 import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -40,22 +37,22 @@ public class Drive extends Subsystem {
     }
 
     @Override //This is KINDA like the hardwareMap, but then again I'm not too sure.
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
+    public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try{
-            this.rightMaster_ = (DcMotorEx)team9889LinearOpMode.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
-            this.leftMaster_ = (DcMotorEx)team9889LinearOpMode.hardwareMap.get(DcMotor.class, Constants.kLeftDriveMasterId);
+            this.rightMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
+            this.leftMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kLeftDriveMasterId);
         } catch (Exception e){
             return false;
         }
 
         if(auton){
             try {
-                this.imu1 = new RevIMU("imu 1", team9889LinearOpMode.hardwareMap);
+                this.imu1 = new RevIMU("imu 1", team9889Linear.hardwareMap);
             } catch (Exception e){return false;}
 
 
             try {
-                this.imu2 = new RevIMU("imu", team9889LinearOpMode.hardwareMap);
+                this.imu2 = new RevIMU("imu", team9889Linear.hardwareMap);
             } catch (Exception e){return false;}
         }
 
@@ -69,7 +66,7 @@ public class Drive extends Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889Linear opMode) {
         opMode.telemetry.addData("Left Position", -this.leftMaster_.getCurrentPosition());
         opMode.telemetry.addData("Right Position", this.rightMaster_.getCurrentPosition());
         opMode.telemetry.addData("Left Power", this.leftMaster_.getPower());

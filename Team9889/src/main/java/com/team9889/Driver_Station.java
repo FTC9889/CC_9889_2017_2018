@@ -9,30 +9,30 @@ public class Driver_Station{
 
     public Driver_Station(){}
 
-    public Team9889LinearOpMode team9889LinearOpMode;
+    public Team9889Linear team9889Linear;
 
-    public void init(Team9889LinearOpMode opMode){
-        this.team9889LinearOpMode = opMode;
+    public void init(Team9889Linear opMode){
+        this.team9889Linear = opMode;
     }
 
     public boolean SlowDrivetrain(){
-        return this.team9889LinearOpMode.gamepad1.left_trigger > 0.3;
+        return this.team9889Linear.gamepad1.left_trigger > 0.3;
     }
 
 
     public boolean level2() {
-        return this.team9889LinearOpMode.gamepad1.b;
+        return this.team9889Linear.gamepad1.b;
     }
 
     public boolean outtake() {
-        return this.team9889LinearOpMode.gamepad1.right_bumper;
+        return this.team9889Linear.gamepad1.right_bumper;
     }
 
     public boolean level4() {
-        return this.team9889LinearOpMode.gamepad1.x;
+        return this.team9889Linear.gamepad1.x;
     }
 
     public boolean intake() {
-        return this.team9889LinearOpMode.gamepad1.a;
+        return this.team9889Linear.gamepad1.a;
     }
 }

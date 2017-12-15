@@ -1,7 +1,6 @@
 package com.team9889.subsystems;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by joshua9889 on 4/10/2017.
@@ -19,9 +18,9 @@ import com.team9889.Team9889LinearOpMode;
  * at the start of the match.
  */
 public abstract class Subsystem {
-    public abstract void outputToTelemetry(Team9889LinearOpMode opMode);
+    public abstract void outputToTelemetry(Team9889Linear opMode);
 
-    public abstract boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton);
+    public abstract boolean init(Team9889Linear team9889Linear, boolean auton);
 
     public abstract void stop();
 

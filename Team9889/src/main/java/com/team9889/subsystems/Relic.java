@@ -1,6 +1,6 @@
 package com.team9889.subsystems;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by Jin on 11/10/2017.
@@ -8,12 +8,12 @@ import com.team9889.Team9889LinearOpMode;
 
 public class Relic extends Subsystem {
     @Override
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889Linear opMode) {
 
     }
 
     @Override
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
+    public boolean init(Team9889Linear team9889Linear, boolean auton) {
         return false;
     }
 

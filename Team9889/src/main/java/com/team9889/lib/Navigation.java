@@ -1,6 +1,6 @@
 package com.team9889.lib;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
 
 import static com.team9889.lib.CruiseLib.degreesToRadians;
@@ -44,7 +44,7 @@ public class Navigation {
         this.y += magnitude * Math.cos(degreesToRadians(this.heading));
     }
 
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889Linear opMode) {
         String outputTelem = "X: " + this.x + " Y: " + this.y + " Heading: " + this.heading;
         opMode.telemetry.addData("Nav", outputTelem);
     }

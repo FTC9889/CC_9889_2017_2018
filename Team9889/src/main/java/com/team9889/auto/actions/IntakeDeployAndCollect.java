@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Intake;
 
 /**
@@ -16,14 +16,14 @@ public class IntakeDeployAndCollect implements Action {
     }
 
     @Override
-    public void start(Team9889LinearOpMode opMode) {
+    public void start(Team9889Linear opMode) {
         mIntake = opMode.Robot.getIntake();
         mIntake.intake();
         opMode.sleep(100);
     }
 
     @Override
-    public void update(Team9889LinearOpMode linearOpMode) {
+    public void update(Team9889Linear linearOpMode) {
 
     }
 

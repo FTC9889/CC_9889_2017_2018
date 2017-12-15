@@ -3,7 +3,7 @@ package com.team9889.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
-import com.team9889.Team9889LinearOpMode;
+import com.team9889.Team9889Linear;
 
 /**
  * Created by Jin on 11/3/2017.
@@ -19,32 +19,32 @@ public class GlyphLypht extends Subsystem{
     private Servo RightFinger, LeftFinger = null;
 
     @Override
-    public void outputToTelemetry(Team9889LinearOpMode opMode) {
+    public void outputToTelemetry(Team9889Linear opMode) {
         opMode.telemetry.addData("Left Lift Pos", LeftLift.getCurrentPosition());
         opMode.telemetry.addData("Right Lift Pos", RightLift.getCurrentPosition());
     }
 
     @Override
-    public boolean init(Team9889LinearOpMode team9889LinearOpMode, boolean auton) {
+    public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try{
-            this.RightLift = team9889LinearOpMode.hardwareMap.dcMotor.get(Constants.kLeftGlyphLift);
-            this.LeftLift = team9889LinearOpMode.hardwareMap.dcMotor.get(Constants.kRightGlyphLift);
+            this.RightLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftGlyphLift);
+            this.LeftLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kRightGlyphLift);
             this.stop();
         } catch (Exception e){
             return false;
         }
 
         try {
-            this.RightServo = team9889LinearOpMode.hardwareMap.servo.get(Constants.kRightGlyphServoId);
-            this.LeftServo = team9889LinearOpMode.hardwareMap.servo.get(Constants.kLeftGlyphServoId);
+            this.RightServo = team9889Linear.hardwareMap.servo.get(Constants.kRightGlyphServoId);
+            this.LeftServo = team9889Linear.hardwareMap.servo.get(Constants.kLeftGlyphServoId);
             this.LeftServo.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e){
             return false;
         }
 
         try {
-            this.RightFinger = team9889LinearOpMode.hardwareMap.servo.get(Constants.kRightFingerId);
-            this.LeftFinger = team9889LinearOpMode.hardwareMap.servo.get(Constants.kLeftFingerId);
+            this.RightFinger = team9889Linear.hardwareMap.servo.get(Constants.kRightFingerId);
+            this.LeftFinger = team9889Linear.hardwareMap.servo.get(Constants.kLeftFingerId);
             this.LeftFinger.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e){
             return false;
