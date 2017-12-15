@@ -10,13 +10,13 @@ import com.team9889.subsystems.GlyphLypht;
  * Our Teleop Code
  */
 
-@TeleOp(name = "Teleop")
+@TeleOp
 public class Teleop extends Team9889Linear {
 
     private ElapsedTime matchTime = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
-        waitForTeamStart(this, false);
+        waitForStart(this, false);
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
         Robot.getJewel().retract();

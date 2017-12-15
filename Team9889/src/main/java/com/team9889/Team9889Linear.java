@@ -58,7 +58,7 @@ public abstract class Team9889Linear extends LinearOpModeCamera {
      * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    protected void waitForTeamStart(Team9889Linear opMode, boolean autonomous){
+    protected void waitForStart(Team9889Linear opMode, boolean autonomous){
         this.InternalopMode = opMode;
 
         this.Robot.init(this.InternalopMode, autonomous);
