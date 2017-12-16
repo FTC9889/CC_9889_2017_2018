@@ -29,7 +29,7 @@ public class RED_FOWARD {
         switch (column){
             case LEFT:
                 // Turn to Left column
-                M.runAction(new TurnToAngle(-105, 0.4));
+                M.runAction(new TurnToAngle(-105, 0.6));
 
                 // Drive foward to place glpyh
                 M.runAction(new DriveToDistance(2, -90, 0.4));
@@ -37,7 +37,7 @@ public class RED_FOWARD {
                 break;
             case CENTER:
                 // Turn to Center column
-                M.runAction(new TurnToAngle(-125, 0.4));
+                M.runAction(new TurnToAngle(-125, 0.6));
                 M.sleep(100);
 
                 // Drive foward to place glyph
@@ -47,7 +47,7 @@ public class RED_FOWARD {
                 break;
             case RIGHT:
                 // Turn to Right column
-                M.runAction(new TurnToAngle(-145, 0.4));
+                M.runAction(new TurnToAngle(-145, 0.6));
                 M.sleep(100);
 
                 // Drive foward to place glyph
@@ -55,7 +55,14 @@ public class RED_FOWARD {
                 M.sleep(400);
                 M.runAction(new TurnToAngle(-140, 0.6));
                 M.sleep(200);
+                break;
+            default:
+                // Turn to Left column
+                M.runAction(new TurnToAngle(-105, 0.6));
 
+                // Drive foward to place glpyh
+                M.runAction(new DriveToDistance(2, -90, 0.4));
+                M.sleep(500);
                 break;
         }
 

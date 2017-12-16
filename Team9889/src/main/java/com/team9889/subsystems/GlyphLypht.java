@@ -50,11 +50,10 @@ public class GlyphLypht extends Subsystem{
             return false;
         }
 
-        if(auton)
+        if(auton) {
             this.goTo(Mode.Auto);
-        else
-            this.goTo(Mode.Teleop);
-        this.zeroSensors();
+            this.zeroSensors();
+        }
         this.stop();
 
         return true;
