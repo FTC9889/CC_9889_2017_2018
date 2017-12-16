@@ -141,7 +141,7 @@ public abstract class Team9889Linear extends LinearOpModeCamera {
                 }// End of Vuforia Code
 
                 // Start of Camera Code
-                if(runCamera && !opMode.isStarted()){
+                if(runCamera&& !opMode.isStarted()){
                     cameraTimer.reset();
                     boolean runningCamera = true;
 
@@ -166,6 +166,10 @@ public abstract class Team9889Linear extends LinearOpModeCamera {
                             thingForCheckingIfCameraWorks = true;
                         }
                     }
+
+                    telemetry.addData("Running Camera","");
+                    telemetry.update();
+                    sleep(1000);
 
                     while (cameraTimer.milliseconds() < 4000 && !isStarted() && runningCamera){
                         int redValue = 0;

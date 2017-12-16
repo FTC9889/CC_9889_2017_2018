@@ -25,6 +25,7 @@ public class GlyphRetractArm implements Action {
         mIntake.clearArm();
         opMode.sleep(200);
         mLift.goTo(GlyphLypht.Mode.Intake);
+        mIntake.retract();
         opMode.sleep(250);
     }
 

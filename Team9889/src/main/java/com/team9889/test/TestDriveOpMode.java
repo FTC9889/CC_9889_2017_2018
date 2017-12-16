@@ -19,7 +19,7 @@ public class TestDriveOpMode extends AutoModeBase {
     @Override
     public void runOpMode(){
 
-        waitForTeamStart(this, true);
+        waitForStart(this, true);
 
         //Hit Jewel off platform
         if(alliance == "Red")

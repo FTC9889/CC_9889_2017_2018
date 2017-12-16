@@ -21,6 +21,7 @@ public class GlyphDeployToFirstLevel implements Action {
         mLift.clamp();
         opMode.sleep(200);
         mLift.goTo(GlyphLypht.Mode.Level2);
+        mLift.setServoPosition(0.2);
         opMode.sleep(250);
         opMode.Robot.getIntake().retract();
     }

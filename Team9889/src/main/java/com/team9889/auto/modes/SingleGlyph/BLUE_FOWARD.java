@@ -24,56 +24,66 @@ public class BLUE_FOWARD {
 
     public BLUE_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
         // Drive off platform
-        M.runAction(new DriveToDistance(17, 0, 0.1));
-        M.sleep(500);
+        M.runAction(new DriveToDistance(17, 0.0, 0.1));
+        M.sleep(200);
 
-        // Turn left to cyr4tobocs tstdfs
+        // Turn to cryptobox
         M.runAction(new TurnToAngle(90, 0.6));
         M.sleep(200);
 
-        // Drive foward 25
-        M.runAction(new DriveToDistance(25, 90, 0.4));
+        //Drive 25" to cryptobox
+        M.runAction(new DriveToDistance(23, 90, 0.4));
 
-        // Deploy Arm
+        // Deploy arm w/glyph inside
         M.runAction(new GlyphDeployToFirstLevel());
 
-        // Used for turning to correct column
+        // Determine what column to score the glpyh in
         switch (column){
-            case RIGHT:
-                M.runAction(new TurnToAngle(100, 0.4));
-                M.sleep(100);
+            case LEFT:
+                // Turn to Left column
+                M.runAction(new TurnToAngle(105, 0.4));
 
-                M.runAction(new DriveToDistance(4, 100, 0.4));
+                // Drive foward to place glpyh
+                M.runAction(new DriveToDistance(2, 90, 0.4));
                 M.sleep(500);
                 break;
             case CENTER:
-                M.runAction(new TurnToAngle(110, 0.6));
+                // Turn to Center column
+                M.runAction(new TurnToAngle(125, 0.4));
                 M.sleep(100);
 
-                M.runAction(new DriveToDistance(7, 110, 0.2));
+                // Drive foward to place glyph
+                M.runAction(new DriveToDistance(10, 125, 0.4));
                 M.sleep(400);
 
                 break;
-            case LEFT:
-                M.runAction(new TurnToAngle(120, 0.6));
+            case RIGHT:
+                // Turn to Right column
+                M.runAction(new TurnToAngle(145, 0.4));
                 M.sleep(100);
 
-                M.runAction(new DriveToDistance(14, 120, 0.2));
+                // Drive foward to place glyph
+                M.runAction(new DriveToDistance(14, 145, 0.2));
                 M.sleep(400);
+                M.runAction(new TurnToAngle(140, 0.6));
+                M.sleep(200);
 
                 break;
         }
 
+        // Release glpyh
         M.runAction(new GlyphRelease());
 
+        // Backup
         M.runAction(new DriveTimeAction(500, -1));
         M.sleep(100);
 
+        // Retract everything
         M.runAction(new GlyphRetractArm());
 
+        // RAM INTO THINGS!!
         M.runAction(new DriveTimeAction(750, 0.4));
         M.sleep(100);
-
         M.runAction(new DriveTimeAction(300, -0.1));
     }
 }
