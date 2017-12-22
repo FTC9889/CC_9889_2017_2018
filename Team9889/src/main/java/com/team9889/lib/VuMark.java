@@ -1,97 +1,137 @@
 package com.team9889.lib;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Hardware;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
+import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.R;
 
 /**
  * Created by joshua9889 on 10/14/2017.
  */
 
 public class VuMark {
-    public VuMark(){}
 
-    private VuforiaTrackables relicTrackables = null;
-    private VuforiaTrackable relicTemplate = null;
+    // Vuforia THings
+    private String vuforiaLicenseKey ="";
+    private VuforiaLocalizer vuforia;
+    private VuforiaTrackables relicTrackables;
+    private VuforiaTrackable relicTemplate;
     private RelicRecoveryVuMark ouputVuMark = RelicRecoveryVuMark.UNKNOWN;
-    ClosableVuforiaLocalizer vuforia;
 
+    // Bitmap things
+    private Image img = null;
+    public Bitmap bm = null;
+
+    /**
+     * @param licenseKey Vuforia license key
+     */
+    public VuMark(String licenseKey){
+        this.vuforiaLicenseKey = licenseKey;
+    }
+
+    /**
+     * @param cameraDirection What camera to use
+     */
     public void setup(VuforiaLocalizer.CameraDirection cameraDirection) {
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-        parameters.vuforiaLicenseKey = Constants.kVuforiaLicenceKey;
-        parameters.cameraDirection = cameraDirection;
-        parameters.useExtendedTracking = false;
-        vuforia = new ClosableVuforiaLocalizer(parameters);
-        this.relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
-        this.relicTemplate = relicTrackables.get(0);
-        this.ouputVuMark = RelicRecoveryVuMark.UNKNOWN;
+        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+        params.vuforiaLicenseKey = Constants.kVuforiaLicenceKey;
+        params.cameraDirection = cameraDirection;
+
+        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
+        vuforia.setFrameQueueCapacity(1);
+        Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
+
+        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
         this.activateVuforia();
     }
 
+    /**
+     * Activate Vuforia Tracker
+     */
     public void activateVuforia(){
         this.relicTrackables.activate();
     }
 
+    /**
+     * Disable Vuforia Tracker
+     */
     public void disableVuforia(){
         this.relicTrackables.deactivate();
     }
 
-    public void updateTarget(Team9889Linear team9889Linear){
+    /**
+     * @return output vumark
+     */
+    public RelicRecoveryVuMark getOuputVuMark(){
+        return this.ouputVuMark;
+    }
+
+    /**
+     * Use this method to update the current vumark
+     * @param team9889Linear Current Team9889Linear Opmode.
+     */
+    public void update(Team9889Linear team9889Linear){
+        // VuMark Update
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if(vuMark != RelicRecoveryVuMark.UNKNOWN)
             this.ouputVuMark = vuMark;
     }
 
-    public RelicRecoveryVuMark getOuputVuMark(){
-        return this.ouputVuMark;
+    // Used to convert a Vuforia Frame into a Image in our favorite format
+    // Used for Camera
+    @Nullable
+    private static Image getImageFromFrame(VuforiaLocalizer.CloseableFrame frame, int format) {
+        long numImgs = frame.getNumImages();
+        for (int i = 0; i < numImgs; i++) {
+            if (frame.getImage(i).getFormat() == format) {
+                return frame.getImage(i);
+            }//if
+        }//for
+
+        return null;
     }
 
-    public void closeVuforia() {
-        this.vuforia.close();
-    }
-
-    public Bitmap readFrame() {
-        VuforiaLocalizer.CloseableFrame frame;
-        Image rgb = null;
-
+    // Get Bitmap from vuforia
+    public Bitmap getBm(){
         try {
-            // grab the last frame pushed onto the queue
-            frame = vuforia.getFrameQueue().take();
-        } catch (InterruptedException e) {
-            Log.d("Vuforia", "Problem taking frame off Vuforia queue");
-            e.printStackTrace();
+            img = getImageFromFrame(vuforia.getFrameQueue().take(), PIXEL_FORMAT.RGB565);
+            Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
+            bm.copyPixelsFromBuffer(img.getPixels());
+            return bm;
+        } catch(Exception e){
             return null;
         }
+    }
 
-        // basically get the number of formats for this frame
-        long numImages = frame.getNumImages();
+    public int red(int pixel) {
+        return (pixel >> 16) & 0xff;
+    }
 
-        // set rgb object if one of the formats is RGB565
-        for(int i = 0; i < numImages; i++) {
-            if(frame.getImage(i).getFormat() == PIXEL_FORMAT.RGB565) {
-                rgb = frame.getImage(i);
-                break;
-            }
-        }
+    public int green(int pixel) {
+        return (pixel >> 8) & 0xff;
+    }
 
-        if(rgb == null) {
-            Log.d("Vuforia", "Image format not found");
-            return null;
-        }
+    public int blue(int pixel) {
+        return pixel & 0xff;
+    }
 
-        // create a new bitmap and copy the byte buffer returned by rgb.getPixels() to it
-        Bitmap bm = Bitmap.createBitmap(rgb.getWidth(), rgb.getHeight(), Bitmap.Config.RGB_565);
-        bm.copyPixelsFromBuffer(rgb.getPixels());
-
-        return bm;
+    public int gray(int pixel) {
+        return (red(pixel) + green(pixel) + blue(pixel));
     }
 }

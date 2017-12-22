@@ -11,7 +11,7 @@ import com.team9889.Team9889Linear;
 
 public class GlyphLypht extends Subsystem{
     public enum Mode {
-        Auto, Teleop, Intake, Level2, Level4
+        Auto, Teleop, Intake, Level2, Level4, OvertheBack
     }
 
     private DcMotor RightLift, LeftLift = null;
@@ -117,24 +117,29 @@ public class GlyphLypht extends Subsystem{
                 release();
                 break;
             case Level2:
-                setServoPosition(0.1);
-                setLiftPosition(Constants.GLsecond, Constants.GLsecond, Constants.maxSpeed);
                 clamp();
+                setServoPosition(0.1);
+                setLiftPosition(Constants.GLsecond,Constants.maxSpeed);
                 break;
             case Level4:
-                setServoPosition(0.5);
-                setLiftPosition(Constants.GLtop, Constants.GLtop, Constants.maxSpeed-0.1);
                 clamp();
+                setServoPosition(0.5);
+                setLiftPosition(Constants.GLtop, Constants.maxSpeed-0.1);
+                break;
+            case OvertheBack:
+                clamp();
+                setServoPosition(0.37);
+                setLiftPosition(Constants.GLback, Constants.maxSpeed);
                 break;
             case Auto:
+                clamp();
                 setServoPosition(0.0);
                 setLiftPosition(0, 0);
-                clamp();
                 break;
             case Teleop:
+                clamp();
                 setServoPosition(0.37);
                 setLiftPosition(0, 0);
-                release();
                 break;
         }
     }

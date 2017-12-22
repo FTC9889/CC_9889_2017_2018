@@ -72,6 +72,7 @@ public class Constants {
     public final static int GLintake = 0;
     public final static int GLsecond = 400;
     public final static int GLtop = 900;
+    public final static int GLback = 1400;
 
     //Lift Servos
     public final static String kLeftGlyphServoId = "id1";

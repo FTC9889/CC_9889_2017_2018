@@ -53,11 +53,19 @@ public class Teleop extends Team9889Linear {
                 Robot.getLift().goTo(GlyphLypht.Mode.Level4);
             }
             else if (driver_station.intake()) {
-                Robot.getJewel().retract();
+                Robot.getJewel().right();
 
                 Robot.getIntake().intake();
 
                 Robot.getLift().goTo(GlyphLypht.Mode.Intake);
+            }
+            else if(gamepad1.dpad_up) {
+                Robot.getJewel().right();
+
+                Robot.getIntake().stopIntake();
+                Robot.getIntake().clearArm();
+
+                Robot.getLift().goTo(GlyphLypht.Mode.OvertheBack);
             }
 
             // Control the fingers

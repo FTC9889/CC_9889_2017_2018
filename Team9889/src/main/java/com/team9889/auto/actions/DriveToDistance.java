@@ -48,10 +48,10 @@ public class DriveToDistance implements Action {
     @Override
     public void update(Team9889Linear linearOpMode) {
         if(mWantedDistance > 0){
-            if(left < mDrive.getLeftTicks())
+            if(mDrive.getLeftTicks() > left)
                 isFinished = true;
 
-            if(right < mDrive.getRightTicks())
+            if(mDrive.getRightTicks() > right)
                 isFinished = true;
 
             mSpeed = Math.abs(mSpeed);
@@ -79,13 +79,19 @@ public class DriveToDistance implements Action {
                 else
                     mDrive.setLeftRightPower(mSpeed, mSpeed);
             } else if(mWantedAngle == 180){ // why do you do this to me rev???
-
+                if(mDrive.getGyroAngleDegrees()<-1)
+                    mDrive.setLeftRightPower(mLowerSpeed, mSpeed);
+                else if (mDrive.getGyroAngleDegrees()>1)
+                    mDrive.setLeftRightPower(mSpeed, mLowerSpeed);
+                else
+                    mDrive.setLeftRightPower(mSpeed, mSpeed);
             }
         } else{
-            if(left > mDrive.getLeftTicks())
+            // is current pos less then wanted pos?
+            if(mDrive.getLeftTicks() < left)
                 isFinished = true;
 
-            if(right > mDrive.getRightTicks())
+            if(mDrive.getRightTicks() < right)
                 isFinished = true;
 
             mSpeed = -Math.abs(mSpeed);
@@ -113,7 +119,12 @@ public class DriveToDistance implements Action {
                 else
                     mDrive.setLeftRightPower(mSpeed, mSpeed);
             } else if(mWantedAngle == 180){ // why do you do this to me rev???
-
+                if(mDrive.getGyroAngleDegrees()<-1)
+                    mDrive.setLeftRightPower(mLowerSpeed, mSpeed);
+                else if (mDrive.getGyroAngleDegrees()>1)
+                    mDrive.setLeftRightPower(mSpeed, mLowerSpeed);
+                else
+                    mDrive.setLeftRightPower(mSpeed, mSpeed);
             }
         }
 
