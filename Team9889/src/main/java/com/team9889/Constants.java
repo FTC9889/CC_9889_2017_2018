@@ -72,7 +72,7 @@ public class Constants {
     public final static int GLintake = 0;
     public final static int GLsecond = 400;
     public final static int GLtop = 900;
-    public final static int GLback = 1400;
+    public final static int GLback = 1430;
 
     //Lift Servos
     public final static String kLeftGlyphServoId = "id1";
@@ -82,7 +82,7 @@ public class Constants {
     public final static String kLeftFingerId = "id3";
     public final static String kRightFingerId = "id4";
 
-    public final static double maxSpeed = 0.4;
+    public final static double maxSpeed = 1.0;
 
     /*---------------------
     |                     |

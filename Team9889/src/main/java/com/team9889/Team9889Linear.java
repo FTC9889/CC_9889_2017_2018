@@ -24,6 +24,7 @@ public abstract class Team9889Linear extends LinearOpMode {
 
     //New Robot
     public Robot Robot = com.team9889.subsystems.Robot.getInstance();
+    private static boolean init = false;
 
     //New Driver Station
     public Driver_Station driver_station = new Driver_Station();
@@ -53,10 +54,17 @@ public abstract class Team9889Linear extends LinearOpMode {
      * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    protected void waitForStart(Team9889Linear opMode, boolean autonomous){
+    protected void waitForStart(Team9889Linear opMode, final boolean autonomous){
         this.InternalopMode = opMode;
 
-        this.Robot.init(this.InternalopMode, autonomous);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Robot.init(InternalopMode, autonomous);
+                init = true;
+            }
+        }).start();
 
         // Start of Auto Code for Camera and the like
         if(autonomous){
@@ -106,21 +114,21 @@ public abstract class Team9889Linear extends LinearOpMode {
                 else
                     jewel_Color = JewelColor.Blue;
 
+                telemetry.addData("Robot Init", init);
                 telemetry.addData("VuMark", WhatColumnToScoreIn());
                 telemetry.addData("Color", jewel_Color);
-                telemetry.addData("red", redVotes);
-                telemetry.addData("blue", blueVotes);
                 telemetry.update();
             }// End of Scanning Code
-
-
             timeToCollect.reset();
 
-        }// End of Auto Code for Camera and the like
+        }// End of Auto Code for Camera and the like1
         else{
             driver_station.init(InternalopMode); // New Driver station
-            this.InternalopMode.telemetry.addData("Waiting for Start", "");
-            this.InternalopMode.telemetry.update();
+            while (!isStarted()){
+                telemetry.addData("Robot Init", init);
+                telemetry.addData("Waiting for Start", "");
+                telemetry.update();
+            }
         }
 
         //Wait for DS start

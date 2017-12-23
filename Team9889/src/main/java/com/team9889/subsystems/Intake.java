@@ -100,6 +100,4 @@ public class Intake extends Subsystem{
         this.leftIntake.setPower(0.5);
     }
 
-
-
 }

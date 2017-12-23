@@ -10,9 +10,12 @@ import com.team9889.Team9889Linear;
  */
 
 public class GlyphLypht extends Subsystem{
+
     public enum Mode {
         Auto, Teleop, Intake, Level2, Level4, OvertheBack
     }
+
+    public Mode currentMode;
 
     private DcMotor RightLift, LeftLift = null;
     private Servo RightServo, LeftServo = null;
@@ -20,6 +23,7 @@ public class GlyphLypht extends Subsystem{
 
     @Override
     public void outputToTelemetry(Team9889Linear opMode) {
+        opMode.telemetry.addData("Is in Position?", isAtLocation());
         opMode.telemetry.addData("Left Lift Pos", LeftLift.getCurrentPosition());
         opMode.telemetry.addData("Right Lift Pos", RightLift.getCurrentPosition());
     }
@@ -74,7 +78,7 @@ public class GlyphLypht extends Subsystem{
     }
 
     public void clamp(){
-        setFingerPosition(0.3);
+        setFingerPosition(0.6);
     }
 
     public void release(){
@@ -106,14 +110,23 @@ public class GlyphLypht extends Subsystem{
         this.LeftServo.setPosition(position);
     }
 
+    public boolean isAtLocation(){
+        int tol = 10;
+
+        return (Math.abs(RightLift.getTargetPosition()) - Math.abs(RightLift.getCurrentPosition()) < tol)
+                &&
+                (Math.abs(LeftLift.getTargetPosition()) - Math.abs(LeftLift.getCurrentPosition()) < tol);
+    }
+
     /**
      * @param level What row level to goto
      */
     public void goTo(Mode level) {
+        currentMode = level;
         switch (level){
             case Intake:
                 setServoPosition(0.37);
-                setLiftPosition(Constants.GLintake, Constants.maxSpeed);
+                setLiftPosition(Constants.GLintake, 0.4);
                 release();
                 break;
             case Level2:
@@ -128,7 +141,7 @@ public class GlyphLypht extends Subsystem{
                 break;
             case OvertheBack:
                 clamp();
-                setServoPosition(0.37);
+                setServoPosition(0.4);
                 setLiftPosition(Constants.GLback, Constants.maxSpeed);
                 break;
             case Auto:

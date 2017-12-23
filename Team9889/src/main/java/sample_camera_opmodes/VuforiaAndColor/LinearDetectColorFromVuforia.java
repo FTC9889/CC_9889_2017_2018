@@ -26,6 +26,7 @@ import static camera_opmodes.OpModeCamera.red;
  */
 
 @TeleOp
+@Disabled
 public class LinearDetectColorFromVuforia extends LinearOpMode{
     VuforiaLocalizer vuforia;
 
