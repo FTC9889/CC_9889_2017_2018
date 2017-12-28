@@ -58,7 +58,7 @@ public class TurnToAngle implements Action {
                 Thread.yield();
             }
 
-            mDrive.setLeftRightPower(Math.abs(mSpeed)/1.3, -Math.abs(mSpeed)/1.3);
+            mDrive.setLeftRightPower(Math.abs(mSpeed)/1.5, -Math.abs(mSpeed)/1.5);
 
             turning = true;
             timeOutTimerThing = 0;
@@ -80,7 +80,7 @@ public class TurnToAngle implements Action {
                 Thread.yield();
             }
 
-            mDrive.setLeftRightPower(-Math.abs(mSpeed)/1.3, Math.abs(mSpeed)/1.3);
+            mDrive.setLeftRightPower(-Math.abs(mSpeed)/1.5, Math.abs(mSpeed)/1.5);
 
             turning = true;
             while (turning && opMode.opModeIsActive()) {

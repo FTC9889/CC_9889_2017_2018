@@ -38,7 +38,7 @@ public class Teleop extends Team9889Linear {
             telemetry.addData("Match Time", 120-matchTime.seconds());
             updateTelemetry();
             idle();
-        } while (opModeIsActive() && !isStopRequested() && 90-matchTime.seconds()>0);
+        } while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0);
 
         finalAction();
     }

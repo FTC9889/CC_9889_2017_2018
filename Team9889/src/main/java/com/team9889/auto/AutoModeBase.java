@@ -14,8 +14,15 @@ public abstract class AutoModeBase extends Team9889Linear {
      * @param action All actions are defined in action folder
      */
     public void runAction(Action action){
+        this.InternalopMode.telemetry.addData("Starting Action", "");
+        this.InternalopMode.telemetry.update();
+
         action.start(this.InternalopMode);
+
+        this.InternalopMode.telemetry.addData("Running Action", "");
+        this.InternalopMode.telemetry.update();
         while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
+
             action.update(this.InternalopMode);
             Thread.yield();
         }

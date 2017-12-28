@@ -57,19 +57,14 @@ public abstract class Team9889Linear extends LinearOpMode {
     protected void waitForStart(Team9889Linear opMode, final boolean autonomous){
         this.InternalopMode = opMode;
 
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Robot.init(InternalopMode, autonomous);
-                init = true;
-            }
-        }).start();
+        // Will it throw a null pointer exception???
+        Robot.init(this, autonomous);
 
         // Start of Auto Code for Camera and the like
         if(autonomous){
             //Auto Transitioning
-            AutoTransitioner.transitionOnStop(this.InternalopMode, "Teleop");
+            // Will it throw a null pointer exception???
+            AutoTransitioner.transitionOnStop(this, "Teleop");
 
             //Autonomous Settings
             this.InternalopMode.getAutonomousPrefs();
@@ -117,6 +112,8 @@ public abstract class Team9889Linear extends LinearOpMode {
                 telemetry.addData("Robot Init", init);
                 telemetry.addData("VuMark", WhatColumnToScoreIn());
                 telemetry.addData("Color", jewel_Color);
+                telemetry.addData("Red", redValue);
+                telemetry.addData("Blue", blueValue);
                 telemetry.update();
             }// End of Scanning Code
             timeToCollect.reset();
@@ -125,7 +122,6 @@ public abstract class Team9889Linear extends LinearOpMode {
         else{
             driver_station.init(InternalopMode); // New Driver station
             while (!isStarted()){
-                telemetry.addData("Robot Init", init);
                 telemetry.addData("Waiting for Start", "");
                 telemetry.update();
             }
