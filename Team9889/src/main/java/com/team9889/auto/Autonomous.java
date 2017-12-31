@@ -1,6 +1,8 @@
 package com.team9889.auto;
 
 import com.team9889.auto.actions.JewelHitColor;
+import com.team9889.lib.control.Controller;
+import com.team9889.lib.control.DriveStraightControl;
 import com.team9889.auto.modes.MultiGlyph.RED_FOWARD_TWO_GLYPH;
 import com.team9889.auto.modes.SingleGlyph.BLUE_BACK;
 import com.team9889.auto.modes.SingleGlyph.BLUE_FOWARD;
@@ -16,6 +18,10 @@ public class Autonomous extends AutoModeBase {
     @Override
     public void runOpMode() {
         waitForStart(this, true);
+
+        //DriveStraightControl driveControl = new DriveStraightControl(5);
+        //Controller driveController = new Controller(driveControl);
+        //driveController.startControlThread();
 
         // Jewel thing
         if(alliance == "Red")
@@ -43,6 +49,8 @@ public class Autonomous extends AutoModeBase {
 
         Robot.getJewel().stop();
         sleep(1000);
+
+        //driveController.interruptControlThread();
 
         finalAction();
     }

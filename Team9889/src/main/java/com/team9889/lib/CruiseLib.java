@@ -80,10 +80,36 @@ public class CruiseLib {
         }
     }
 
+    /**
+     * @param deg Degree measure
+     * @return Radian value
+     */
     public static double degreesToRadians(double deg) {
         return (deg * Math.PI) / 180.0;
     }
+
+    /**
+     * @param rad Radian measure
+     * @return Degree value
+     */
     public static double radianToDegrees(double rad) {
         return (rad / Math.PI) * 180.0;
     }
+
+
+    public static class RunningAverage{
+        public RunningAverage(){}
+
+        private int totalNumbers = 0;
+        private double total = 0;
+        public void update(double currentValue){
+            totalNumbers++;
+            total += currentValue;
+        }
+
+        public double get(){
+            return total/(double)totalNumbers;
+        }
+    }
+
 }

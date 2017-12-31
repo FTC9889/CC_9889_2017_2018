@@ -44,7 +44,7 @@ public class TurnToAngle implements Action {
     @Override
     public void start(Team9889Linear opMode) {
         mDrive = opMode.Robot.getDrive();
-        mDrive.DriveControlState(Drive.DriveControlStates.POWER);
+        mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
         if(wantedAngle>0){

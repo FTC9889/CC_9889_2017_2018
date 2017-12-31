@@ -3,6 +3,7 @@ package com.team9889;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,19 +50,23 @@ public abstract class Team9889Linear extends LinearOpMode {
     public String alliance, frontBack;
     public boolean getPartnerGlyph, getPitGlyph;
 
+    public void waitForStart(Team9889Linear opMode, boolean autonomous){
+        waitForStart(opMode, autonomous, autonomous);
+    }
+
     /**
      * Use this method instead of waitForStart.
      * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    protected void waitForStart(Team9889Linear opMode, final boolean autonomous){
+    protected void waitForStart(Team9889Linear opMode, final boolean autonomous, boolean runCAmera){
         this.InternalopMode = opMode;
 
         // Will it throw a null pointer exception???
         Robot.init(this, autonomous);
 
         // Start of Auto Code for Camera and the like
-        if(autonomous){
+        if(autonomous && runCAmera){
             //Auto Transitioning
             // Will it throw a null pointer exception???
             AutoTransitioner.transitionOnStop(this, "Teleop");
@@ -163,5 +168,13 @@ public abstract class Team9889Linear extends LinearOpMode {
     //What column to score the glyph in
     public RelicRecoveryVuMark WhatColumnToScoreIn(){
         return currentVumark;
+    }
+
+    public void print(String string){
+        System.out.print(string);
+    }
+
+    public void print(double num){
+        System.out.print(num);
     }
 }

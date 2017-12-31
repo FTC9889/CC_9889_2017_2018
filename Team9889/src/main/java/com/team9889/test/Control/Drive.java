@@ -7,21 +7,28 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
+import com.team9889.lib.CruiseLib;
 import com.team9889.lib.RevIMU;
 import com.team9889.subsystems.Subsystem;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.openftc.hardware.rev.OpenRevHub;
+import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 
 /**
  * Created by joshua9889 on 10/6/2017.
  */
 
-public class TestDrive extends Subsystem {
+public class Drive extends Subsystem {
 
     //Identify variables
-    public DcMotorEx rightMaster_, leftMaster_ = null;
+    public OpenDcMotor rightMaster_ = null, leftMaster_ = null;
 
-    private RevIMU imu1, imu2 = null;
+    private OpenRevHub revHub = null;
+    private Thread revThread = null;
+    private CruiseLib.RunningAverage averageVoltage = new CruiseLib.RunningAverage();
+
+    private RevIMU imu1 = null, imu2 = null;
 
     private PIDCoefficients lPID, rPID;
 
@@ -42,8 +49,9 @@ public class TestDrive extends Subsystem {
     @Override //This is KINDA like the hardwareMap, but then again I'm not too sure.
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try{
-            this.rightMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
-            this.leftMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kLeftDriveMasterId);
+            this.rightMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.dcMotor.get(Constants.kRightDriveMasterId);
+            this.leftMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftDriveMasterId);
+            this.revHub = team9889Linear.hardwareMap.get(OpenRevHub.class, "Expansion Hub 1");
         } catch (Exception e){
             return false;
         }
@@ -66,6 +74,7 @@ public class TestDrive extends Subsystem {
     public void stop() {
         this.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
         this.setLeftRightPower(0,0);
+        revThread.interrupt();
     }
 
     @Override
@@ -238,6 +247,37 @@ public class TestDrive extends Subsystem {
     public void setVelocityTarget() {
         this.rightMaster_.setVelocity(960, AngleUnit.DEGREES);
         this.leftMaster_.setVelocity(960, AngleUnit.DEGREES);
+    }
+
+    public double[] getVoltage(){
+        double rightVoltage = rightMaster_.getCurrentDraw().doubleValue;
+        double leftVoltage = leftMaster_.getCurrentDraw().doubleValue;
+
+        double revVoltage = revHub.getTotalModuleCurrentDraw().doubleValue;
+
+        double[] o = {leftVoltage, rightVoltage, revVoltage};
+        return o;
+    }
+
+    public void runVoltageThread(){
+        if(revThread == null){
+            revThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(revThread.isAlive() && !revThread.isInterrupted()){
+                        try{
+                            averageVoltage.update(getVoltage()[2]);
+                        } catch (Exception e){}
+                    }
+                }
+            });
+
+            revThread.start();
+        }
+    }
+
+    public double getAverageVoltage(){
+        return averageVoltage.get();
     }
 
 }

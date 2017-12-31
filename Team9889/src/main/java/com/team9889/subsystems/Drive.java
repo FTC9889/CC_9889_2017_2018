@@ -2,12 +2,14 @@ package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 
 /**
  * Created by joshua9889 on 10/6/2017.
@@ -16,11 +18,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Drive extends Subsystem {
 
     //Identify variables
-    public DcMotorEx rightMaster_, leftMaster_ = null;
+    public OpenDcMotor rightMaster_, leftMaster_ = null;
 
     private RevIMU imu1, imu2 = null;
 
-    private PIDCoefficients lPID, rPID;
+    private PIDCoefficients lPID = new PIDCoefficients(160, 32, 112);
+    private PIDCoefficients rPID = new PIDCoefficients(160, 32, 112);
 
     private boolean isFinishedRunningToPosition = false;
 
@@ -39,8 +42,9 @@ public class Drive extends Subsystem {
     @Override //This is KINDA like the hardwareMap, but then again I'm not too sure.
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try{
-            this.rightMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kRightDriveMasterId);
-            this.leftMaster_ = (DcMotorEx) team9889Linear.hardwareMap.get(DcMotor.class, Constants.kLeftDriveMasterId);
+            this.rightMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightDriveMasterId);
+            this.leftMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kLeftDriveMasterId);
+            this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;
         }
@@ -67,10 +71,12 @@ public class Drive extends Subsystem {
 
     @Override
     public void outputToTelemetry(Team9889Linear opMode) {
-        opMode.telemetry.addData("Left Position", -this.leftMaster_.getCurrentPosition());
-        opMode.telemetry.addData("Right Position", this.rightMaster_.getCurrentPosition());
+        opMode.telemetry.addData("Left Position", this.getLeftTicks());
+        opMode.telemetry.addData("Right Position", this.getRightTicks());
         opMode.telemetry.addData("Left Power", this.leftMaster_.getPower());
         opMode.telemetry.addData("Right Power", this.rightMaster_.getPower());
+        opMode.telemetry.addData("Left Current", this.leftMaster_.getCurrentDraw().formattedValue);
+        opMode.telemetry.addData("Right Current", this.rightMaster_.getCurrentDraw().formattedValue);
         opMode.telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
     }
 
@@ -93,7 +99,7 @@ public class Drive extends Subsystem {
     }
 
     public int getLeftTicks() {
-        return -this.leftMaster_.getCurrentPosition();
+        return this.leftMaster_.getCurrentPosition();
     }
 
     public double getRightDistanceInches(){
@@ -106,8 +112,8 @@ public class Drive extends Subsystem {
 
     public void setLeftRightPower(double left, double right) {
         try {
-            this.rightMaster_.setPower(-left);
-            this.leftMaster_.setPower(right);
+            this.leftMaster_.setPower(left);
+            this.rightMaster_.setPower(right);
         } catch (Exception e){}
 
     }
@@ -118,7 +124,7 @@ public class Drive extends Subsystem {
         this.DriveZeroPowerState(DriveZeroPowerStates.BRAKE);
 
         this.leftMaster_.setTargetPosition(left_pos);
-        this.rightMaster_.setTargetPosition(-right_pos);
+        this.rightMaster_.setTargetPosition(right_pos);
         this.setLeftRightPower(left_power, right_power);
 
         if(Math.abs(leftMaster_.getTargetPosition()) - Math.abs(leftMaster_.getCurrentPosition()) < 20
@@ -160,15 +166,15 @@ public class Drive extends Subsystem {
         }
     }
 
-    public void setPIDConstants(double lP, double lI, double lD, double rP, double rI, double rD){
-        lPID = new PIDCoefficients(lP, lI, lD);
-        rPID = new PIDCoefficients(rP, rI, rD);
-
-        try {
-            leftMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, lPID);
-            rightMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, rPID);
-        } catch (Exception e){}
-    }
+//    public void setPIDConstants(double lP, double lI, double lD, double rP, double rI, double rD){
+//        lPID = new PIDCoefficients(lP, lI, lD);
+//        rPID = new PIDCoefficients(rP, rI, rD);
+//
+//        try {
+//            leftMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, lPID);
+//            rightMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, rPID);
+//        } catch (Exception e){}
+//    }
 
     private void BRAKE(){
         try {
@@ -225,9 +231,17 @@ public class Drive extends Subsystem {
         } catch (Exception e){}
     }
 
-    public void setVelocityTarget() {
-        this.rightMaster_.setVelocity(960, AngleUnit.DEGREES);
-        this.leftMaster_.setVelocity(960, AngleUnit.DEGREES);
+    public void setVelocityTarget(double left, double right) {
+        this.leftMaster_.setVelocity(left, AngleUnit.RADIANS);
+        this.rightMaster_.setVelocity(right, AngleUnit.RADIANS);
+    }
+
+    public double getLeftVelocity(){
+        return this.leftMaster_.getVelocity(AngleUnit.RADIANS);
+    }
+
+    public double getRightVelocity(){
+        return this.rightMaster_.getVelocity(AngleUnit.RADIANS);
     }
 
 }

@@ -39,8 +39,10 @@ public class DriveToDistance implements Action {
     @Override
     public void start(Team9889Linear opMode) {
         mDrive = opMode.Robot.getDrive();
+
         left = mDrive.getLeftTicks() + inches2Ticks(mWantedDistance);
         right = mDrive.getRightTicks() + inches2Ticks(mWantedDistance);
+
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mLowerSpeed = mSpeed/3;
     }
@@ -73,20 +75,20 @@ public class DriveToDistance implements Action {
                     mDrive.setLeftRightPower(mSpeed, mSpeed);
             } else if(mWantedAngle == 0.0){ // mWantedAngle == 0
                 if(mDrive.getGyroAngleDegrees()<0)
-                    mDrive.setLeftRightPower(mSpeed, mLowerSpeed);
-                else if (mDrive.getGyroAngleDegrees()>0)
                     mDrive.setLeftRightPower(mLowerSpeed, mSpeed);
+                else if (mDrive.getGyroAngleDegrees()>0)
+                    mDrive.setLeftRightPower(mSpeed, mLowerSpeed);
                 else
                     mDrive.setLeftRightPower(mSpeed, mSpeed);
             } else if(mWantedAngle == 180){ // why do you do this to me rev???
                 if(mDrive.getGyroAngleDegrees()<-1)
-                    mDrive.setLeftRightPower(mLowerSpeed, mSpeed);
-                else if (mDrive.getGyroAngleDegrees()>1)
                     mDrive.setLeftRightPower(mSpeed, mLowerSpeed);
+                else if (mDrive.getGyroAngleDegrees()>1)
+                    mDrive.setLeftRightPower(mLowerSpeed, mSpeed);
                 else
                     mDrive.setLeftRightPower(mSpeed, mSpeed);
             }
-        } else{
+        } else {
             // is current pos less then wanted pos?
             if(mDrive.getLeftTicks() < left)
                 isFinished = true;

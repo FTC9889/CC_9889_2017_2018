@@ -8,7 +8,7 @@ import com.team9889.subsystems.Drive;
  */
 
 public class TurnRightwithLeftMotor implements Action {
-    private Drive mDrive = new Drive();
+    private Drive mDrive;
     private double angle, speed;
     private int finish = 0;
     private boolean isFinished = false;

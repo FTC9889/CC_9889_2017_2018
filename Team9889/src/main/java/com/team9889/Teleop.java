@@ -2,8 +2,9 @@ package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.subsystems.Drive;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.subsystems.GlyphLypht;
+import com.team9889.subsystems.Drive;
 
 /**
  * Created by joshua9889 on 4/17/17.
@@ -13,6 +14,7 @@ import com.team9889.subsystems.GlyphLypht;
 @TeleOp
 public class Teleop extends Team9889Linear {
 
+    boolean debug = false;
     private ElapsedTime matchTime = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
@@ -29,6 +31,7 @@ public class Teleop extends Team9889Linear {
 
         Thread intakeThread = new Thread(new IntakeRunnable());
 
+
         glyphThread.start();
         driveThread.start();
         intakeThread.start();
@@ -44,7 +47,7 @@ public class Teleop extends Team9889Linear {
     }
 
     // Control Arm and Wrist
-    class GlyphRunnable implements Runnable {
+    private class GlyphRunnable implements Runnable {
         private GlyphLypht.Mode currentMode = GlyphLypht.Mode.Teleop;
 
         @Override
@@ -151,7 +154,7 @@ public class Teleop extends Team9889Linear {
         }
     }
 
-    class DriveRunnable implements Runnable{
+    private class DriveRunnable implements Runnable{
         @Override
         public void run(){
             while (opModeIsActive() && !isStopRequested()){
@@ -168,12 +171,20 @@ public class Teleop extends Team9889Linear {
                 //Set Motor Speeds
                 Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
 
+                if(debug) {
+                    RobotLog.d("Y:" + String.valueOf(gamepad1.left_stick_y));
+                    RobotLog.d("X:" + String.valueOf(gamepad1.right_stick_x));
+                    RobotLog.d("-----------Left:" + String.valueOf(leftspeed));
+                    RobotLog.d("-----------Right:" + String.valueOf(rightspeed));
+                    sleep(5);
+                }
+
                 idle();
             }
         }
     }
 
-    class IntakeRunnable implements Runnable{
+    private class IntakeRunnable implements Runnable{
         @Override
         public void run(){
             while(opModeIsActive() && !isStopRequested()){
