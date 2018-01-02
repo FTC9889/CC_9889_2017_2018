@@ -5,46 +5,19 @@ import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 
 /**
- * Created by joshua9889 on 4/17/2017.
+ * Created by joshua9889 on 1/1/2018.
  */
 
-public class TurnToAngle implements Action {
-    private double wantedAngle;
-    private double error = 3;
-    private double Kp = 14;
-    private double leftPow, rightPow;
-
+public class TurnRightMotor implements Action {
     private Drive mDrive;
 
-    /**
-     *
-     * @param angle Desired angle in degrees
-     *              Positive angle is left
-     *              Negative angle is right
-     */
-    public TurnToAngle(int angle){
-        wantedAngle = angle;
-    }
+    private double wantedAngle;
+    double error = 3;
+    double Kp = 7.1;
+    private double rightPow;
 
-    @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
-
-        mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
-        mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
-    }
-
-    @Override
-    public void update(Team9889Linear linearOpMode) {
-        if(wantedAngle==180||wantedAngle==-180){
-            wantedAngle= 179*(wantedAngle/180);
-        } else {
-            error = mDrive.getGyroAngleDegrees() - wantedAngle;
-            leftPow = CruiseLib.degreesToRadians(error) * Kp;
-            rightPow = -CruiseLib.degreesToRadians(error) * Kp;
-
-            mDrive.setVelocityTarget(leftPow, rightPow);
-        }
+    public TurnRightMotor(double angle){
+        this.wantedAngle = angle;
     }
 
     @Override
@@ -53,11 +26,30 @@ public class TurnToAngle implements Action {
     }
 
     @Override
+    public void start(Team9889Linear opMode) {
+        mDrive = opMode.Robot.getDrive();
+        mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
+        mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
+    }
+
+    @Override
+    public void update(Team9889Linear linearOpMode) {
+        if(wantedAngle==180){
+            wantedAngle=179;
+        }else if(wantedAngle==-180){
+            wantedAngle=-179;
+        } else {
+            error = mDrive.getGyroAngleDegrees() - wantedAngle;
+            rightPow = -CruiseLib.degreesToRadians(error) * Kp;
+            mDrive.setVelocityTarget(0.0, rightPow);
+        }
+    }
+
+    @Override
     public void done() {
         mDrive.setLeftRightPower(0,0);
         try {
-            Thread.sleep(250);
+            Thread.sleep(500);
         } catch (InterruptedException e) {}
     }
-
 }

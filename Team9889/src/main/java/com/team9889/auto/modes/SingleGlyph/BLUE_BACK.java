@@ -16,68 +16,29 @@ public class BLUE_BACK {
     public BLUE_BACK(AutoModeBase M, RelicRecoveryVuMark column) {
         // Drive off platform
         M.runAction(new DriveToDistance(20, 0));
-        M.sleep(250);
 
-        M.runAction(new TurnToAngle(90, 0.6));
-        M.sleep(200);
+        // Turn 90
+        M.runAction(new TurnToAngle(90));
 		
 		// Drive Straight 10"
         M.runAction(new DriveToDistance(10, 90));
         M.sleep(250);
 		
 		// Turn to 135 degrees
-        M.runAction(new TurnToAngle(135, 0.6));
+        M.runAction(new TurnToAngle(135));
 
 		// Drive Straight 30" to cryptobox
         M.runAction(new DriveToDistance(10, 135));
         M.sleep(100);
 
 		// Turn to face cryptobox
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.POWER);
-        boolean turning = true;
-        while (turning && M.opModeIsActive()){
-            M.Robot.getDrive().setLeftRightPower(-0.4, 0.4);
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() < -177)
-                turning = false;
-            M.idle();
-            M.Robot.getDrive().setLeftRightPower(0,0);
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
+        M.runAction(new TurnToAngle(-180));
 
+        // Deploy Glyph Lift
         M.runAction(new GlyphDeployToFirstLevel());
 
-        M.Robot.getDrive().setLeftRightPower(0.35, -0.35);
-        turning = true;
-        while (turning && M.opModeIsActive()){
-            M.updateTelemetry();
-            if (M.Robot.getDrive().getGyroAngleDegrees() > 160)
-                turning = false;
-            M.idle();
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
-
 		// Drive foward to depost glyph in box
-        M.Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
-        int left = M.Robot.getDrive().getLeftTicks() + inches2Ticks(10);
-        int right = M.Robot.getDrive().getRightTicks() + inches2Ticks(10);
-
-        while(M.opModeIsActive()){
-            if(left < M.Robot.getDrive().getLeftTicks())
-                break;
-
-            if(right < M.Robot.getDrive().getRightTicks())
-                break;
-
-            if(M.Robot.getDrive().getGyroAngleDegrees() < -1)
-                M.Robot.getDrive().setLeftRightPower(0.2, 0.3);
-            else if(M.Robot.getDrive().getGyroAngleDegrees() > 1)
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.2);
-            else
-                M.Robot.getDrive().setLeftRightPower(0.3, 0.3);
-        }
-        M.Robot.getDrive().setLeftRightPower(0,0);
-        M.sleep(500);
+        M.runAction(new DriveToDistance(10, -180));
 		
 		// Release glyph
         M.runAction(new GlyphRelease());

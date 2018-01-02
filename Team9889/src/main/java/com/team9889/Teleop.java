@@ -2,9 +2,8 @@ package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
-import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.GlyphLypht;
 
 /**
  * Created by joshua9889 on 4/17/17.
@@ -14,34 +13,31 @@ import com.team9889.subsystems.Drive;
 @TeleOp
 public class Teleop extends Team9889Linear {
 
-    boolean debug = false;
-    private ElapsedTime matchTime = new ElapsedTime();
-
     public void runOpMode() throws InterruptedException {
         waitForStart(this, false);
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
         Robot.getJewel().retract();
 
+        // Timer for Displaying time on DS
+        ElapsedTime matchTime = new ElapsedTime();
         matchTime.reset();
 
         Thread glyphThread = new Thread(new GlyphRunnable());
-
         Thread driveThread = new Thread(new DriveRunnable());
-
         Thread intakeThread = new Thread(new IntakeRunnable());
 
-
+        // Start Control Threads
         glyphThread.start();
         driveThread.start();
         intakeThread.start();
 
-        do {
+        while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0){
             //Push Telemetry to phone
             telemetry.addData("Match Time", 120-matchTime.seconds());
             updateTelemetry();
             idle();
-        } while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0);
+        }
 
         finalAction();
     }
@@ -154,36 +150,28 @@ public class Teleop extends Team9889Linear {
         }
     }
 
+    // Control Drivetrain
     private class DriveRunnable implements Runnable{
         @Override
         public void run(){
             while (opModeIsActive() && !isStopRequested()){
-                double leftspeed, rightspeed, xvalue, yvalue;
+                double leftspeed, rightspeed, turn, speed;
 
                 //Values from gamepads with modifications
-                xvalue = -gamepad1.right_stick_x;
-                yvalue = -gamepad1.left_stick_y;
+                turn = gamepad1.right_stick_x;
+                speed = -gamepad1.left_stick_y;
 
-                //Values to output to motors
-                leftspeed =  yvalue - xvalue;
-                rightspeed = yvalue + xvalue;
+                double left = speed + turn;
+                double right = speed - turn;
 
-                //Set Motor Speeds
-                Robot.getDrive().setLeftRightPower(leftspeed, rightspeed);
-
-                if(debug) {
-                    RobotLog.d("Y:" + String.valueOf(gamepad1.left_stick_y));
-                    RobotLog.d("X:" + String.valueOf(gamepad1.right_stick_x));
-                    RobotLog.d("-----------Left:" + String.valueOf(leftspeed));
-                    RobotLog.d("-----------Right:" + String.valueOf(rightspeed));
-                    sleep(5);
-                }
+                Robot.getDrive().setLeftRightPower(left, right);
 
                 idle();
             }
         }
     }
 
+    // Control Intake
     private class IntakeRunnable implements Runnable{
         @Override
         public void run(){
@@ -207,6 +195,7 @@ public class Teleop extends Team9889Linear {
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     Robot.getIntake().intake();
                 }
+
                 idle();
             }
         }

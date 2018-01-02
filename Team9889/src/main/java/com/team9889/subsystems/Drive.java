@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
+import com.team9889.lib.CruiseLib;
 import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -21,9 +22,6 @@ public class Drive extends Subsystem {
     public OpenDcMotor rightMaster_, leftMaster_ = null;
 
     private RevIMU imu1, imu2 = null;
-
-    private PIDCoefficients lPID = new PIDCoefficients(160, 32, 112);
-    private PIDCoefficients rPID = new PIDCoefficients(160, 32, 112);
 
     private boolean isFinishedRunningToPosition = false;
 
@@ -94,6 +92,10 @@ public class Drive extends Subsystem {
 
     }
 
+    public double getGyroAngleRadians(){
+        return CruiseLib.degreesToRadians(getGyroAngleDegrees());
+    }
+
     public double getLeftDistanceInches(){
         return Constants.ticks2Inches(getLeftTicks());
     }
@@ -110,12 +112,45 @@ public class Drive extends Subsystem {
         return this.rightMaster_.getCurrentPosition();
     }
 
+    /**
+     * @return Returns the current Left velocity , in Radians per second
+     */
+    public double getLeftVelocity(){
+        return this.leftMaster_.getVelocity(AngleUnit.RADIANS);
+    }
+
+    /**
+     * @return Returns the current Right velocity , in Radians per second
+     */
+    public double getRightVelocity(){
+        return this.rightMaster_.getVelocity(AngleUnit.RADIANS);
+    }
+
+    /**
+     * @param left Wanted Left Power between [-1.0,1.0]
+     * @param right Wanted Right Power between [-1.0,1.0]
+     */
     public void setLeftRightPower(double left, double right) {
         try {
             this.leftMaster_.setPower(left);
             this.rightMaster_.setPower(right);
         } catch (Exception e){}
 
+    }
+
+    public void SpeedTurn(double speed, double turn){
+        double left = speed + turn;
+        double right = speed - turn;
+        setVelocityTarget(left, right);
+    }
+
+    /**
+     * @param left Wanted Left Velocity, in Radians per second
+     * @param right Wanted RIght Velocity, in Radians per second
+     */
+    public void setVelocityTarget(double left, double right) {
+        this.leftMaster_.setVelocity(left, AngleUnit.RADIANS);
+        this.rightMaster_.setVelocity(right, AngleUnit.RADIANS);
     }
 
     public void setLeftRightPath(int left_pos, int right_pos, double left_power, double right_power){
@@ -134,8 +169,11 @@ public class Drive extends Subsystem {
         }
     }
 
-    public boolean isFinishedRunningToPosition(){
-        return !isFinishedRunningToPosition;
+    public void setTargetTolerence(int tolerance) {
+        try {
+            this.leftMaster_.setTargetPositionTolerance(tolerance);
+            this.rightMaster_.setTargetPositionTolerance(tolerance);
+        } catch (Exception e){}
     }
 
     public void DriveControlState(DriveControlStates state){
@@ -165,16 +203,6 @@ public class Drive extends Subsystem {
                 break;
         }
     }
-
-//    public void setPIDConstants(double lP, double lI, double lD, double rP, double rI, double rD){
-//        lPID = new PIDCoefficients(lP, lI, lD);
-//        rPID = new PIDCoefficients(rP, rI, rD);
-//
-//        try {
-//            leftMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, lPID);
-//            rightMaster_.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, rPID);
-//        } catch (Exception e){}
-//    }
 
     private void BRAKE(){
         try {
@@ -216,32 +244,13 @@ public class Drive extends Subsystem {
         } catch (Exception e){}
     }
 
-    //Reset encoders and remember the previous RunMode
+    //Reset encoders until They both equal 0
     public void resetEncoders() {
         try {
-            leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            while(getLeftTicks() != 0 && getRightTicks() != 0){
+                leftMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
         } catch (Exception e) {}
     }
-
-    public void setTargetTolerence(int tolerance) {
-        try {
-            this.leftMaster_.setTargetPositionTolerance(tolerance);
-            this.rightMaster_.setTargetPositionTolerance(tolerance);
-        } catch (Exception e){}
-    }
-
-    public void setVelocityTarget(double left, double right) {
-        this.leftMaster_.setVelocity(left, AngleUnit.RADIANS);
-        this.rightMaster_.setVelocity(right, AngleUnit.RADIANS);
-    }
-
-    public double getLeftVelocity(){
-        return this.leftMaster_.getVelocity(AngleUnit.RADIANS);
-    }
-
-    public double getRightVelocity(){
-        return this.rightMaster_.getVelocity(AngleUnit.RADIANS);
-    }
-
 }

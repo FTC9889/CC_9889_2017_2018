@@ -10,15 +10,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class RED_FOWARD_TWO_GLYPH {
     public RED_FOWARD_TWO_GLYPH(AutoModeBase M, RelicRecoveryVuMark column){
-        M.runAction(new DriveToDistance(10, 0, 1));
+        M.runAction(new DriveToDistance(10, 0));
 
         // Turn to the cb
-        M.runAction(new TurnRightwithLeftMotor(-90, 1));
+        M.runAction(new TurnRightMotor(-90));
 
         M.runAction(new GlyphDeployToFirstLevel());
-        M.runAction(new DriveToDistance(10, -90.0, 1));
+        M.runAction(new DriveToDistance(10, -90));
         M.runAction(new GlyphRelease());
-
-
     }
 }

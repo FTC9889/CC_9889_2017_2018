@@ -2,74 +2,91 @@ package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.DriveToDistance;
-import com.team9889.auto.actions.TurnToAngle;
-import com.team9889.subsystems.Drive;
+import com.team9889.auto.actions.*;
 
 /**
  * Created by joshua9889 on 12/30/2017.
+ * OpMode to test stuff
  */
 
 @Autonomous
 public class FixBrokenTHings extends AutoModeBase {
-    Drive mDrive;
-    private double wantedAngle = 90;
-    private double mSpeed = 0.6;
-    private int timeOutTimerThing = 0;
-    private int timeOut = 300;
 
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart(this, true, false);
 
-//        runAction(new DriveToDistance(30, 0, 0.6));
+        jewel_Color = JewelColor.Red;
+        runAction(new JewelHitColor(JewelColor.Red));
 
-        Robot.getDrive().setLeftRightPower(0, 1);
-        sleep(500);
-        Robot.getDrive().setLeftRightPower(0,0);
+        runAction(new DriveToDistance(21, 0, 5*Math.PI/3));
+        Robot.getJewel().stop();
 
-        telemetry.addData("Right Pos", Robot.getDrive().getRightTicks());
-        telemetry.update();
-        sleep(1000);
+        // Turn to the cb
+        runAction(new TurnToAngle(-90));
 
-        Robot.getDrive().setLeftRightPower(1,0);
-        sleep(500);
-        Robot.getDrive().setLeftRightPower(0,0);
+        if(opModeIsActive()) {
+            runAction(new GlyphDeployToFirstLevel());
+            runAction(new DriveToDistance(30, -91, 5 * Math.PI / 2.4));
+            runAction(new GlyphRelease());
+        }
 
-        telemetry.clearAll();
-        telemetry.addData("Left Pos", Robot.getDrive().getLeftTicks());
-        telemetry.update();
-        sleep(1000);
-//
-//        mDrive = Robot.getDrive();
-//
-//        mDrive.setLeftRightPower(Math.abs(mSpeed), -Math.abs(mSpeed));
-//        boolean turning = true;
-//        while (turning && opModeIsActive()){
-//            updateTelemetry();
-//            timeOutTimerThing++;
-//            if (mDrive.getGyroAngleDegrees() > wantedAngle || timeOutTimerThing>timeOut)
-//                turning = false;
-//            Thread.yield();
-//        }
-//
-//        mDrive.setLeftRightPower(-Math.abs(mSpeed)/1.5, Math.abs(mSpeed)/1.5);
-//
-//        turning = true;
-//        timeOutTimerThing = 0;
-//        while (turning && opModeIsActive()) {
-//            updateTelemetry();
-//            timeOutTimerThing++;
-//            if (mDrive.getGyroAngleDegrees() < wantedAngle|| timeOutTimerThing>timeOut)
-//                turning = false;
-//            Thread.yield();
-//        }
+        runAction(new DriveToDistance(-10, -90));
 
+        if(opModeIsActive()){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runAction(new GlyphRetractArm());
+                    runAction(new IntakeDeployAndCollect());
+                    Robot.getJewel().stop();
+                }
+            }).start();
+        }
 
-        //runAction(new TurnToAngle(90, 0.6));
-        //runAction(new DriveToDistance(30, 0, 0.1));
-        //sleep(1000);
-        //runAction(new TurnToAngle(-90, 0.6));
-        //runAction(new DriveStraightAction(-10, 0, 0.1));
+        runAction(new TurnToAngle(60));
+        runAction(new DriveToDistance(28, 60, 3*Math.PI));
+        runAction(new IntakeDeployAndCollect());
+
+        sleep(400);
+        runAction(new IntakePull());
+        sleep(250);
+        runAction(new IntakeSwivel());
+        runAction(new IntakeDeployAndCollect());
+        runAction(new DriveToDistance(4, 60, 6*Math.PI));
+        runAction(new IntakePull());
+        sleep(100);
+
+        runAction(new DriveToDistance(-26, 60));
+
+        if(opModeIsActive()){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runAction(new IntakeSwivel());
+                }
+            }).start();
+        }
+
+        runAction(new TurnToAngle(-115));
+
+        if (opModeIsActive()){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runAction(new GlyphDeployToFirstLevel());
+                }
+            }).start();
+        }
+        sleep(100);
+        runAction(new DriveTimeAction(900, 5*Math.PI, -115));
+
+        runAction(new GlyphRelease());
+
+        if(opModeIsActive()) {
+            runAction(new DriveToDistance(-2, -115));
+            runAction(new DriveTimeAction(300, 4 * Math.PI, -115));
+            runAction(new DriveToDistance(-3, -115));
+        }
     }
 }

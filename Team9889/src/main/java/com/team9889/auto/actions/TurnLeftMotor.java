@@ -5,25 +5,19 @@ import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 
 /**
- * Created by joshua9889 on 4/17/2017.
+ * Created by joshua9889 on 12/24/2017.
+ * Class to turn with a single motor (left)
  */
 
-public class TurnToAngle implements Action {
-    private double wantedAngle;
-    private double error = 3;
-    private double Kp = 14;
-    private double leftPow, rightPow;
-
+public class TurnLeftMotor implements Action {
     private Drive mDrive;
 
-    /**
-     *
-     * @param angle Desired angle in degrees
-     *              Positive angle is left
-     *              Negative angle is right
-     */
-    public TurnToAngle(int angle){
-        wantedAngle = angle;
+    private double wantedAngle;
+    private double error = 3;
+    private double Kp = 7;
+
+    public TurnLeftMotor(double angle){
+        this.wantedAngle = angle;
     }
 
     @Override
@@ -36,14 +30,14 @@ public class TurnToAngle implements Action {
 
     @Override
     public void update(Team9889Linear linearOpMode) {
+        // We cannot turn to exactly 180 because the Rev IMU valid values are [-180,180]
         if(wantedAngle==180||wantedAngle==-180){
             wantedAngle= 179*(wantedAngle/180);
         } else {
             error = mDrive.getGyroAngleDegrees() - wantedAngle;
-            leftPow = CruiseLib.degreesToRadians(error) * Kp;
-            rightPow = -CruiseLib.degreesToRadians(error) * Kp;
 
-            mDrive.setVelocityTarget(leftPow, rightPow);
+            double leftPow = CruiseLib.degreesToRadians(error) * Kp;
+            mDrive.setVelocityTarget(leftPow, 0.0);
         }
     }
 
@@ -55,9 +49,9 @@ public class TurnToAngle implements Action {
     @Override
     public void done() {
         mDrive.setLeftRightPower(0,0);
+
         try {
-            Thread.sleep(250);
+            Thread.sleep(500);
         } catch (InterruptedException e) {}
     }
-
 }

@@ -1,11 +1,15 @@
 package com.team9889.lib;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.vuforia.Image;
@@ -113,8 +117,10 @@ public class VuMark {
             img = getImageFromFrame(vuforia.getFrameQueue().take(), PIXEL_FORMAT.RGB565);
             Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
             bm.copyPixelsFromBuffer(img.getPixels());
+
             return bm;
         } catch(Exception e){
+            RobotLog.a("Problem with getBm");
             return null;
         }
     }

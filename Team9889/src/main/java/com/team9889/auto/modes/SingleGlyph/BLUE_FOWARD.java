@@ -24,15 +24,15 @@ public class BLUE_FOWARD {
 
     public BLUE_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
         // Drive off platform
-        M.runAction(new DriveToDistance(15, 0.0, 0.1));
+        M.runAction(new DriveToDistance(15, 0.0));
         M.sleep(200);
 
         // Turn to cryptobox
-        M.runAction(new TurnToAngle(90, 0.6));
+        M.runAction(new TurnToAngle(90));
         M.sleep(200);
 
         //Drive 20" to cryptobox
-        M.runAction(new DriveToDistance(20, 90, 0.4));
+        M.runAction(new DriveToDistance(20, 90));
 
         // Deploy arm w/glyph inside
         M.runAction(new GlyphDeployToFirstLevel());
@@ -41,32 +41,28 @@ public class BLUE_FOWARD {
         switch (column){
             case CENTER:
                 // Turn to Center column
-                M.runAction(new TurnToAngle(125, 0.6));
-                M.sleep(100);
+                M.runAction(new TurnToAngle(125));
 
                 // Drive foward to place glyph
-                M.runAction(new DriveToDistance(10, 125, 0.4));
-                M.sleep(400);
+                M.runAction(new DriveToDistance(10, 125));
 
                 break;
             case LEFT:
                 // Turn to Right column
-                M.runAction(new TurnToAngle(145, 0.6));
+                M.runAction(new TurnToAngle(145));
                 M.sleep(100);
 
                 // Drive foward to place glyph
-                M.runAction(new DriveToDistance(14, 145, 0.2));
-                M.sleep(400);
-                M.runAction(new TurnToAngle(140, 0.6));
-                M.sleep(200);
+                M.runAction(new DriveToDistance(14, 145));
+                M.runAction(new TurnToAngle(140));
 
                 break;
             default:
                 // Turn to Left column
-                M.runAction(new TurnToAngle(105, 0.6));
+                M.runAction(new TurnToAngle(105));
 
                 // Drive foward to place glpyh
-                M.runAction(new DriveToDistance(2, 90, 0.4));
+                M.runAction(new DriveToDistance(2, 90));
                 M.sleep(500);
                 break;
         }

@@ -96,20 +96,14 @@ public class CruiseLib {
         return (rad / Math.PI) * 180.0;
     }
 
-
-    public static class RunningAverage{
-        public RunningAverage(){}
-
-        private int totalNumbers = 0;
-        private double total = 0;
-        public void update(double currentValue){
-            totalNumbers++;
-            total += currentValue;
-        }
-
-        public double get(){
-            return total/(double)totalNumbers;
-        }
+    /**
+     * @param measured Measured Value
+     * @param expected Expected Value
+     * @param tol Tolerance
+     * @return if the measured value is within a tolerance
+     */
+    public static boolean isWithinRange(double measured, double expected, double tol){
+        return measured-tol<expected && measured+tol>expected;
     }
 
 }

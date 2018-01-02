@@ -50,7 +50,7 @@ public abstract class Team9889Linear extends LinearOpMode {
     public String alliance, frontBack;
     public boolean getPartnerGlyph, getPitGlyph;
 
-    public void waitForStart(Team9889Linear opMode, boolean autonomous){
+    protected void waitForStart(Team9889Linear opMode, boolean autonomous){
         waitForStart(opMode, autonomous, autonomous);
     }
 
@@ -59,27 +59,27 @@ public abstract class Team9889Linear extends LinearOpMode {
      * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    protected void waitForStart(Team9889Linear opMode, final boolean autonomous, boolean runCAmera){
-        this.InternalopMode = opMode;
-
+    protected void waitForStart(Team9889Linear opMode, final boolean autonomous, boolean runCamera){
         // Will it throw a null pointer exception???
         Robot.init(this, autonomous);
 
+        InternalopMode = opMode;
+
         // Start of Auto Code for Camera and the like
-        if(autonomous && runCAmera){
+        if(autonomous && runCamera){
             //Auto Transitioning
             // Will it throw a null pointer exception???
             AutoTransitioner.transitionOnStop(this, "Teleop");
 
             //Autonomous Settings
-            this.InternalopMode.getAutonomousPrefs();
+            getAutonomousPrefs();
 
             // Vuforia setup
             vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
 
             // Scanning Code
             while(!isStarted()){
-                vuMark.update(this.InternalopMode);
+                vuMark.update(opMode);
 
                 if (vuMark.getOuputVuMark() != RelicRecoveryVuMark.UNKNOWN)
                     currentVumark = vuMark.getOuputVuMark();
@@ -125,7 +125,7 @@ public abstract class Team9889Linear extends LinearOpMode {
 
         }// End of Auto Code for Camera and the like1
         else{
-            driver_station.init(InternalopMode); // New Driver station
+            driver_station.init(opMode); // New Driver station
             while (!isStarted()){
                 telemetry.addData("Waiting for Start", "");
                 telemetry.update();
@@ -133,7 +133,7 @@ public abstract class Team9889Linear extends LinearOpMode {
         }
 
         //Wait for DS start
-        this.InternalopMode.waitForStart();
+        this.waitForStart();
         if(!autonomous)
             this.Robot.getLift().goTo(GlyphLypht.Mode.Teleop);
     }
@@ -142,9 +142,9 @@ public abstract class Team9889Linear extends LinearOpMode {
      * Run this to update the Default Telemetry
      */
     public void updateTelemetry(){
-        this.InternalopMode.telemetry.addData("Runtime", this.InternalopMode.getRuntime());
-        this.Robot.outputToTelemetry(this.InternalopMode);
-        this.InternalopMode.telemetry.update();
+        telemetry.addData("Runtime", this.getRuntime());
+        Robot.outputToTelemetry(this);
+        telemetry.update();
     }
 
 
@@ -153,7 +153,7 @@ public abstract class Team9889Linear extends LinearOpMode {
      */
     protected void finalAction(){
         this.Robot.stop();
-        this.InternalopMode.requestOpModeStop();
+        this.requestOpModeStop();
     }
 
     //Get the Autonomous prefs from the app's activity and convert them to local variables instead.

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by joshua9889 on 12/22/2017.
+ * OpMode to reset the encoders
  */
 
 @TeleOp

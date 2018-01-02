@@ -1,23 +1,17 @@
 package com.team9889.test.Control;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
-import com.team9889.lib.CruiseLib;
-import com.team9889.lib.control.SynchronousPIDF;
-import com.team9889.subsystems.*;
 import com.team9889.subsystems.Drive;
-import com.vuforia.Vuforia;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.simbotics.frc2017.util.SimPIDF;
 
 /**
  * Created by joshua9889 on 12/29/2017.
  */
 
 @TeleOp
+@Disabled
 public class TestProfile extends Team9889Linear {
 
     private ElapsedTime speedTime = new ElapsedTime();
