@@ -1,5 +1,6 @@
 package com.team9889.auto.actions;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
 
 /**
@@ -7,15 +8,18 @@ import com.team9889.Team9889Linear;
  */
 
 public class IntakeDeployWideIntake implements Action {
+
+    private ElapsedTime t = new ElapsedTime();
+
     @Override
     public boolean isFinished() {
-        return true;
+        return t.milliseconds()>250;
     }
 
     @Override
     public void start(Team9889Linear opMode) {
         opMode.Robot.getIntake().autoIntake();
-        opMode.sleep(250);
+        t.reset();
     }
 
     @Override

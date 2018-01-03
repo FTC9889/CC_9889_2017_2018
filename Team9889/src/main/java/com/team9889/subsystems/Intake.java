@@ -57,8 +57,8 @@ public class Intake extends Subsystem{
     public void autoIntake(){
         this.rightIntake.setPower(-1);
         this.leftIntake.setPower(-1);
-        this.armLeft.setPosition(0.0);
-        this.armRight.setPosition(0.0);
+        this.armLeft.setPosition(0.1);
+        this.armRight.setPosition(0.1);
     }
 
     public void twoGlyphSpecial(){

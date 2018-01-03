@@ -82,7 +82,7 @@ public class GlyphLypht extends Subsystem{
     }
 
     public void release(){
-        setFingerPosition(0.0);
+        setFingerPosition(0.1);
     }
 
     private void setFingerPosition(double position){

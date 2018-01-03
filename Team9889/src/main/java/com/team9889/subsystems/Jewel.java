@@ -33,8 +33,10 @@ public class Jewel extends Subsystem {
             return false;
         }
 
-        this.retract();
-        this.right();
+        if(auton){
+            this.stop();
+        }
+
 
         return true;
     }

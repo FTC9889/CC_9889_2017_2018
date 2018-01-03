@@ -20,7 +20,7 @@ public class JewelHitColor implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
+    public void start(final Team9889Linear opMode) {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
             opMode.Robot.getJewel().deploy();
@@ -32,15 +32,27 @@ public class JewelHitColor implements Action {
             opMode.sleep(350);
         }
         opMode.Robot.getJewel().retract();
+
+        // Wait for the arm to be up, then setPos of arm,
+        // but do not wait to finish it, just keep running
+        // the autonomous.
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {}
+
+                if (opMode.opModeIsActive() && !opMode.isStopRequested())
+                    opMode.Robot.getJewel().stop();
+
+            }
+        }).start();
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
-
-    }
+    public void update(Team9889Linear opMode) {}
 
     @Override
-    public void done() {
-
-    }
+    public void done() {}
 }

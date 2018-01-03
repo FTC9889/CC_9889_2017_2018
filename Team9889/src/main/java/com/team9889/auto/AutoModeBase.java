@@ -1,6 +1,5 @@
 package com.team9889.auto;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
 import com.team9889.auto.actions.Action;
 
@@ -30,6 +29,18 @@ public abstract class AutoModeBase extends Team9889Linear {
 
         this.InternalopMode.telemetry.addData("Finished Action", "");
         this.InternalopMode.telemetry.update();
+    }
+
+    public void ThreadAction(final Action action){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                runAction(action);
+            }
+        };
+
+        if(this.InternalopMode.opModeIsActive() && !this.InternalopMode.isStopRequested())
+            new Thread(runnable).start();
     }
 
 }

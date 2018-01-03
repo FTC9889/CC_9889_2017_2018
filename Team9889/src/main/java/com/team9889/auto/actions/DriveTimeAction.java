@@ -43,7 +43,7 @@ public class DriveTimeAction implements Action {
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update(Team9889Linear opMode) {
         if(mWantedAngle<10000){
             // Calculate error
             double error = mDrive.getGyroAngleDegrees() - mWantedAngle;

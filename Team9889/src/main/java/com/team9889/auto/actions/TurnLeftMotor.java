@@ -14,7 +14,7 @@ public class TurnLeftMotor implements Action {
 
     private double wantedAngle;
     private double error = 3;
-    private double Kp = 7;
+    private double Kp = 7.2;
 
     public TurnLeftMotor(double angle){
         this.wantedAngle = angle;

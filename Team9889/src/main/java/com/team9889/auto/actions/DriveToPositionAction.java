@@ -7,6 +7,7 @@ import com.team9889.subsystems.Drive;
  * Created by joshua9889 on 10/5/2017.
  */
 
+@Deprecated
 public class DriveToPositionAction implements Action {
 
     private Drive mDrive = null;

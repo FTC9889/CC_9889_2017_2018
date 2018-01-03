@@ -15,7 +15,7 @@ public interface Action {
     void start(Team9889Linear opMode);
 
     //Called in a continuously after start
-    void update(Team9889Linear linearOpMode);
+    void update(Team9889Linear opMode);
 
     //Check and see if Action is still running
     boolean isFinished();

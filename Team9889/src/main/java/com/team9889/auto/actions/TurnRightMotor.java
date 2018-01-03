@@ -13,7 +13,7 @@ public class TurnRightMotor implements Action {
 
     private double wantedAngle;
     double error = 3;
-    double Kp = 7.1;
+    double Kp = 7.2;
     private double rightPow;
 
     public TurnRightMotor(double angle){

@@ -49,7 +49,7 @@ public class TurnToAngle implements Action {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(error)<2;
+        return Math.abs(error)<2.5;
     }
 
     @Override

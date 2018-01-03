@@ -1,5 +1,6 @@
 package com.team9889.auto.actions;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Intake;
@@ -9,33 +10,30 @@ import com.team9889.subsystems.Intake;
  */
 
 public class GlyphRetractArm implements Action {
-    private GlyphLypht mLift;
-    private Intake mIntake;
+    private ElapsedTime t = new ElapsedTime();
+
     @Override
     public boolean isFinished() {
-        return true;
+        return t.milliseconds()>450;
     }
 
     @Override
     public void start(Team9889Linear opMode) {
-        mLift = opMode.Robot.getLift();
-        mIntake = opMode.Robot.getIntake();
-
-        mLift.release();
-        mIntake.clearArm();
-        opMode.sleep(200);
-        mLift.goTo(GlyphLypht.Mode.Intake);
-        mIntake.retract();
-        opMode.sleep(250);
+        t.reset();
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
-
+    public void update(Team9889Linear opMode) {
+        if(t.milliseconds()<200){
+            opMode.Robot.getLift().release();
+            opMode.Robot.getIntake().clearArm();
+            opMode.Robot.getIntake().stop();
+        } else if(t.milliseconds()<450){
+            opMode.Robot.getLift().goTo(GlyphLypht.Mode.Intake);
+            opMode.Robot.getIntake().retract();
+        }
     }
 
     @Override
-    public void done() {
-
-    }
+    public void done() {}
 }
