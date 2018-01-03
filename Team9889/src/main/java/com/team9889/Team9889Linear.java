@@ -78,7 +78,7 @@ public abstract class Team9889Linear extends LinearOpMode {
             vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
 
             // Scanning Code
-            while(!isStarted()){
+            while(!isStarted() && !isStopRequested()){
                 vuMark.update(opMode);
 
                 if (vuMark.getOuputVuMark() != RelicRecoveryVuMark.UNKNOWN)
