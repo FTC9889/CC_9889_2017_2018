@@ -132,8 +132,8 @@ public class Drive extends Subsystem {
      */
     public void setLeftRightPower(double left, double right) {
         try {
-            this.leftMaster_.setPower(left);
-            this.rightMaster_.setPower(right);
+            this.leftMaster_.setPower(CruiseLib.limitValue(left, 1, -1));
+            this.rightMaster_.setPower(CruiseLib.limitValue(right, 1, -1));
         } catch (Exception e){}
 
     }
