@@ -1,91 +1,105 @@
 package com.team9889.test;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.RobotLog;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.VuMark;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
-import static camera_opmodes.LinearOpModeCamera.blue;
-import static camera_opmodes.LinearOpModeCamera.green;
-import static camera_opmodes.LinearOpModeCamera.red;
+import static com.team9889.lib.VuMark.*;
 
 /**
  * Created by joshua9889 on 12/21/2017.
  */
 @TeleOp
-//@Disabled
+///@Disabled
 public class TestingNewVumarkCode extends Team9889Linear {
 
-    VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
-    int redVotes = 0;
-    int blueVotes = 0;
-    Bitmap bm = null;
+    private VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
+    private long redVotes = 0;
+    private long blueVotes = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        // Setup Vuforia
         vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+        ElapsedTime t = new ElapsedTime();
 
-        while (!isStarted() && !isStopRequested()){
-            vuMark.update(this);
+        while(isInInitLoop()) {
+            // Update VuMark
+            vuMark.update();
 
+            // Value of all pixels
             int redValue = 0;
             int blueValue = 0;
-            int greenValue = 0;
 
-            try {
-                bm = vuMark.getBm();
-            } catch (Exception e){
-                RobotLog.a("Problem getting Bm");
-            }
+            // Get current bitmap from vuforia
+            Bitmap bm = vuMark.getBm(20);
 
-            RobotLog.a("H:" + String.valueOf(bm.getHeight()));
-            RobotLog.a("W:" + String.valueOf(bm.getWidth()));
-
-            int w = bm.getHeight();
-            int h = bm.getWidth();
-
-            try{
-//                for (int x =0; x < w/4; x++) {
-                    for (int y = 0; y < w/2; y++) {
-                        int pixel = bm.getPixel(h/2, y);
+            if(bm != null){
+                // Scan area for red and blue pixels
+                for (int x = 0; x < bm.getWidth()/5 && isInInitLoop(); x++) {
+                    for (int y = (bm.getHeight()/4)+(bm.getHeight()/2); y < bm.getHeight() && isInInitLoop(); y++) {
+                        int pixel = bm.getPixel(x,y);
                         redValue += red(pixel);
                         blueValue += blue(pixel);
-                        greenValue += green(pixel);
-                    //}
+
+                        if(redValue>blueValue)
+                            redVotes++;
+                        else if(blueValue>redValue)
+                            blueVotes++;
+                        idle();
+                    }
                 }
-            } catch (Exception e){
-                RobotLog.a("Problem in for loops");
+                bm.recycle();
             }
 
 
-            // Single votes
-//            if (redValue > blueValue)
-//                redVotes++;
-//            else if(redValue < blueValue)
-//                blueVotes++;
-//
-//            if(redVotes > 100){
-//                blueVotes = 0;
-//                redVotes = 1;
-//            } else if(blueVotes > 100){
-//                blueVotes = 1;
-//                redVotes = 0;
-//            }
+            // Voting system
+            if(redVotes>blueVotes)
+                jewel_Color = JewelColor.Red;
+            else if(blueVotes>redVotes)
+                jewel_Color = JewelColor.Blue;
 
+            // Cut off
+            if (redVotes>300) {
+                redVotes = 50;
+                blueVotes = 0;
+            } else if(blueVotes > 300){
+                redVotes = 0;
+                blueVotes = 50;
+            }
+
+            // Calculate FPS
+            double fps = 1/t.seconds();
+            t.reset();
+
+            // Output Telemetry
+            telemetry.addData("FPS", fps);
             telemetry.addData("VuMark", vuMark.getOuputVuMark().toString());
-            telemetry.addData("red", redValue);
-            telemetry.addData("blue", blueValue);
-            telemetry.addData("green", greenValue);
+            if(jewel_Color != null)
+                telemetry.addData("Color", jewel_Color.toString());
+            telemetry.addData("Red Votes", redVotes);
+            telemetry.addData("Blue Votes", blueVotes);
             telemetry.update();
+            idle();
         }
 
-        waitForStart();
 
+        // Rotate and Save Bitmap to "saved_images"
+        Matrix matrix = new Matrix();
+        matrix.postRotate(-90);
+        Bitmap scaledBitmap = vuMark.getBm(20);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);
+        SaveImage(rotatedBitmap);
+        scaledBitmap.recycle();
+        rotatedBitmap.recycle();
     }
+
+
 }
