@@ -53,7 +53,7 @@ public class Constants {
     public final static String kJewelWristId = "jewel_wrist";
 
     public final static double RetractedJewelArm = 0.73;
-    public final static double DeployedJewelArm = 0.14;
+    public final static double DeployedJewelArm = 0.16;
 
     public final static double CenterJewelWrist = 0.52;
     public final static double LeftJewelWrist = 0.0;
@@ -69,6 +69,9 @@ public class Constants {
     public final static String kLeftGlyphLift = "llift";
     public final static String kRightGlyphLift = "rlift";
 
+    // Max speed of lift
+    public final static double maxSpeed = 1.0;
+
     public final static int GLintake = 0;
     public final static int GLsecond = 400;
     public final static int GLtop = 900;
@@ -82,8 +85,6 @@ public class Constants {
     public final static String kLeftFingerId = "id3";
     public final static String kRightFingerId = "id4";
 
-    public final static double maxSpeed = 1.0;
-
     /*---------------------
     |                     |
     |       Intake!       |
@@ -95,9 +96,4 @@ public class Constants {
 
     public final static String kLeftServoIntakeId = "ls";
     public final static String kRightServoIntakeId = "rs";
-
-    // Balance Stone
-    public final static String kBalanceThing = "bt";
-    public final static double BalanceThingLowered = 0.0;
-    public final static double BalanceThingRaised = 1.0;
 }

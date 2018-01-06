@@ -15,17 +15,13 @@ public class GlyphStorePreload implements Action {
     public void start(Team9889Linear opMode) {
         opMode.Robot.getIntake().clearArm();
         opMode.sleep(300);
+        opMode.Robot.getLift().clamp();
+        opMode.Robot.getLift().setServoPosition(0.37);
+        opMode.sleep(250);
         opMode.Robot.getLift().release();
-        opMode.sleep(400);
-
-        opMode.Robot.getIntake().leftRetract();
         opMode.sleep(250);
-        opMode.Robot.getIntake().rightRetract();
-        opMode.sleep(250);
-        opMode.Robot.getIntake().intake();
 
         opMode.Robot.getLift().goTo(GlyphLypht.Mode.Intake);
-        opMode.Robot.getIntake().retract();
     }
 
     @Override

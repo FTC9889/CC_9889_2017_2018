@@ -13,6 +13,8 @@ import com.team9889.subsystems.GlyphLypht;
 @TeleOp
 public class Teleop extends Team9889Linear {
 
+    ElapsedTime matchTime = new ElapsedTime();
+
     public void runOpMode() throws InterruptedException {
         waitForStart(this, false);
 
@@ -20,7 +22,6 @@ public class Teleop extends Team9889Linear {
         Robot.getJewel().retract();
 
         // Timer for Displaying time on DS
-        ElapsedTime matchTime = new ElapsedTime();
         matchTime.reset();
 
         Thread glyphThread = new Thread(new GlyphRunnable());
@@ -68,11 +69,11 @@ public class Teleop extends Team9889Linear {
                     currentMode = GlyphLypht.Mode.Level2;
                 }
 
-                if(gamepad1.dpad_down){
+                if(gamepad2.dpad_down){
                     Robot.getIntake().leftRetract();
-                    sleep(250);
+                    sleep(500);
                     Robot.getIntake().rightRetract();
-                    sleep(250);
+                    sleep(500);
                     Robot.getIntake().intake();
                 }
 
@@ -166,6 +167,13 @@ public class Teleop extends Team9889Linear {
 
                 Robot.getDrive().setLeftRightPower(left, right);
 
+                if(matchTime.seconds()>110)
+                    Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
+                else
+                    Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
+
+                Robot.getJewel().stop();
+
                 idle();
             }
         }
@@ -192,8 +200,8 @@ public class Teleop extends Team9889Linear {
                 if(gamepad2.a){
                     Robot.getIntake().outtake();
                 } else if(gamepad2.y){
-                    Robot.getLift().goTo(GlyphLypht.Mode.Intake);
-                    Robot.getIntake().intake();
+                    Robot.getIntake().outtake();
+                    Robot.getIntake().clearArm();
                 }
 
                 idle();

@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
+import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
+
 /**
  * Created by joshua9889 on 10/29/2017.
  */
 
 public class Intake extends Subsystem{
-    private DcMotor rightIntake, leftIntake = null;
+    private OpenDcMotor rightIntake, leftIntake = null;
     private Servo armRight, armLeft = null;
 
     @Override
@@ -20,8 +22,8 @@ public class Intake extends Subsystem{
     @Override
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try {
-            this.rightIntake = team9889Linear.hardwareMap.dcMotor.get(Constants.kRightMotorIntakeId);
-            this.leftIntake = team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftMotorIntakeId);
+            this.rightIntake = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightMotorIntakeId);
+            this.leftIntake = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class,Constants.kLeftMotorIntakeId);
             this.leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;
@@ -35,7 +37,8 @@ public class Intake extends Subsystem{
             return false;
         }
 
-        this.stop();
+        if(auton)
+            this.stop();
         return true;
     }
 
@@ -55,10 +58,9 @@ public class Intake extends Subsystem{
     }
 
     public void autoIntake(){
-        this.rightIntake.setPower(-1);
-        this.leftIntake.setPower(-1);
-        this.armLeft.setPosition(0.1);
-        this.armRight.setPosition(0.1);
+        this.rightIntake.setPower(-0.5);
+        this.leftIntake.setPower(-0.5);
+        deploy();
     }
 
     public void twoGlyphSpecial(){

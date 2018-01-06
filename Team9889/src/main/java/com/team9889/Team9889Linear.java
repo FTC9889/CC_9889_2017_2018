@@ -107,13 +107,6 @@ public abstract class Team9889Linear extends LinearOpMode {
                     bm.recycle();
                 }
 
-
-                // Voting system
-                if(redVotes>blueVotes)
-                    jewel_Color = JewelColor.Red;
-                else if(blueVotes>redVotes)
-                    jewel_Color = JewelColor.Blue;
-
                 // Cut off
                 if (redVotes>300) {
                     redVotes = 50;
@@ -137,6 +130,12 @@ public abstract class Team9889Linear extends LinearOpMode {
                 telemetry.update();
                 idle();
             }
+
+            // Voting system
+            if(redVotes>blueVotes)
+                jewel_Color = JewelColor.Red;
+            else if(blueVotes>redVotes)
+                jewel_Color = JewelColor.Blue;
 
         }// End of Auto Code for Camera and the like1
         else{

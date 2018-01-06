@@ -11,7 +11,7 @@ import com.team9889.subsystems.Drive;
 public class TurnToAngle implements Action {
     private double wantedAngle;
     private double error = 3;
-    private double Kp = 14;
+    private double Kp = 10;
     private double leftPow, rightPow;
 
     private Drive mDrive;

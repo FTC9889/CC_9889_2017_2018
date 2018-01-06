@@ -13,15 +13,25 @@ import static com.team9889.Constants.inches2Ticks;
 
 public class DriveToDistance implements Action {
 
+    // Drivetrain object
     private Drive mDrive;
 
+    // Calculated left and right distances
     private int left, right = 0;
+
+    // Wanted distance of the robot in inches
     private int mWantedDistance = 0;
 
+    // Wanted angle
     private double mWantedAngle;
-    private double mSpeed = 5*Math.PI/2;
-    double kP = 7;
 
+    // Default speed
+    private double mSpeed = 5*Math.PI/2;
+
+    // Proportional gain
+    private double kP = 7;
+
+    // Is action finished?
     private boolean isFinished = false;
 
     public DriveToDistance(int Distance, double Angle){
@@ -32,7 +42,7 @@ public class DriveToDistance implements Action {
     public DriveToDistance(int Distance, double Angle, double Speed){
         mWantedDistance = Distance;
         mWantedAngle = Angle;
-        mSpeed = Speed;
+        mSpeed = Math.abs(Speed);
     }
 
     @Override
@@ -42,6 +52,7 @@ public class DriveToDistance implements Action {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
+        //  Calculate the wanted left and right distances
         left = mDrive.getLeftTicks() + inches2Ticks(mWantedDistance);
         right = mDrive.getRightTicks() + inches2Ticks(mWantedDistance);
     }
@@ -59,8 +70,19 @@ public class DriveToDistance implements Action {
             if(mDrive.getRightTicks() > right)
                 isFinished = true;
 
-            mDrive.SpeedTurn(mSpeed, CruiseLib.degreesToRadians(error)*kP);
-
+            // Strange case with the rev module.
+            // bc the angle is wrapped to [-180.0, 180.0]
+            if(mWantedAngle==180 || mWantedAngle==-180){
+                if(Math.abs(mDrive.getGyroAngleDegrees())>179){
+                    mDrive.setVelocityTarget(mSpeed, mSpeed);
+                } else if(mDrive.getGyroAngleDegrees()<0){
+                    mDrive.setVelocityTarget(mSpeed, mSpeed/2);
+                } else if(mDrive.getGyroAngleDegrees()>0){
+                    mDrive.setVelocityTarget(mSpeed/2, mSpeed);
+                }
+            } else {
+                mDrive.SpeedTurn(mSpeed, CruiseLib.degreesToRadians(error)*kP);
+            }
         } else {
             if(mDrive.getLeftTicks() < left)
                 isFinished = true;
@@ -68,7 +90,17 @@ public class DriveToDistance implements Action {
             if(mDrive.getRightTicks() < right)
                 isFinished = true;
 
-            mDrive.SpeedTurn(-mSpeed, CruiseLib.degreesToRadians(error)*kP);
+            if(mWantedAngle==180 || mWantedAngle==-180){
+                if(Math.abs(mDrive.getGyroAngleDegrees())>179){
+                    mDrive.setVelocityTarget(-mSpeed, -mSpeed);
+                } else if(mDrive.getGyroAngleDegrees()<0){
+                    mDrive.setVelocityTarget(-mSpeed/2, -mSpeed);
+                } else if(mDrive.getGyroAngleDegrees()>0){
+                    mDrive.setVelocityTarget(-mSpeed, -mSpeed/2);
+                }
+            } else {
+                mDrive.SpeedTurn(-mSpeed, CruiseLib.degreesToRadians(error)*kP);
+            }
         }
     }
 
@@ -82,7 +114,7 @@ public class DriveToDistance implements Action {
         mDrive.DriveControlState(Drive.DriveControlStates.POWER);
         mDrive.setLeftRightPower(0,0);
 
-        // Sleep a little in order to let the robot
+        // Sleep a little in order to let the robot come to a full stop
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {}
