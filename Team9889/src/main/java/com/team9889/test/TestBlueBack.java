@@ -1,6 +1,7 @@
 package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveToDistance;
 import com.team9889.auto.actions.GlyphDeployToFirstLevel;
@@ -23,6 +24,7 @@ import static java.lang.Math.PI;
  */
 
 @Autonomous
+@Disabled
 public class TestBlueBack extends AutoModeBase {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,10 +38,10 @@ public class TestBlueBack extends AutoModeBase {
         runAction(new TurnToAngle(120));
 
         ThreadAction(new GlyphDeployToFirstLevel());
-        runAction(new DriveToDistance(26, 120, PI));
+        runAction(new DriveToDistance(26, 120));
 
         runAction(new TurnRightMotor(177));
-        runAction(new DriveToDistance(12, 177, 3*PI/2));
+        runAction(new DriveToDistance(12, 177));
 
         runAction(new GlyphRelease());
 
@@ -49,7 +51,7 @@ public class TestBlueBack extends AutoModeBase {
         runAction(new TurnToAngle(0));
 
         ThreadAction(new IntakeDeployAndCollect());
-        runAction(new DriveToDistance(10, 0, 4*PI));
+        runAction(new DriveToDistance(10, 0));
         runAction(new JewelExtend());
 
 

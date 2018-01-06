@@ -122,7 +122,7 @@ public abstract class Team9889Linear extends LinearOpMode {
 
                 // Output Telemetry
                 telemetry.addData("FPS", fps);
-                telemetry.addData("VuMark", vuMark.getOuputVuMark().toString());
+                telemetry.addData("VuMark", WhatColumnToScoreIn());
                 if(jewel_Color != null)
                     telemetry.addData("Color", jewel_Color.toString());
                 telemetry.addData("Red Votes", redVotes);
@@ -176,7 +176,7 @@ public abstract class Team9889Linear extends LinearOpMode {
 
     //What column to score the glyph in
     protected RelicRecoveryVuMark WhatColumnToScoreIn(){
-        return currentVumark;
+        return vuMark.getOuputVuMark();
     }
 
     protected boolean isInInitLoop(){

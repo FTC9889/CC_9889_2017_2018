@@ -7,6 +7,7 @@ import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.auto.actions.GlyphDeployToFirstLevel;
 import com.team9889.auto.actions.GlyphRelease;
 import com.team9889.auto.actions.GlyphRetractArm;
+import com.team9889.auto.actions.JewelExtend;
 import com.team9889.auto.actions.TurnToAngle;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
@@ -23,63 +24,44 @@ import static com.team9889.Constants.inches2Ticks;
 public class BLUE_FOWARD {
 
     public BLUE_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
-        // Drive off platform
-        M.runAction(new DriveToDistance(15, 0.0));
-        M.sleep(200);
-
-        // Turn to cryptobox
-        M.runAction(new TurnToAngle(90));
-        M.sleep(200);
-
-        //Drive 20" to cryptobox
-        M.runAction(new DriveToDistance(20, 90));
-
-        // Deploy arm w/glyph inside
-        M.runAction(new GlyphDeployToFirstLevel());
-
         // Determine what column to score the glpyh in
         switch (column){
-            case CENTER:
-                // Turn to Center column
-                M.runAction(new TurnToAngle(125));
-
-                // Drive foward to place glyph
-                M.runAction(new DriveToDistance(10, 125));
-
-                break;
             case LEFT:
-                // Turn to Right column
-                M.runAction(new TurnToAngle(145));
-                M.sleep(100);
-
-                // Drive foward to place glyph
-                M.runAction(new DriveToDistance(14, 145));
-                M.runAction(new TurnToAngle(140));
-
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-28, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(17, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180, Math.PI));
+                M.runAction(new DriveToDistance(5, -180));
+                M.runAction(new DriveToDistance(-3, -180));
                 break;
-            default:
-                // Turn to Left column
-                M.runAction(new TurnToAngle(105));
-
-                // Drive foward to place glpyh
-                M.runAction(new DriveToDistance(2, 90));
-                M.sleep(500);
+            case CENTER:
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-33, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(13, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180));
+                M.runAction(new DriveToDistance(4, -180));
+                M.runAction(new DriveToDistance(-3, -180));
+                break;
+            case RIGHT:
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-41, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(8, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180));
+                M.runAction(new DriveToDistance(6, -180));
+                M.runAction(new DriveToDistance(-3, -180));
                 break;
         }
-
-        // Release glpyh
-        M.runAction(new GlyphRelease());
-
-        // Backup
-        M.runAction(new DriveTimeAction(350, -1));
-        M.sleep(100);
-
-        // Retract everything
-        M.runAction(new GlyphRetractArm());
-
-        // RAM INTO THINGS!!
-        M.runAction(new DriveTimeAction(500, 0.4));
-        M.sleep(100);
-        M.runAction(new DriveTimeAction(400, -0.3));
     }
 }

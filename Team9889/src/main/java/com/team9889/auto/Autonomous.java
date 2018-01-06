@@ -44,8 +44,6 @@ public class Autonomous extends AutoModeBase {
             else
                 new BLUE_FOWARD(this, WhatColumnToScoreIn());
         }
-
-        finalAction();
     }
 
 

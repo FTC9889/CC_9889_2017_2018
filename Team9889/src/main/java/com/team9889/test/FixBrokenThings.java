@@ -1,6 +1,7 @@
 package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.*;
 
@@ -12,6 +13,7 @@ import static java.lang.Math.*;
  */
 
 @Autonomous
+@Disabled
 public class FixBrokenThings extends AutoModeBase {
 
     @Override
@@ -23,7 +25,7 @@ public class FixBrokenThings extends AutoModeBase {
         runAction(new JewelHitColor(JewelColor.Red));
 
         // Drive off balance stone
-        runAction(new DriveToDistance(21, 0, 5* PI/3));
+        runAction(new DriveToDistance(21, 0));
 
         // Turn to the cryptobox
         runAction(new TurnToAngle(-90));
@@ -32,11 +34,11 @@ public class FixBrokenThings extends AutoModeBase {
         ThreadAction(new GlyphDeployToFirstLevel());
 
         // Drive to cryptobox
-        runAction(new DriveToDistance(30, -92, 5 * PI / 2.3));
+        runAction(new DriveToDistance(30, -92));
 
         // Release Glyph
         runAction(new GlyphRelease());
-        runAction(new DriveToDistance(-3, -90, 3*PI/2));
+        runAction(new DriveToDistance(-3, -90));
 
         // Back away from cryptobox
         runAction(new DriveToDistance(-7, -90));
@@ -51,7 +53,7 @@ public class FixBrokenThings extends AutoModeBase {
         ThreadAction(new IntakeDeployWideIntake());
 
         // Drive into Glyph Pit
-        runAction(new DriveToDistance(28, 60, 4* PI));
+        runAction(new DriveToDistance(28, 60));
 
         // Wait a little
         sleep(400);
@@ -67,7 +69,7 @@ public class FixBrokenThings extends AutoModeBase {
         runAction(new IntakeDeployAndCollect());
 
         // Drive a little farther forward
-        runAction(new DriveToDistance(4, 60, 6* PI));
+        runAction(new DriveToDistance(4, 60));
 
         // Pull any glyphs in
         runAction(new IntakePull());

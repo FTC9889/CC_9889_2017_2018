@@ -11,7 +11,20 @@ import com.team9889.subsystems.Drive;
 public class TurnToAngle implements Action {
     private double wantedAngle;
     private double error = 3;
-    private double Kp = 10;
+    private double error_prior = 0;
+
+    // Proportional gain
+    private double kP = 10;
+
+    // Integral gain
+    private double kI = 0.0;
+
+    // Derivative gain
+    private double kD = 0.06;
+
+    private double integral=0;
+    private long iteration_time = 2; // Milli
+
     private double leftPow, rightPow;
 
     private Drive mDrive;
@@ -37,19 +50,36 @@ public class TurnToAngle implements Action {
     @Override
     public void update(Team9889Linear linearOpMode) {
         if(wantedAngle==180||wantedAngle==-180){
-            wantedAngle= 179*(wantedAngle/180);
+            if(mDrive.getGyroAngleDegrees()>0){
+                mDrive.setVelocityTarget(-Math.PI/2, Math.PI/2);
+            } else if(mDrive.getGyroAngleDegrees()<0){
+                mDrive.setVelocityTarget(Math.PI/2, -Math.PI/2);
+            } else {
+                mDrive.setVelocityTarget(Math.PI, -Math.PI);
+            }
         } else {
-            error = mDrive.getGyroAngleDegrees() - wantedAngle;
-            leftPow = CruiseLib.degreesToRadians(error) * Kp;
-            rightPow = -CruiseLib.degreesToRadians(error) * Kp;
+            error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(wantedAngle);
+            integral = integral + (error*iteration_time);
+            double derivative = (error - error_prior)/iteration_time;
+
+            leftPow = (error * kP) + (integral * kI) + (derivative * kD);
+            rightPow = -((error * kP) + (integral * kI) + (derivative * kD));
 
             mDrive.setVelocityTarget(leftPow, rightPow);
+
+            try {
+                Thread.sleep(iteration_time);
+            } catch (Exception e){}
         }
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(error)<2.5;
+        if(wantedAngle==180||wantedAngle==-180){
+            return Math.abs(mDrive.getGyroAngleDegrees())>178;
+        } else {
+            return Math.abs(error)<CruiseLib.degreesToRadians(2);
+        }
     }
 
     @Override

@@ -1,14 +1,19 @@
 package com.team9889.auto.actions;
 
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 import static com.team9889.Constants.inches2Ticks;
 
 /**
  * Created by joshua9889 on 8/4/2017.
  * Class to drive straight once at an angle
+ *
+ * See http://robotsforroboticists.com/pid-control/
+ *
  */
 
 public class DriveToDistance implements Action {
@@ -29,7 +34,28 @@ public class DriveToDistance implements Action {
     private double mSpeed = 5*Math.PI/2;
 
     // Proportional gain
-    private double kP = 7;
+    private double fkP = 14;
+
+    // Integral gain
+    private double fkI = 0;
+
+    // Derivative gain
+    private double fkD = 0;
+
+    // Proportional gain
+    private double bkP = 16;
+
+    // Integral gain
+    private double bkI = 0;
+
+    // Derivative gain
+    private double bkD = 0;
+
+    private double error_prior = 0;
+
+    private double integral=0;
+
+    private long iteration_time = 2; // Milli
 
     // Is action finished?
     private boolean isFinished = false;
@@ -39,10 +65,22 @@ public class DriveToDistance implements Action {
         mWantedAngle = Angle;
     }
 
-    public DriveToDistance(int Distance, double Angle, double Speed){
+    public DriveToDistance(int Distance, double Angle, double Speed) {
         mWantedDistance = Distance;
         mWantedAngle = Angle;
         mSpeed = Math.abs(Speed);
+    }
+
+    public DriveToDistance(int Distance, double Angle, double Speed, double P, double I, double D){
+        mWantedDistance = Distance;
+        mWantedAngle = Angle;
+        mSpeed = Math.abs(Speed);
+        fkP = P;
+        bkP = P;
+        fkI = I;
+        bkI = I;
+        fkD = D;
+        bkD = D;
     }
 
     @Override
@@ -60,7 +98,12 @@ public class DriveToDistance implements Action {
     @Override
     public void update(Team9889Linear linearOpMode) {
         // Calculate error
-        double error = mDrive.getGyroAngleDegrees() - mWantedAngle;
+        double error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(mWantedAngle);
+
+        integral = integral + (error*iteration_time);
+        //integral = CruiseLib.limitValue(integral, 0.004, -0.004);
+
+        double derivative = (error - error_prior)/iteration_time;
 
         // Are we going foward or backward
         if(mWantedDistance > 0){
@@ -76,12 +119,18 @@ public class DriveToDistance implements Action {
                 if(Math.abs(mDrive.getGyroAngleDegrees())>179){
                     mDrive.setVelocityTarget(mSpeed, mSpeed);
                 } else if(mDrive.getGyroAngleDegrees()<0){
-                    mDrive.setVelocityTarget(mSpeed, mSpeed/2);
+                    mDrive.setVelocityTarget(mSpeed, mSpeed/1.5);
                 } else if(mDrive.getGyroAngleDegrees()>0){
-                    mDrive.setVelocityTarget(mSpeed/2, mSpeed);
+                    mDrive.setVelocityTarget(mSpeed/1.5, mSpeed);
                 }
             } else {
-                mDrive.SpeedTurn(mSpeed, CruiseLib.degreesToRadians(error)*kP);
+                if(Math.abs(error)<1)
+                    mDrive.SpeedTurn(mSpeed, (fkP*error)+(fkI*integral)+(fkD+derivative));
+                else
+                    mDrive.SpeedTurn(mSpeed, 0);
+
+                error_prior = error;
+                try {Thread.sleep(iteration_time);} catch (InterruptedException e) {}
             }
         } else {
             if(mDrive.getLeftTicks() < left)
@@ -99,7 +148,12 @@ public class DriveToDistance implements Action {
                     mDrive.setVelocityTarget(-mSpeed, -mSpeed/2);
                 }
             } else {
-                mDrive.SpeedTurn(-mSpeed, CruiseLib.degreesToRadians(error)*kP);
+                if(Math.abs(error)<1)
+                    mDrive.SpeedTurn(-mSpeed, (fkP*error)+(fkI*integral)+(fkD+derivative));
+                else
+                    mDrive.SpeedTurn(-mSpeed, 0);
+                error_prior = error;
+                try {Thread.sleep(iteration_time);} catch (InterruptedException e) {}
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.team9889.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveTimeAction;
@@ -24,6 +25,7 @@ import static java.lang.Math.PI;
  */
 
 @Autonomous
+@Disabled
 public class TestNewAuto extends AutoModeBase {
 
     @Override

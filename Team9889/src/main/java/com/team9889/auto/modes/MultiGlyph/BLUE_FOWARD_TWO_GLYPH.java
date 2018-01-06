@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class BLUE_FOWARD_TWO_GLYPH {
     public BLUE_FOWARD_TWO_GLYPH(AutoModeBase M, RelicRecoveryVuMark column){
         // Drive off balance stone
-        M.runAction(new DriveToDistance(21, 0, 5*Math.PI/3));
+        M.runAction(new DriveToDistance(21, 0));
 
         // Turn to the cryptobox
         M.runAction(new TurnToAngle(90));
@@ -29,7 +29,7 @@ public class BLUE_FOWARD_TWO_GLYPH {
         M.ThreadAction(new GlyphDeployToFirstLevel());
 
         // Drive to cryptobox
-        M.runAction(new DriveToDistance(30, 91, 5*Math.PI/2.4));
+        M.runAction(new DriveToDistance(30, 91));
 
         // Release Glyph
         M.runAction(new GlyphRelease());
@@ -45,7 +45,7 @@ public class BLUE_FOWARD_TWO_GLYPH {
         M.runAction(new TurnToAngle(-60));
 
         // Drive into Glyph Pit
-        M.runAction(new DriveToDistance(28, -60, 3*Math.PI));
+        M.runAction(new DriveToDistance(28, -60));
 
         // Wait a little
         M.sleep(400);
@@ -61,7 +61,7 @@ public class BLUE_FOWARD_TWO_GLYPH {
         M.runAction(new IntakeDeployAndCollect());
 
         // Drive a little farther forward
-        M.runAction(new DriveToDistance(4, -60, 6*Math.PI));
+        M.runAction(new DriveToDistance(4, -60));
 
         // Pull any glyphs in
         M.runAction(new IntakePull());

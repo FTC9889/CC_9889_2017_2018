@@ -3,6 +3,7 @@ package com.team9889.test;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Constants;
@@ -17,7 +18,7 @@ import static com.team9889.lib.VuMark.*;
  * Created by joshua9889 on 12/21/2017.
  */
 @TeleOp
-///@Disabled
+@Disabled
 public class TestingNewVumarkCode extends Team9889Linear {
 
     private VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
