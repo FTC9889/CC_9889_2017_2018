@@ -208,7 +208,6 @@ public class Drive extends Subsystem {
         try {
             this.leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             this.rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //this.slave();
         } catch (Exception e){}
     }
 
@@ -216,7 +215,6 @@ public class Drive extends Subsystem {
         try {
             this.leftMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             this.rightMaster_.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            //this.slave();
         } catch (Exception e){}
     }
 
@@ -224,7 +222,6 @@ public class Drive extends Subsystem {
         try {
             this.leftMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             this.rightMaster_.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            //this.slave();
         } catch (Exception e){}
     }
 
@@ -232,7 +229,6 @@ public class Drive extends Subsystem {
         try {
             this.leftMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             this.rightMaster_.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //this.slave();
         } catch (Exception e){}
     }
 
@@ -240,7 +236,6 @@ public class Drive extends Subsystem {
         try {
             this.leftMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             this.rightMaster_.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //this.slave();
         } catch (Exception e){}
     }
 
