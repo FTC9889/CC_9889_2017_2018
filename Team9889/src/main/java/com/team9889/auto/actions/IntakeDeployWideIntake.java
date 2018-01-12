@@ -2,6 +2,9 @@ package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
+import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Intake;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 12/12/2017.
@@ -10,6 +13,8 @@ import com.team9889.Team9889Linear;
 public class IntakeDeployWideIntake implements Action {
 
     private ElapsedTime t = new ElapsedTime();
+    private Robot robot = Robot.getInstance();
+    private Intake mIntake = robot.getIntake();
 
     @Override
     public boolean isFinished() {
@@ -17,18 +22,14 @@ public class IntakeDeployWideIntake implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        opMode.Robot.getIntake().autoIntake();
+    public void start() {
+        mIntake.autoIntake();
         t.reset();
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
-
-    }
+    public void update() {}
 
     @Override
-    public void done() {
-
-    }
+    public void done() {}
 }

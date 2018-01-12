@@ -1,7 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
-
 /**
  * Created by joshua9889 on 4/10/2017.
  *
@@ -12,10 +10,10 @@ import com.team9889.Team9889Linear;
 public interface Action {
 
     //Called once before the Action is updated
-    void start(Team9889Linear opMode);
+    void start();
 
     //Called in a continuously after start
-    void update(Team9889Linear opMode);
+    void update();
 
     //Check and see if Action is still running
     boolean isFinished();

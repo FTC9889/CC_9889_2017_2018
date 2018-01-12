@@ -1,6 +1,9 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889Linear;
+import com.team9889.subsystems.GlyphLypht;
+import com.team9889.subsystems.Intake;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 1/2/2018.
@@ -8,30 +11,34 @@ import com.team9889.Team9889Linear;
 
 public class GlyphStorePreload implements Action {
 
+    private Robot robot = Robot.getInstance();
+    private Intake mIntake = robot.getIntake();
+    private GlyphLypht mLift = robot.getLift();
+
     public GlyphStorePreload(){}
 
     @Override
-    public void start(Team9889Linear opMode) {
-        opMode.Robot.getIntake().clearArm();
-        opMode.sleep(500);
-        opMode.Robot.getLift().clamp();
-        opMode.Robot.getLift().setServoPosition(0.37);
-        opMode.sleep(600);
+    public void start() {
+        mIntake.clearArm();
+        sleep(500);
+        mLift.clamp();
+        mLift.setServoPosition(0.37);
+        sleep(600);
 
-        opMode.Robot.getLift().release();
-        opMode.sleep(500);
+        mLift.release();
+        sleep(500);
 
-        opMode.Robot.getIntake().leftRetract();
-        opMode.sleep(300);
-        opMode.Robot.getIntake().rightRetract();
-        opMode.sleep(300);
-        opMode.Robot.getIntake().leftRetract();
-        opMode.sleep(300);
-        opMode.Robot.getIntake().clearArm();
+        mIntake.leftRetract();
+        sleep(300);
+        mIntake.rightRetract();
+        sleep(300);
+        mIntake.leftRetract();
+        sleep(300);
+        mIntake.clearArm();
     }
 
     @Override
-    public void update(Team9889Linear opMode) {}
+    public void update() {}
 
     @Override
     public boolean isFinished() {
@@ -40,4 +47,11 @@ public class GlyphStorePreload implements Action {
 
     @Override
     public void done() {}
+
+    private void sleep(int millisecond){
+        try {
+            Thread.sleep(millisecond);
+        } catch (InterruptedException e) {
+        }
+    }
 }

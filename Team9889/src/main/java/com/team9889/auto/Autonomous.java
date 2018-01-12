@@ -20,9 +20,9 @@ public class Autonomous extends AutoModeBase {
 
         // Jewel thing
         if(alliance == "Red")
-            runAction(new JewelHitColor(JewelColor.Red));
+            runAction(new JewelHitColor(JewelColor.Red, this));
         else if (alliance == "Blue")
-            runAction(new JewelHitColor(JewelColor.Blue));
+            runAction(new JewelHitColor(JewelColor.Blue, this));
 
         // Real Code for moving
         // THEY ALL SCORE GLYPHS!!!

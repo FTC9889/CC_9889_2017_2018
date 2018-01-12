@@ -2,6 +2,8 @@ package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
+import com.team9889.subsystems.Intake;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 1/1/2018.
@@ -9,20 +11,22 @@ import com.team9889.Team9889Linear;
 
 public class IntakeSwivel implements Action {
     private ElapsedTime t = new ElapsedTime();
+    private Robot robot = Robot.getInstance();
+    private Intake mIntake = robot.getIntake();
 
     @Override
-    public void start(Team9889Linear opMode) {
+    public void start() {
         t.reset();
     }
 
     @Override
-    public void update(Team9889Linear opMode) {
+    public void update() {
         if(t.milliseconds()<250)
-            opMode.Robot.getIntake().leftRetract();
+            mIntake.leftRetract();
         else if(t.milliseconds()<500)
-            opMode.Robot.getIntake().rightRetract();
+            mIntake.rightRetract();
         else
-            opMode.Robot.getIntake().intake();
+            mIntake.intake();
     }
 
     @Override

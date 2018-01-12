@@ -1,7 +1,7 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 10/5/2017.
@@ -10,7 +10,10 @@ import com.team9889.subsystems.Drive;
 @Deprecated
 public class DriveToPositionAction implements Action {
 
-    private Drive mDrive = null;
+    private Robot robot = Robot.getInstance();
+
+    // Drivetrain object
+    private Drive mDrive = robot.getDrive();
     private double left_power, right_power;
     private int left_pos, right_pos;
     private int tolerance;
@@ -35,18 +38,13 @@ public class DriveToPositionAction implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
-
+    public void start() {
         this.left_pos += mDrive.getLeftTicks();
         this.right_pos += mDrive.getRightTicks();
-
-        opMode.InternalopMode.telemetry.addData("Started Path Following", "");
-        opMode.InternalopMode.telemetry.update();
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         mDrive.DriveControlState(Drive.DriveControlStates.POSITION);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 

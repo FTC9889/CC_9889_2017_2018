@@ -1,21 +1,23 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
+import com.team9889.subsystems.Intake;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 1/1/2018.
  */
 
 public class IntakePull implements Action {
+    private Robot robot = Robot.getInstance();
+    private Intake mIntake = robot.getIntake();
+
     @Override
-    public void start(Team9889Linear opMode) {
-        opMode.Robot.getIntake().twoGlyphSpecial();
+    public void start() {
+        mIntake.twoGlyphSpecial();
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
-
-    }
+    public void update() {}
 
     @Override
     public boolean isFinished() {
@@ -23,7 +25,5 @@ public class IntakePull implements Action {
     }
 
     @Override
-    public void done() {
-
-    }
+    public void done() {}
 }

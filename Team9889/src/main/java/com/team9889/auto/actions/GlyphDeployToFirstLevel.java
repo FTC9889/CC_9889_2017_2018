@@ -1,16 +1,17 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Team9889Linear;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Intake;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 12/12/2017.
  */
 
 public class GlyphDeployToFirstLevel implements Action {
-    private Intake mIntake;
+    private Robot robot = Robot.getInstance();
+    private Intake mIntake = robot.getIntake();
+    private GlyphLypht mLift = robot.getLift();
 
     @Override
     public boolean isFinished() {
@@ -18,20 +19,23 @@ public class GlyphDeployToFirstLevel implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mIntake = opMode.Robot.getIntake();
+    public void start() {
         mIntake.clearArm();
 
-        opMode.Robot.getLift().clamp();
-        opMode.sleep(350);
+        mLift.clamp();
+        try {
+            Thread.sleep(350);
+        } catch (InterruptedException e) {}
 
-        opMode.Robot.getLift().goTo(GlyphLypht.Mode.Level2);
-        opMode.Robot.getLift().setServoPosition(0.2);
-        opMode.sleep(1000);
+        mLift.goTo(GlyphLypht.Mode.Level2);
+        mLift.setServoPosition(0.2);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
     }
 
     @Override
-    public void update(Team9889Linear opMode) {}
+    public void update() {}
 
     @Override
     public void done() {

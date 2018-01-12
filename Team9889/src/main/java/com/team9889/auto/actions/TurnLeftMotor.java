@@ -1,8 +1,8 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 12/24/2017.
@@ -10,7 +10,7 @@ import com.team9889.subsystems.Drive;
  */
 
 public class TurnLeftMotor implements Action {
-    private Drive mDrive;
+    private Drive mDrive = Robot.getInstance().getDrive();
 
     private double wantedAngle;
     private double error = 3;
@@ -21,15 +21,13 @@ public class TurnLeftMotor implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
-
+    public void start() {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         // We cannot turn to exactly 180 because the Rev IMU valid values are [-180,180]
         if(wantedAngle==180||wantedAngle==-180){
             wantedAngle= 179*(wantedAngle/180);

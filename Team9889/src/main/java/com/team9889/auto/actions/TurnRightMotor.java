@@ -1,15 +1,15 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 1/1/2018.
  */
 
 public class TurnRightMotor implements Action {
-    private Drive mDrive;
+    private Drive mDrive = Robot.getInstance().getDrive();
 
     private double wantedAngle;
     double error = 3;
@@ -26,14 +26,13 @@ public class TurnRightMotor implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
+    public void start() {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         if(wantedAngle==180){
             wantedAngle=179;
         }else if(wantedAngle==-180){

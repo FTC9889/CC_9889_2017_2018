@@ -1,17 +1,24 @@
 package com.team9889.auto.actions;
 
 import com.team9889.Team9889Linear;
+import com.team9889.subsystems.Jewel;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 11/10/2017.
  */
 
 public class JewelHitColor implements Action {
+
+    private Jewel jewel = Robot.getInstance().getJewel();
+
     // The ball we leave on the thing
     private Team9889Linear.JewelColor jewelColor;
+    private Team9889Linear opMode;
 
-    public JewelHitColor(Team9889Linear.JewelColor jewelColor){
+    public JewelHitColor(Team9889Linear.JewelColor jewelColor, Team9889Linear team9889Linear){
         this.jewelColor = jewelColor;
+        this.opMode = team9889Linear;
     }
 
     @Override
@@ -20,18 +27,18 @@ public class JewelHitColor implements Action {
     }
 
     @Override
-    public void start(final Team9889Linear opMode) {
+    public void start() {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
-            opMode.Robot.getJewel().deploy();
-            opMode.sleep(1000);
+            jewel.deploy();
+            sleep(1000);
             if (opMode.jewel_Color == this.jewelColor)
-                opMode.Robot.getJewel().left();
+                jewel.left();
             else if (opMode.jewel_Color != jewelColor)
-                opMode.Robot.getJewel().right();
-            opMode.sleep(350);
+                jewel.right();
+            sleep(350);
         }
-        opMode.Robot.getJewel().retract();
+        jewel.retract();
 
         // Wait for the arm to be up, then setPos of arm,
         // but do not wait to finish it, just keep running
@@ -39,20 +46,25 @@ public class JewelHitColor implements Action {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {}
+                sleep(3000);
 
                 if (opMode.opModeIsActive() && !opMode.isStopRequested())
-                    opMode.Robot.getJewel().stop();
+                    jewel.stop();
 
             }
         }).start();
     }
 
     @Override
-    public void update(Team9889Linear opMode) {}
+    public void update() {}
 
     @Override
     public void done() {}
+
+    private void sleep(int millisecond){
+        try {
+            Thread.sleep(millisecond);
+        } catch (InterruptedException e) {
+        }
+    }
 }

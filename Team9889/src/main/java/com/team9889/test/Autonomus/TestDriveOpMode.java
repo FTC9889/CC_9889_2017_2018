@@ -23,9 +23,9 @@ public class TestDriveOpMode extends AutoModeBase {
 
         //Hit Jewel off platform
         if(alliance == "Red")
-            runAction(new JewelHitColor(JewelColor.Red));
+            runAction(new JewelHitColor(JewelColor.Red, this));
         else if(alliance == "Blue")
-            runAction(new JewelHitColor(JewelColor.Blue));
+            runAction(new JewelHitColor(JewelColor.Blue, this));
 
         // Drive off platform
         runAction(new DriveToPositionAction(1307, 1307, 0.1, 0.1, 5));

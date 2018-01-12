@@ -32,7 +32,7 @@ public class TestBlueBack extends AutoModeBase {
 
         // Hit Jewel off
         jewel_Color = JewelColor.Red;
-        runAction(new JewelHitColor(JewelColor.Red));
+        runAction(new JewelHitColor(JewelColor.Red, this));
 
         runAction(new DriveToDistance(17, 0));
         runAction(new TurnToAngle(120));

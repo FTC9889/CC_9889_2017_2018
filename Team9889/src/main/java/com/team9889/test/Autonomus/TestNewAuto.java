@@ -33,7 +33,7 @@ public class TestNewAuto extends AutoModeBase {
         waitForStart(this, true);
 
         // Hit Jewel off
-        runAction(new JewelHitColor(JewelColor.Red));
+        runAction(new JewelHitColor(JewelColor.Red, this));
 
         // Drive off balance stone
         runAction(new DriveToDistance(17, 0));

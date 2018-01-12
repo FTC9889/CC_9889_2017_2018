@@ -1,6 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
@@ -18,8 +17,9 @@ import static com.team9889.Constants.inches2Ticks;
 
 public class DriveToDistance implements Action {
 
+    private Robot robot = Robot.getInstance();
     // Drivetrain object
-    private Drive mDrive;
+    private Drive mDrive = robot.getDrive();
 
     // Calculated left and right distances
     private int left, right = 0;
@@ -84,9 +84,7 @@ public class DriveToDistance implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        this.mDrive = opMode.Robot.getDrive();
-
+    public void start() {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
@@ -96,7 +94,7 @@ public class DriveToDistance implements Action {
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         // Calculate error
         double error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(mWantedAngle);
 

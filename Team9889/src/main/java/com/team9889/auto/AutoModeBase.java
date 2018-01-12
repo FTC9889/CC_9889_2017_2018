@@ -17,12 +17,12 @@ public abstract class AutoModeBase extends Team9889Linear {
         telemetry.update();
 
         if(this.InternalopMode.opModeIsActive())
-            action.start(this.InternalopMode);
+            action.start();
 
         while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
             telemetry.addData("Running Action", "");
             updateTelemetry();
-            action.update(this.InternalopMode);
+            action.update();
             Thread.yield();
         }
         action.done();

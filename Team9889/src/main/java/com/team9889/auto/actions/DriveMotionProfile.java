@@ -3,6 +3,7 @@ package com.team9889.auto.actions;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Team9889Linear;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 /**
  * See https://www.youtube.com/watch?v=8319J1BEHwM&feature=youtu.be
@@ -11,8 +12,10 @@ import com.team9889.subsystems.Drive;
  */
 
 public class DriveMotionProfile implements Action {
-    //Our Drivetrain
-    private Drive mDrive;
+
+    private Robot robot = Robot.getInstance();
+    // Drivetrain object
+    private Drive mDrive = robot.getDrive();
 
     // is in ticks
     private int distance;
@@ -56,8 +59,7 @@ public class DriveMotionProfile implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
+    public void start() {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
@@ -87,7 +89,7 @@ public class DriveMotionProfile implements Action {
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         // Used for determining where we need to be.
         currentTime = (int)motionTime.milliseconds() - startTime;
 

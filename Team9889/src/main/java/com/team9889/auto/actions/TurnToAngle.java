@@ -1,8 +1,8 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
+import com.team9889.subsystems.Robot;
 
 /**
  * Created by joshua9889 on 4/17/2017.
@@ -27,7 +27,7 @@ public class TurnToAngle implements Action {
 
     private double leftPow, rightPow;
 
-    private Drive mDrive;
+    private Drive mDrive = Robot.getInstance().getDrive();
 
     /**
      *
@@ -40,15 +40,13 @@ public class TurnToAngle implements Action {
     }
 
     @Override
-    public void start(Team9889Linear opMode) {
-        mDrive = opMode.Robot.getDrive();
-
+    public void start() {
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
     }
 
     @Override
-    public void update(Team9889Linear linearOpMode) {
+    public void update() {
         if(wantedAngle==180||wantedAngle==-180){
             if(mDrive.getGyroAngleDegrees()>0){
                 mDrive.setVelocityTarget(-Math.PI/2, Math.PI/2);
