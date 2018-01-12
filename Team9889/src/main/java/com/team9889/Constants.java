@@ -27,13 +27,6 @@ public class Constants {
 
     public final static double CountsPerInch=EncoderCounts/(WheelDiameter*Math.PI);
 
-    //Max and min speeds for drivetrain
-    public final static double kDriveMaxSpeed = 1.0;
-    public final static double kDriveMinSpeed = 0.3;
-
-    //Distance between wheels
-    public final static double TrackWidth = 16;
-
     public static double ticks2Inches(int ticks){
         return ticks/Constants.CountsPerInch;
     }
