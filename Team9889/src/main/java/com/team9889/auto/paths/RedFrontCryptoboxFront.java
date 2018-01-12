@@ -22,4 +22,22 @@ public class RedFrontCryptoboxFront implements PathContainer {
         };
         return powers;
     }
+
+    @Override
+    public double[] gyroAngles() {
+        double[] angles = {
+                0.0,
+                0.0
+        };
+        return angles;
+    }
+
+    @Override
+    public double[] timeStamps() {
+        double[] times = {
+                0,
+                3
+        };
+        return times;
+    }
 }

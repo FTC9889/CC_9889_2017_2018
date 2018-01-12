@@ -13,7 +13,7 @@ public class DriveTimeAction implements Action {
     private double mSpeed;
     private int Milliseconds;
     private double mWantedAngle = 100000;
-    private double kP = 7;
+    private double kP = 14;
 
     private Drive mDrive;
     private ElapsedTime t = new ElapsedTime();

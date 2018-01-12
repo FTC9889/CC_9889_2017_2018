@@ -51,7 +51,7 @@ public class DriveToPositionAction implements Action {
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
         mDrive.leftMaster_.setTargetPosition(left_pos);
-        mDrive.rightMaster_.setTargetPosition(-right_pos);
+        mDrive.rightMaster_.setTargetPosition(right_pos);
         mDrive.setLeftRightPower(left_power, right_power);
     }
 

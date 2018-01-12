@@ -14,7 +14,7 @@ import static java.lang.Math.PI;
 public class RED_FOWARD {
 
     public RED_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
-        // Determine what column to score the glpyh in
+        // Determine what column to score the glyph in
         switch (column){
             case LEFT:
                 M.runAction(new DriveToDistance(18, 0));

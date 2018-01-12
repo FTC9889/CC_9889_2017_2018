@@ -23,15 +23,11 @@ public class GlyphDeployToFirstLevel implements Action {
         mIntake.clearArm();
 
         opMode.Robot.getLift().clamp();
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {}
+        opMode.sleep(350);
 
         opMode.Robot.getLift().goTo(GlyphLypht.Mode.Level2);
         opMode.Robot.getLift().setServoPosition(0.2);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {}
+        opMode.sleep(1000);
     }
 
     @Override

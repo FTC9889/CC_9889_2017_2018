@@ -14,46 +14,44 @@ import static com.team9889.Constants.inches2Ticks;
 
 public class BLUE_BACK {
     public BLUE_BACK(AutoModeBase M, RelicRecoveryVuMark column) {
-        // Drive off platform
-        M.runAction(new DriveToDistance(20, 0));
-
-        // Turn 90
-        M.runAction(new TurnToAngle(90));
-		
-		// Drive Straight 10"
-        M.runAction(new DriveToDistance(10, 90));
-        M.sleep(250);
-		
-		// Turn to 135 degrees
-        M.runAction(new TurnToAngle(135));
-
-		// Drive Straight 30" to cryptobox
-        M.runAction(new DriveToDistance(10, 135));
-        M.sleep(100);
-
-		// Turn to face cryptobox
-        M.runAction(new TurnToAngle(-180));
-
-        // Deploy Glyph Lift
-        M.runAction(new GlyphDeployToFirstLevel());
-
-		// Drive foward to depost glyph in box
-        M.runAction(new DriveToDistance(10, -180));
-		
-		// Release glyph
-        M.runAction(new GlyphRelease());
-		
-		// Back away
-        M.runAction(new DriveTimeAction(500, -0.3));
-		
-		// Pull everything in
-        M.runAction(new GlyphRetractArm());
-		
-		// Push glyph all the way in
-        M.runAction(new DriveTimeAction(750, 0.2));
-        M.sleep(100);
-
-		// Back away from glyph
-        M.runAction(new DriveTimeAction(300, -0.1));
+        // Determine what column to score the glyph in
+        switch (column){
+            case LEFT:
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-28, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(17, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180, Math.PI));
+                M.runAction(new DriveToDistance(5, -180));
+                M.runAction(new DriveToDistance(-3, -180));
+                break;
+            case CENTER:
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-33, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(13, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180));
+                M.runAction(new DriveToDistance(4, -180));
+                M.runAction(new DriveToDistance(-3, -180));
+                break;
+            case RIGHT:
+                M.runAction(new DriveToDistance(19, 0));
+                M.runAction(new TurnToAngle(-67));
+                M.ThreadAction(new GlyphDeployToFirstLevel());
+                M.runAction(new DriveToDistance(-41, -67));
+                M.runAction(new TurnToAngle(-180));
+                M.runAction(new DriveToDistance(8, -180));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -180));
+                M.runAction(new DriveToDistance(6, -180));
+                M.runAction(new DriveToDistance(-3, -180));
+                break;
+        }
     }
 }

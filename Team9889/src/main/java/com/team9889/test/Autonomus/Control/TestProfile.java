@@ -1,4 +1,4 @@
-package com.team9889.test.Control;
+package com.team9889.test.Autonomus.Control;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

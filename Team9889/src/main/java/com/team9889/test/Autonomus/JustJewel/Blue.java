@@ -1,4 +1,4 @@
-package com.team9889.test.JustJewel;
+package com.team9889.test.Autonomus.JustJewel;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,13 +9,13 @@ import com.team9889.auto.actions.JewelHitColor;
  * Created by joshua9889 on 11/25/2017.
  */
 
-@Autonomous(name = "RED FAIL PROOF")
+@Autonomous(name = "Blue FAIL PROOF")
 @Disabled
-public class Red extends AutoModeBase{
+public class Blue extends AutoModeBase{
     @Override
     public void runOpMode(){
         waitForStart(this, true);
-        runAction(new JewelHitColor(JewelColor.Red));
+        runAction(new JewelHitColor(JewelColor.Blue));
         sleep(1000);
         Robot.getJewel().stop();
         sleep(1000);

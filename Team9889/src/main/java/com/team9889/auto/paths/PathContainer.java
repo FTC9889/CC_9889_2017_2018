@@ -12,4 +12,8 @@ public interface PathContainer {
 
     double[][] leftRightSpeeds();
 
+    double[] gyroAngles();
+
+    double[] timeStamps();
+
 }
