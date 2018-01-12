@@ -37,7 +37,6 @@ public class Jewel extends Subsystem {
             this.stop();
         }
 
-
         return true;
     }
 
@@ -48,9 +47,7 @@ public class Jewel extends Subsystem {
     }
 
     @Override
-    public void zeroSensors() {
-
-    }
+    public void zeroSensors() {}
 
     public void retract() {
         try {
