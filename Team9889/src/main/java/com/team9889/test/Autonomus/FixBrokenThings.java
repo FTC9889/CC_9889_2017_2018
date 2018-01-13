@@ -53,5 +53,7 @@ public class FixBrokenThings extends AutoModeBase {
 
         M.runAction(new GlyphRelease());
         M.runAction(new DriveToDistance(-5, 95, Math.PI));
+        M.runAction(new DriveToDistance(4, 95));
+        M.runAction(new DriveToDistance(-3, 95));
     }
 }
