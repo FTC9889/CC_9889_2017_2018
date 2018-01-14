@@ -1,4 +1,4 @@
-package sample_camera_opmodes.VuforiaAndColor;
+package com.team9889.test;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
@@ -27,7 +27,7 @@ import static camera_opmodes.OpModeCamera.red;
 
 @TeleOp
 @Disabled
-public class LinearDetectColorFromVuforia extends LinearOpMode{
+public class LinearDetectColorFromVuforiaTest extends LinearOpMode{
     VuforiaLocalizer vuforia;
 
     @Override

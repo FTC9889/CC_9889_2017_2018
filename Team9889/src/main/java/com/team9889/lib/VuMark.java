@@ -52,6 +52,7 @@ public class VuMark {
 
     /**
      * @param cameraDirection What camera to use
+     *                        Front is Selfie Camera
      */
     public void setup(VuforiaLocalizer.CameraDirection cameraDirection, boolean display) {
         if(display){
@@ -60,7 +61,7 @@ public class VuMark {
             params = new VuforiaLocalizer.Parameters();
         }
 
-        params.vuforiaLicenseKey = Constants.kVuforiaLicenceKey;
+        params.vuforiaLicenseKey = this.vuforiaLicenseKey;
         params.cameraDirection = cameraDirection;
 
         this.vuforia = ClassFactory.createVuforiaLocalizer(params);
