@@ -7,17 +7,11 @@ import com.team9889.auto.actions.DriveToDistance;
 import com.team9889.auto.actions.GlyphDeployToFirstLevel;
 import com.team9889.auto.actions.GlyphRelease;
 import com.team9889.auto.actions.GlyphRetractArm;
-import com.team9889.auto.actions.GlyphStorePreload;
 import com.team9889.auto.actions.IntakeDeployAndCollect;
-import com.team9889.auto.actions.IntakePull;
-import com.team9889.auto.actions.IntakeSwivel;
 import com.team9889.auto.actions.JewelExtend;
 import com.team9889.auto.actions.JewelHitColor;
-import com.team9889.auto.actions.TurnLeftMotor;
 import com.team9889.auto.actions.TurnRightMotor;
 import com.team9889.auto.actions.TurnToAngle;
-
-import static java.lang.Math.PI;
 
 /**
  * Created by joshua9889 on 1/2/2018.
@@ -28,7 +22,7 @@ import static java.lang.Math.PI;
 public class TestBlueBack extends AutoModeBase {
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, true, false);
+        waitForStart(true, false);
 
         // Hit Jewel off
         jewel_Color = JewelColor.Red;

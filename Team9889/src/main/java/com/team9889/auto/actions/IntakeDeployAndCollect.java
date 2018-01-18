@@ -11,8 +11,7 @@ import com.team9889.subsystems.Robot;
 public class IntakeDeployAndCollect implements Action {
 
     private ElapsedTime t = new ElapsedTime();
-    private Robot robot = Robot.getInstance();
-    private Intake mIntake = robot.getIntake();
+    private Intake mIntake = Robot.getInstance().getIntake();
 
     @Override
     public boolean isFinished() {

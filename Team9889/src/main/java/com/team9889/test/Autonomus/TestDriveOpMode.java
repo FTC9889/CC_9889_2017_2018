@@ -6,7 +6,6 @@ import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveToPositionAction;
 import com.team9889.auto.actions.JewelHitColor;
 import com.team9889.subsystems.Drive;
-import com.team9889.subsystems.GlyphLypht;
 
 /**
  * Created by joshua9889 on 11/9/2017.
@@ -19,7 +18,7 @@ public class TestDriveOpMode extends AutoModeBase {
     @Override
     public void runOpMode(){
 
-        waitForStart(this, true);
+        waitForStart(true);
 
         //Hit Jewel off platform
         if(alliance == "Red")

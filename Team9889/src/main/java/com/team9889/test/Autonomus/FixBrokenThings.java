@@ -1,8 +1,6 @@
 package com.team9889.test.Autonomus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.team9889.Team9889Linear;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveTimeAction;
 import com.team9889.auto.actions.DriveToDistance;
@@ -23,7 +21,7 @@ public class FixBrokenThings extends AutoModeBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, true);
+        waitForStart(true);
 
         AutoModeBase M = this;
         // Hit Jewel off

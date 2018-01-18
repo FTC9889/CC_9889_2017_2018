@@ -1,7 +1,6 @@
 package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Team9889Linear;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Intake;
 import com.team9889.subsystems.Robot;

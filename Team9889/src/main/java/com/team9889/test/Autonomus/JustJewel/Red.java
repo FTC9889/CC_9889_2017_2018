@@ -14,7 +14,7 @@ import com.team9889.auto.actions.JewelHitColor;
 public class Red extends AutoModeBase{
     @Override
     public void runOpMode(){
-        waitForStart(this, true);
+        waitForStart(true);
         runAction(new JewelHitColor(JewelColor.Red, this));
         sleep(1000);
         Robot.getJewel().stop();

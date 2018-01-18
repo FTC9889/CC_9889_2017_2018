@@ -10,10 +10,8 @@ import com.team9889.subsystems.Robot;
 @Deprecated
 public class DriveToPositionAction implements Action {
 
-    private Robot robot = Robot.getInstance();
-
     // Drivetrain object
-    private Drive mDrive = robot.getDrive();
+    private Drive mDrive = Robot.getInstance().getDrive();
     private double left_power, right_power;
     private int left_pos, right_pos;
     private int tolerance;

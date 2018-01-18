@@ -1,8 +1,6 @@
 package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Team9889Linear;
-import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.Intake;
 import com.team9889.subsystems.Robot;
 
@@ -13,8 +11,7 @@ import com.team9889.subsystems.Robot;
 public class IntakeDeployWideIntake implements Action {
 
     private ElapsedTime t = new ElapsedTime();
-    private Robot robot = Robot.getInstance();
-    private Intake mIntake = robot.getIntake();
+    private Intake mIntake = Robot.getInstance().getIntake();
 
     @Override
     public boolean isFinished() {

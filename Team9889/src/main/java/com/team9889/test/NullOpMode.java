@@ -13,6 +13,6 @@ import com.team9889.auto.AutoModeBase;
 public class NullOpMode extends AutoModeBase {
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, true);
+        waitForStart(true);
     }
 }

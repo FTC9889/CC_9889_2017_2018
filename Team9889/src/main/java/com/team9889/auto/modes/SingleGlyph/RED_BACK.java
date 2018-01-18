@@ -1,8 +1,10 @@
 package com.team9889.auto.modes.SingleGlyph;
 
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.*;
-import com.team9889.subsystems.GlyphLypht;
+import com.team9889.auto.actions.DriveToDistance;
+import com.team9889.auto.actions.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.GlyphRelease;
+import com.team9889.auto.actions.TurnToAngle;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -13,11 +15,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class RED_BACK{
 
     public RED_BACK(AutoModeBase M, RelicRecoveryVuMark column){
+        M.runAction(new DriveToDistance(18, 0));
+        M.runAction(new TurnToAngle(65));
+        M.ThreadAction(new GlyphDeployToFirstLevel());
+
         switch (column){
             case LEFT:
-                M.runAction(new DriveToDistance(18, 0));
-                M.runAction(new TurnToAngle(65));
-                M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(-43, 65));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(8, 180));
@@ -27,9 +30,6 @@ public class RED_BACK{
                 M.runAction(new DriveToDistance(-3, 180));
                 break;
             case CENTER:
-                M.runAction(new DriveToDistance(18, 0));
-                M.runAction(new TurnToAngle(65));
-                M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(-40, 65));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(10, 180));
@@ -39,9 +39,6 @@ public class RED_BACK{
                 M.runAction(new DriveToDistance(-3, 180));
                 break;
             case RIGHT:
-                M.runAction(new DriveToDistance(18, 0));
-                M.runAction(new TurnToAngle(65));
-                M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(-30, 65));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(12, 180));

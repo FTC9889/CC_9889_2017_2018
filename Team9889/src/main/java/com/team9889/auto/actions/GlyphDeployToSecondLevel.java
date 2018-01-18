@@ -1,7 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
-import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Robot;
 
@@ -10,8 +8,7 @@ import com.team9889.subsystems.Robot;
  */
 
 public class GlyphDeployToSecondLevel implements Action {
-    private Robot robot = Robot.getInstance();
-    private GlyphLypht mLift = robot.getLift();
+    private GlyphLypht mLift = Robot.getInstance().getLift();
 
     @Override
     public boolean isFinished() {

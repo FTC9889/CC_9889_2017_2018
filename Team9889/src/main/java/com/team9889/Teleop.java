@@ -16,30 +16,31 @@ public class Teleop extends Team9889Linear {
     ElapsedTime matchTime = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, false);
+        waitForStart(false);
 
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.OPERATOR_CONTROL);
-        Robot.getJewel().retract();
 
         // Timer for Displaying time on DS
         matchTime.reset();
 
-        Thread glyphThread = new Thread(new GlyphRunnable());
-        Thread driveThread = new Thread(new DriveRunnable());
-        Thread intakeThread = new Thread(new IntakeRunnable());
+        // Start control Threads
+        new Thread(new GlyphRunnable()).start();
+        new Thread(new DriveRunnable()).start();
+        new Thread(new IntakeRunnable()).start();
 
-        // Start Control Threads
-        glyphThread.start();
-        driveThread.start();
-        intakeThread.start();
-
+        // Loop while the match is happening
         while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0){
+            // Retract Jewel arm
+            Robot.getJewel().stop();
+
             //Push Telemetry to phone
             telemetry.addData("Match Time", 120-matchTime.seconds());
             updateTelemetry();
+
             idle();
         }
 
+        // Stop everything
         finalAction();
     }
 
@@ -51,6 +52,8 @@ public class Teleop extends Team9889Linear {
         public void run(){
             while(opModeIsActive() && !isStopRequested()){
 
+                // Outtake one glyph and deploy single
+                // glyph to level 2
                 if(gamepad1.y){
                     Robot.getIntake().outtake();
                     sleep(700);
@@ -61,7 +64,8 @@ public class Teleop extends Team9889Linear {
                     sleep(400);
 
                     Robot.getLift().goTo(GlyphLypht.Mode.Level2);
-                    while(opModeIsActive() && !Robot.getLift().isAtLocation()){
+                    ElapsedTime t = new ElapsedTime();
+                    while(opModeIsActive() && !Robot.getLift().isAtLocation() && t.milliseconds()<1000){
                         Thread.yield();
                     }
                     sleep(100);
@@ -69,14 +73,7 @@ public class Teleop extends Team9889Linear {
                     currentMode = GlyphLypht.Mode.Level2;
                 }
 
-                if(gamepad2.dpad_down){
-                    Robot.getIntake().leftRetract();
-                    sleep(500);
-                    Robot.getIntake().rightRetract();
-                    sleep(500);
-                    Robot.getIntake().intake();
-                }
-
+                // Go to level 2
                 if (driver_station.level2()) {
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
@@ -84,8 +81,6 @@ public class Teleop extends Team9889Linear {
                         Robot.getIntake().stopIntake();
                         sleep(400);
                     }
-
-                    Robot.getJewel().right();
 
                     Robot.getIntake().stopIntake();
                     Robot.getIntake().clearArm();
@@ -99,6 +94,7 @@ public class Teleop extends Team9889Linear {
                     Robot.getIntake().retract();
                     currentMode = GlyphLypht.Mode.Level2;
                 }
+                // Go to top level
                 else if (driver_station.level4()) {
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
@@ -106,7 +102,6 @@ public class Teleop extends Team9889Linear {
                         Robot.getIntake().stopIntake();
                         sleep(400);
                     }
-                    Robot.getJewel().right();
 
                     if(currentMode!= GlyphLypht.Mode.Level2){
                         Robot.getIntake().stopIntake();
@@ -123,14 +118,14 @@ public class Teleop extends Team9889Linear {
                     Robot.getIntake().retract();
                     currentMode = GlyphLypht.Mode.Level4;
                 }
+                // Go to Intaking
                 else if (driver_station.intake()) {
-                    Robot.getJewel().right();
-
                     Robot.getIntake().intake();
 
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     currentMode = GlyphLypht.Mode.Intake;
                 }
+                // Over-the-back scoring
                 else if(gamepad1.dpad_up) {
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
@@ -138,7 +133,6 @@ public class Teleop extends Team9889Linear {
                         Robot.getIntake().stopIntake();
                         sleep(400);
                     }
-                    Robot.getJewel().right();
 
                     Robot.getIntake().stopIntake();
                     Robot.getIntake().clearArm();
@@ -167,12 +161,12 @@ public class Teleop extends Team9889Linear {
 
                 Robot.getDrive().setLeftRightPower(left, right);
 
+                // Auto brake to make it easier
+                // to get up on balance stone
                 if(matchTime.seconds()>110)
                     Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
                 else
                     Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
-
-                Robot.getJewel().stop();
 
                 idle();
             }
@@ -187,6 +181,16 @@ public class Teleop extends Team9889Linear {
                 // Control the fingers
                 if(driver_station.outtake()){
                     Robot.getLift().release();
+                }
+
+                // A quick preset to make it easier
+                // to get a glyph in.
+                if(gamepad2.dpad_down){
+                    Robot.getIntake().leftRetract();
+                    sleep(500);
+                    Robot.getIntake().rightRetract();
+                    sleep(500);
+                    Robot.getIntake().intake();
                 }
 
                 // Control the intake

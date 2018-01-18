@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class ResetEncoders extends Team9889Linear {
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, false);
+        waitForStart(false);
         Robot.zeroSensors();
     }
 }

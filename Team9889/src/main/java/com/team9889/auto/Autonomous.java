@@ -16,7 +16,7 @@ public class Autonomous extends AutoModeBase {
 
     @Override
     public void runOpMode() {
-        waitForStart(this, true);
+        waitForStart(true);
 
         // Jewel thing
         if(alliance == "Red")

@@ -2,10 +2,8 @@ package com.team9889.lib;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 
 import com.qualcomm.robotcore.util.RobotLog;
-import com.team9889.Constants;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;

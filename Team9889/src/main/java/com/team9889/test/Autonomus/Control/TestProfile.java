@@ -23,7 +23,7 @@ public class TestProfile extends Team9889Linear {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, true, false);
+        waitForStart(true, false);
         Robot.getDrive().DriveControlState(Drive.DriveControlStates.SPEED);
         Robot.getDrive().DriveZeroPowerState(Drive.DriveZeroPowerStates.FLOAT);
 

@@ -6,7 +6,7 @@ import com.team9889.Team9889Linear;
  * Created by joshua9889 on 4/10/2017.
  *
  * The Subsystem abstract class, which serves as a basic framework for all robot
- * subsystems. Each subsystem outputs commands to SmartDashboard, has a stop
+ * subsystems. Each subsystem outputs commands to Telemetry, has a stop
  * routine (for after each match), and a routine to zero all sensors, which
  * helps with calibration.
  *

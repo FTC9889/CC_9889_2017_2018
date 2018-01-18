@@ -1,11 +1,13 @@
 package com.team9889.auto.modes.SingleGlyph;
 
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.*;
+import com.team9889.auto.actions.DriveToDistance;
+import com.team9889.auto.actions.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.GlyphRelease;
+import com.team9889.auto.actions.JewelExtend;
+import com.team9889.auto.actions.TurnToAngle;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-
-import static java.lang.Math.PI;
 
 /**
  * Created by joshua9889 on 11/24/2017.
@@ -14,10 +16,11 @@ import static java.lang.Math.PI;
 public class RED_FOWARD {
 
     public RED_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
+        M.runAction(new DriveToDistance(18, 0));
+
         // Determine what column to score the glyph in
         switch (column){
             case LEFT:
-                M.runAction(new DriveToDistance(18, 0));
                 M.runAction(new TurnToAngle(-92));
                 M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(27, -92));
@@ -25,7 +28,6 @@ public class RED_FOWARD {
                 M.runAction(new DriveToDistance(-4, -92, Math.PI/2));
                 break;
             case CENTER:
-                M.runAction(new DriveToDistance(18, 0));
                 M.runAction(new TurnToAngle(-90));
                 M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(12, -90));
@@ -38,7 +40,6 @@ public class RED_FOWARD {
                 M.runAction(new JewelExtend());
                 break;
             case RIGHT:
-                M.runAction(new DriveToDistance(18, 0));
                 M.runAction(new TurnToAngle(-90));
                 M.ThreadAction(new GlyphDeployToFirstLevel());
                 M.runAction(new DriveToDistance(10, -90));

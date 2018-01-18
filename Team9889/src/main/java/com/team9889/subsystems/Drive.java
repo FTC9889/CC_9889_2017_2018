@@ -1,9 +1,7 @@
 package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;

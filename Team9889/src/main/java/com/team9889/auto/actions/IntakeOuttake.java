@@ -1,6 +1,6 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.subsystems.Intake;
 import com.team9889.subsystems.Robot;
 
@@ -9,31 +9,26 @@ import com.team9889.subsystems.Robot;
  */
 
 public class IntakeOuttake implements Action {
-    private Robot robot = Robot.getInstance();
-    private Intake mIntake = robot.getIntake();
+    private Intake mIntake = Robot.getInstance().getIntake();
+    private ElapsedTime t = new ElapsedTime();
 
     public IntakeOuttake(){}
 
     @Override
     public void start() {
-        mIntake.outtake();
-        sleep(500);
-        mIntake.clearArm();
+        t.reset();
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        mIntake.outtake();
+    }
 
     @Override
-    public boolean isFinished() {return true;}
+    public boolean isFinished() {return t.milliseconds()>500;}
 
     @Override
-    public void done() {}
-
-    private void sleep(int millisecond){
-        try {
-            Thread.sleep(millisecond);
-        } catch (InterruptedException e) {
-        }
+    public void done() {
+        mIntake.clearArm();
     }
 }

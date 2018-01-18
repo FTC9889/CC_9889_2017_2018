@@ -1,6 +1,10 @@
 package com.team9889.subsystems;
 
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Robot combines all of subsystems into one importable class.
@@ -20,45 +24,30 @@ public class Robot {
     private GlyphLypht mLift = new GlyphLypht(); // Glyph Lift
     private Intake mIntake = new Intake(); // Intake for glyph
 
+    private List<Subsystem> subsystems = Arrays.asList(
+            mDrive, mJewel, mLift, mIntake);
+
     /**
-     * Add each subsystem's outputToTelemetry in this method.
      * @param opMode Current Team9889Linear
      */
     public void outputToTelemetry(Team9889Linear opMode) {
-        mDrive.outputToTelemetry(opMode);
-        mJewel.outputToTelemetry(opMode);
-        mLift.outputToTelemetry(opMode);
-        mIntake.outputToTelemetry(opMode);
+        for (Subsystem subsystem:subsystems)
+            subsystem.outputToTelemetry(opMode);
     }
 
     /**
      * Init all subsytems in this method.
      * @param team9889Linear The OpMode Object
      * @param autonomous If the OpMode is for autonomous mode or not.
-     * @return If all subsystems init properly, return true.
      */
-    public boolean init(Team9889Linear team9889Linear, boolean autonomous) {
+    public void init(Team9889Linear team9889Linear, boolean autonomous) {
         boolean error = false;
 
-        // Structure all inits like this.
-        if(!this.mDrive.init(team9889Linear, autonomous)){
-            team9889Linear.telemetry.addData("Error", " Drive");
-            error = true;
-        }
-
-        if(!this.mJewel.init(team9889Linear, autonomous)){
-            team9889Linear.telemetry.addData("Error", " Jewel");
-            error = true;
-        }
-
-        if(!this.mLift.init(team9889Linear, autonomous)){
-            team9889Linear.telemetry.addData("Error", " Lift");
-            error = true;
-        }
-
-        if(!this.mIntake.init(team9889Linear, autonomous)){
-            team9889Linear.telemetry.addData("Error", " Intake");
-            error = true;
+        for (Subsystem subsystem:subsystems){
+            if(!subsystem.init(team9889Linear, autonomous)){
+                RobotLog.a("Error at:" + subsystem.toString());
+                error = true;
+            }
         }
 
         // Code to check for errors.
@@ -69,8 +58,6 @@ public class Robot {
             team9889Linear.telemetry.addData("No Errors Init","");
             team9889Linear.telemetry.update();
         }
-
-        return !error;
     }
 
 
@@ -79,10 +66,8 @@ public class Robot {
      */
     public void stop() {
         try {
-            mDrive.stop();
-            mJewel.stop();
-            mLift.stop();
-            mIntake.stop();
+            for (Subsystem subsystem:subsystems)
+                subsystem.stop();
         } catch (Exception e){}
     }
 
@@ -92,15 +77,13 @@ public class Robot {
      */
     public void zeroSensors() {
         try {
-            mDrive.zeroSensors();
-            mJewel.zeroSensors();
-            mLift.zeroSensors();
-            mIntake.zeroSensors();
+            for (Subsystem subsystem:subsystems)
+                subsystem.zeroSensors();
         } catch (Exception e){}
     }
 
     /**
-     * Get Drivetrain
+     * Get Drivetrain object
      * @return mDrive
      */
     public Drive getDrive(){
@@ -112,7 +95,7 @@ public class Robot {
     }
 
     /**
-     * Get Jewel Mech
+     * Get Jewel Mech object
      * @return mJewel
      */
     public Jewel getJewel() {
@@ -124,6 +107,7 @@ public class Robot {
     }
 
     /**
+     * Get Glyph Lift object
      * @return mLift
      */
     public GlyphLypht getLift() {
@@ -135,6 +119,7 @@ public class Robot {
     }
 
     /**
+     * Get Glyph Lift object
      * @return mIntake
      */
     public Intake getIntake() {

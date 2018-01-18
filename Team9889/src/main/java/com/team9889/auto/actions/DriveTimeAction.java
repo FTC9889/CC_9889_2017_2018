@@ -15,9 +15,8 @@ public class DriveTimeAction implements Action {
     private double mWantedAngle = 100000;
     private double kP = 14;
 
-    private Robot robot = Robot.getInstance();
     // Drivetrain object
-    private Drive mDrive = robot.getDrive();
+    private Drive mDrive = Robot.getInstance().getDrive();
     private ElapsedTime t = new ElapsedTime();
 
     public DriveTimeAction(int milliseconds, double speed) {

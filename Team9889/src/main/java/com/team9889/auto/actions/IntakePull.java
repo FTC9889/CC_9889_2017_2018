@@ -1,6 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.team9889.subsystems.Intake;
 import com.team9889.subsystems.Robot;
 
 /**
@@ -8,12 +7,9 @@ import com.team9889.subsystems.Robot;
  */
 
 public class IntakePull implements Action {
-    private Robot robot = Robot.getInstance();
-    private Intake mIntake = robot.getIntake();
-
     @Override
     public void start() {
-        mIntake.twoGlyphSpecial();
+        Robot.getInstance().getIntake().twoGlyphSpecial();
     }
 
     @Override

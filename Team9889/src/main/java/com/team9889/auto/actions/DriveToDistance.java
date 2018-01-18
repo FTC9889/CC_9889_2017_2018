@@ -1,6 +1,5 @@
 package com.team9889.auto.actions;
 
-import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.Robot;
@@ -16,10 +15,8 @@ import static com.team9889.Constants.inches2Ticks;
  */
 
 public class DriveToDistance implements Action {
-
-    private Robot robot = Robot.getInstance();
     // Drivetrain object
-    private Drive mDrive = robot.getDrive();
+    private Drive mDrive = Robot.getInstance().getDrive();
 
     // Calculated left and right distances
     private int left, right = 0;

@@ -2,21 +2,13 @@ package com.team9889.test.Autonomus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveTimeAction;
 import com.team9889.auto.actions.DriveToDistance;
 import com.team9889.auto.actions.GlyphDeployToFirstLevel;
 import com.team9889.auto.actions.GlyphRelease;
-import com.team9889.auto.actions.GlyphStorePreload;
-import com.team9889.auto.actions.IntakeDeployAndCollect;
-import com.team9889.auto.actions.IntakeDeployWideIntake;
-import com.team9889.auto.actions.IntakeOuttake;
-import com.team9889.auto.actions.IntakePull;
 import com.team9889.auto.actions.JewelHitColor;
 import com.team9889.auto.actions.TurnToAngle;
-
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 import static java.lang.Math.PI;
 
@@ -30,7 +22,7 @@ public class TestNewAuto extends AutoModeBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart(this, true);
+        waitForStart(true);
 
         // Hit Jewel off
         runAction(new JewelHitColor(JewelColor.Red, this));

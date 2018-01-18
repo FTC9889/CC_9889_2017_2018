@@ -1,8 +1,6 @@
 package com.team9889.auto.actions;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.Team9889Linear;
-import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Robot;
 
@@ -12,8 +10,7 @@ import com.team9889.subsystems.Robot;
 
 public class GlyphRelease implements Action {
 
-    private Robot robot = Robot.getInstance();
-    private GlyphLypht mLift = robot.getLift();
+    private GlyphLypht mLift = Robot.getInstance().getLift();
     private ElapsedTime t = new ElapsedTime();
 
     @Override

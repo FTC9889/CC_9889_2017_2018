@@ -26,44 +26,40 @@ import static com.team9889.lib.VuMark.red;
 
 public abstract class Team9889Linear extends LinearOpMode {
 
-    //New Robot
+    // New Robot
     public Robot Robot = com.team9889.subsystems.Robot.getInstance();
 
-    //New Driver Station
+    // New Driver Station
     Driver_Station driver_station = new Driver_Station();
 
-    //Used to reference the main opmode in this class
+    // Used to reference the main opmode in this class
     public Team9889Linear InternalopMode = null;
 
-    //For VuMark
+    // For VuMark
     private VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
 
-    private RelicRecoveryVuMark currentVumark = RelicRecoveryVuMark.UNKNOWN;
-
+    // Jewel
     public enum JewelColor {
         Red, Blue
     }
     public JewelColor jewel_Color = null;
     private int redVotes, blueVotes = 0;
 
-    //Match settings
+    // Match settings
     protected String alliance, frontBack;
     protected boolean getPartnerGlyph, getPitGlyph;
 
-    public void waitForStart(Team9889Linear opMode, boolean autonomous){
-        waitForStart(opMode, autonomous, autonomous);
+    public void waitForStart(boolean autonomous){
+        waitForStart(autonomous, autonomous);
     }
 
     /**
      * Use this method instead of waitForStart.
-     * @param opMode The Team9889Linear reference
      * @param autonomous If the OpMode is an autonomous or not
      */
-    public void waitForStart(Team9889Linear opMode, final boolean autonomous, boolean runCamera){
+    public void waitForStart(final boolean autonomous, boolean runCamera){
         // Will it throw a null pointer exception???
         Robot.init(this, autonomous);
-
-        InternalopMode = opMode;
 
         // Start of Auto Code for Camera and the like
         if(autonomous && runCamera){
@@ -137,9 +133,9 @@ public abstract class Team9889Linear extends LinearOpMode {
             else if(blueVotes>redVotes)
                 jewel_Color = JewelColor.Blue;
 
-        }// End of Auto Code for Camera and the like1
+        }// End of Auto Code for Camera and the like
         else{
-            driver_station.init(opMode); // New Driver station
+            driver_station.init(this); // New Driver station
             while (isInInitLoop()){
                 telemetry.addData("Waiting for Start", "");
                 telemetry.update();
@@ -161,8 +157,8 @@ public abstract class Team9889Linear extends LinearOpMode {
      * Used to stop everything.
      */
     protected void finalAction(){
-        this.Robot.stop();
-        this.requestOpModeStop();
+        Robot.stop();
+        requestOpModeStop();
     }
 
     //Get the Autonomous prefs from the app's activity and convert them to local variables instead.

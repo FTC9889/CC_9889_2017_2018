@@ -12,7 +12,9 @@ import com.team9889.lib.VuMark;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
-import static com.team9889.lib.VuMark.*;
+import static com.team9889.lib.VuMark.SaveImage;
+import static com.team9889.lib.VuMark.blue;
+import static com.team9889.lib.VuMark.red;
 
 /**
  * Created by joshua9889 on 12/21/2017.
