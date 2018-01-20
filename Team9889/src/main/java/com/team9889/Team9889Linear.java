@@ -33,7 +33,7 @@ public abstract class Team9889Linear extends LinearOpMode {
     Driver_Station driver_station = new Driver_Station();
 
     // Used to reference the main opmode in this class
-    public Team9889Linear InternalopMode = null;
+    public Team9889Linear InternalopMode = this;
 
     // For VuMark
     private VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
@@ -44,6 +44,8 @@ public abstract class Team9889Linear extends LinearOpMode {
     }
     public JewelColor jewel_Color = null;
     private int redVotes, blueVotes = 0;
+
+    RelicRecoveryVuMark test = RelicRecoveryVuMark.UNKNOWN;
 
     // Match settings
     protected String alliance, frontBack;
@@ -77,6 +79,9 @@ public abstract class Team9889Linear extends LinearOpMode {
             while(isInInitLoop()) {
                 // Update VuMark
                 vuMark.update();
+
+                if(vuMark.getOuputVuMark()!= RelicRecoveryVuMark.UNKNOWN)
+                    test = vuMark.getOuputVuMark();
 
                 // Value of all pixels
                 int redValue = 0;
@@ -172,7 +177,7 @@ public abstract class Team9889Linear extends LinearOpMode {
 
     //What column to score the glyph in
     protected RelicRecoveryVuMark WhatColumnToScoreIn(){
-        return vuMark.getOuputVuMark();
+        return test;
     }
 
     protected boolean isInInitLoop(){

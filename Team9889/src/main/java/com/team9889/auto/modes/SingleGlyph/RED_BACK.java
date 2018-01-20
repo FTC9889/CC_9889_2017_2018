@@ -21,7 +21,7 @@ public class RED_BACK{
 
         switch (column){
             case LEFT:
-                M.runAction(new DriveToDistance(-43, 65));
+                M.runAction(new DriveToDistance(-45, 65, 2*Math.PI));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(8, 180));
                 M.runAction(new GlyphRelease());
@@ -30,7 +30,7 @@ public class RED_BACK{
                 M.runAction(new DriveToDistance(-3, 180));
                 break;
             case CENTER:
-                M.runAction(new DriveToDistance(-40, 65));
+                M.runAction(new DriveToDistance(-38, 65, Math.PI));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(10, 180));
                 M.runAction(new GlyphRelease());
@@ -39,7 +39,7 @@ public class RED_BACK{
                 M.runAction(new DriveToDistance(-3, 180));
                 break;
             case RIGHT:
-                M.runAction(new DriveToDistance(-30, 65));
+                M.runAction(new DriveToDistance(-29, 65, 2*Math.PI));
                 M.runAction(new TurnToAngle(180));
                 M.runAction(new DriveToDistance(12, 180));
                 M.runAction(new GlyphRelease());

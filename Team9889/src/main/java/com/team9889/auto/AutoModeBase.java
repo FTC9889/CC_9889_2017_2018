@@ -16,10 +16,10 @@ public abstract class AutoModeBase extends Team9889Linear {
         telemetry.addData("Starting Action", "");
         telemetry.update();
 
-        if(this.InternalopMode.opModeIsActive())
+        if(opModeIsActive())
             action.start();
 
-        while(!action.isFinished() && this.InternalopMode.opModeIsActive()){
+        while(!action.isFinished() && opModeIsActive()){
             telemetry.addData("Running Action", "");
             updateTelemetry();
             action.update();
@@ -27,8 +27,8 @@ public abstract class AutoModeBase extends Team9889Linear {
         }
         action.done();
 
-        this.InternalopMode.telemetry.addData("Finished Action", "");
-        this.InternalopMode.telemetry.update();
+        telemetry.addData("Finished Action", "");
+        telemetry.update();
     }
 
     public void ThreadAction(final Action action){
@@ -39,7 +39,7 @@ public abstract class AutoModeBase extends Team9889Linear {
             }
         };
 
-        if(this.InternalopMode.opModeIsActive() && !this.InternalopMode.isStopRequested())
+        if(opModeIsActive() && !isStopRequested())
             new Thread(runnable).start();
     }
 

@@ -49,11 +49,11 @@ public class TurnToAngle implements Action {
     public void update() {
         if(wantedAngle==180||wantedAngle==-180){
             if(mDrive.getGyroAngleDegrees()>0){
-                mDrive.setVelocityTarget(-Math.PI/2, Math.PI/2);
+                mDrive.setVelocityTarget(-Math.PI/3, Math.PI/3);
             } else if(mDrive.getGyroAngleDegrees()<0){
-                mDrive.setVelocityTarget(Math.PI/2, -Math.PI/2);
+                mDrive.setVelocityTarget(Math.PI/3, -Math.PI/3);
             } else {
-                mDrive.setVelocityTarget(Math.PI, -Math.PI);
+                mDrive.setVelocityTarget(0, 0);
             }
         } else {
             error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(wantedAngle);

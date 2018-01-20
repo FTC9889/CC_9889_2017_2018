@@ -14,14 +14,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class BLUE_BACK {
     public BLUE_BACK(AutoModeBase M, RelicRecoveryVuMark column) {
-        M.runAction(new DriveToDistance(19, 0));
+        M.runAction(new DriveToDistance(19, 0, Math.PI));
         M.runAction(new TurnToAngle(-67));
         M.ThreadAction(new GlyphDeployToFirstLevel());
 
         // Determine what column to score the glyph in
         switch (column){
             case LEFT:
-                M.runAction(new DriveToDistance(-28, -67));
+                M.runAction(new DriveToDistance(-29, -67));
+                M.runAction(new TurnToAngle(-90));
+                M.runAction(new TurnToAngle(-160));
                 M.runAction(new TurnToAngle(-180));
                 M.runAction(new DriveToDistance(17, -180));
                 M.runAction(new GlyphRelease());

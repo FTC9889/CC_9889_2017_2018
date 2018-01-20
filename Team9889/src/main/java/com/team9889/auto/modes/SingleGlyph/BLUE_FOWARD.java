@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class BLUE_FOWARD {
 
     public BLUE_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
-        M.runAction(new DriveToDistance(18, 0));
+        M.runAction(new DriveToDistance(19, 0, Math.PI));
 
         // Determine what column to score the glyph in
         switch (column){
@@ -35,6 +35,8 @@ public class BLUE_FOWARD {
                 M.runAction(new DriveToDistance(15, 110));
                 M.runAction(new GlyphRelease());
                 M.runAction(new DriveToDistance(-4, 110));
+                M.runAction(new DriveToDistance(4, 110));
+                M.runAction(new DriveToDistance(-3, 110));
                 break;
             case LEFT:
                 M.runAction(new TurnToAngle(116));

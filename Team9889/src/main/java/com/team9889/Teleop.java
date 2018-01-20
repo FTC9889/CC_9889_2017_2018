@@ -150,11 +150,9 @@ public class Teleop extends Team9889Linear {
         @Override
         public void run(){
             while (opModeIsActive() && !isStopRequested()){
-                double leftspeed, rightspeed, turn, speed;
-
                 //Values from gamepads with modifications
-                turn = gamepad1.right_stick_x;
-                speed = -gamepad1.left_stick_y;
+                double turn = gamepad1.right_stick_x;
+                double speed = -gamepad1.left_stick_y;
 
                 double left = speed + turn;
                 double right = speed - turn;

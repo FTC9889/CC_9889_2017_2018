@@ -1,6 +1,7 @@
 package com.team9889.test.Autonomus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.DriveTimeAction;
 import com.team9889.auto.actions.DriveToDistance;
@@ -17,6 +18,7 @@ import com.team9889.auto.actions.TurnToAngle;
  */
 
 @Autonomous
+@Disabled
 public class FixBrokenThings extends AutoModeBase {
 
     @Override
