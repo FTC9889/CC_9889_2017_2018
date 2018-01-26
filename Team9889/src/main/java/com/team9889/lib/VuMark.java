@@ -21,6 +21,7 @@ import java.util.Random;
 
 /**
  * Created by joshua9889 on 10/14/2017.
+ *
  */
 
 public class VuMark {
@@ -103,8 +104,13 @@ public class VuMark {
             this.ouputVuMark = vuMark;
     }
 
-    // Used to convert a Vuforia Frame into a Image in our favorite format
-    // Used for Camera
+    /**
+     * Used for Camera
+     *
+     * @param frame Vuforia frame
+     * @param format Image type
+     * @return Image
+     */
     public static Image getImageFromFrame(VuforiaLocalizer.CloseableFrame frame, int format) {
         if (frame != null) {
             long numImgs = frame.getNumImages();
@@ -119,6 +125,10 @@ public class VuMark {
         return null;
     }
 
+    /**
+     * @param downsampling How much we should reduce the image by
+     * @return The Bitmap from last Vuforia Frame
+     */
     // Get Bitmap from vuforia
     public Bitmap getBm(int downsampling){
         try {
@@ -150,6 +160,9 @@ public class VuMark {
         return (red(pixel) + green(pixel) + blue(pixel));
     }
 
+    /**
+     * @param finalBitmap Save Bitmap to /root/saved_images
+     */
     public static void SaveImage(Bitmap finalBitmap) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");
