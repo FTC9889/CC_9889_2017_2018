@@ -3,14 +3,14 @@ package com.team9889.test.Autonomus;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.DriveTimeAction;
-import com.team9889.auto.actions.DriveToDistance;
-import com.team9889.auto.actions.GlyphDeployToFirstLevelTwoGlyph;
-import com.team9889.auto.actions.GlyphRelease;
-import com.team9889.auto.actions.GlyphStorePreload;
-import com.team9889.auto.actions.IntakeDeployAndCollect;
-import com.team9889.auto.actions.JewelHitColor;
-import com.team9889.auto.actions.TurnToAngle;
+import com.team9889.auto.actions.Drive.DriveTimeAction;
+import com.team9889.auto.actions.Drive.DriveToDistance;
+import com.team9889.auto.actions.Glyph.GlyphDeployToFirstLevelTwoGlyph;
+import com.team9889.auto.actions.Glyph.GlyphRelease;
+import com.team9889.auto.actions.Glyph.GlyphStorePreload;
+import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
+import com.team9889.auto.actions.Jewel.JewelHitColor;
+import com.team9889.auto.actions.Drive.TurnToAngle;
 
 /**
  * Created by joshua9889 on 12/30/2017.

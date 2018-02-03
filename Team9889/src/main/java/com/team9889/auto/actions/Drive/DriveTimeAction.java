@@ -1,6 +1,7 @@
-package com.team9889.auto.actions;
+package com.team9889.auto.actions.Drive;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.team9889.auto.actions.Action;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.Robot;

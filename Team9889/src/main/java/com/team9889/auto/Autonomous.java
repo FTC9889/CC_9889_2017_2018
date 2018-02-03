@@ -1,6 +1,6 @@
 package com.team9889.auto;
 
-import com.team9889.auto.actions.JewelHitColor;
+import com.team9889.auto.actions.Jewel.JewelHitColor;
 import com.team9889.auto.modes.MultiGlyph.BLUE_FOWARD_TWO_GLYPH;
 import com.team9889.auto.modes.MultiGlyph.RED_FOWARD_TWO_GLYPH;
 import com.team9889.auto.modes.SingleGlyph.BLUE_BACK;

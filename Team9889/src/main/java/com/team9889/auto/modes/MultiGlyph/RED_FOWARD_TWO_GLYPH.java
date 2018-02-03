@@ -1,15 +1,15 @@
 package com.team9889.auto.modes.MultiGlyph;
 
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.DriveTimeAction;
-import com.team9889.auto.actions.DriveToDistance;
-import com.team9889.auto.actions.GlyphDeployToFirstLevel;
-import com.team9889.auto.actions.GlyphRelease;
-import com.team9889.auto.actions.GlyphRetractArm;
-import com.team9889.auto.actions.IntakeDeployAndCollect;
-import com.team9889.auto.actions.IntakePull;
-import com.team9889.auto.actions.IntakeSwivel;
-import com.team9889.auto.actions.TurnToAngle;
+import com.team9889.auto.actions.Drive.DriveTimeAction;
+import com.team9889.auto.actions.Drive.DriveToDistance;
+import com.team9889.auto.actions.Glyph.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.Glyph.GlyphRelease;
+import com.team9889.auto.actions.Glyph.GlyphRetractArm;
+import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
+import com.team9889.auto.actions.Intake.IntakePull;
+import com.team9889.auto.actions.Intake.IntakeSwivel;
+import com.team9889.auto.actions.Drive.TurnToAngle;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 

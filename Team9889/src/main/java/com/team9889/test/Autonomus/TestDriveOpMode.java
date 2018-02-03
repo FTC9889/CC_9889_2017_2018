@@ -3,8 +3,8 @@ package com.team9889.test.Autonomus;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.DriveToPositionAction;
-import com.team9889.auto.actions.JewelHitColor;
+import com.team9889.auto.actions.Drive.DriveToPositionAction;
+import com.team9889.auto.actions.Jewel.JewelHitColor;
 import com.team9889.subsystems.Drive;
 
 /**

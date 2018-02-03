@@ -1,6 +1,7 @@
-package com.team9889.auto.actions;
+package com.team9889.auto.actions.Jewel;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.team9889.auto.actions.Action;
 import com.team9889.subsystems.Jewel;
 import com.team9889.subsystems.Robot;
 

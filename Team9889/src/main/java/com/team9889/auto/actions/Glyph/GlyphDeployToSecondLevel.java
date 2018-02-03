@@ -1,5 +1,6 @@
-package com.team9889.auto.actions;
+package com.team9889.auto.actions.Glyph;
 
+import com.team9889.auto.actions.Action;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Robot;
 

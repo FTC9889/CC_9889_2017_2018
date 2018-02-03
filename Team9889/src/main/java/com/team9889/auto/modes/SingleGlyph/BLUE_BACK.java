@@ -1,10 +1,10 @@
 package com.team9889.auto.modes.SingleGlyph;
 
 import com.team9889.auto.AutoModeBase;
-import com.team9889.auto.actions.DriveToDistance;
-import com.team9889.auto.actions.GlyphDeployToFirstLevel;
-import com.team9889.auto.actions.GlyphRelease;
-import com.team9889.auto.actions.TurnToAngle;
+import com.team9889.auto.actions.Drive.DriveToDistance;
+import com.team9889.auto.actions.Glyph.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.Glyph.GlyphRelease;
+import com.team9889.auto.actions.Drive.TurnToAngle;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
