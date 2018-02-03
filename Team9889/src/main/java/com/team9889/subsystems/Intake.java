@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 
 /**
@@ -16,13 +17,13 @@ public class Intake extends Subsystem{
     private Servo armRight, armLeft = null;
 
     @Override
-    public void outputToTelemetry(Team9889Linear opMode) {}
+    public void outputToTelemetry(Telemetry telemetry) {}
 
     @Override
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try {
-            this.rightIntake = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightMotorIntakeId);
-            this.leftIntake = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class,Constants.kLeftMotorIntakeId);
+            this.rightIntake = team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightMotorIntakeId);
+            this.leftIntake = team9889Linear.hardwareMap.get(OpenDcMotor.class,Constants.kLeftMotorIntakeId);
             this.leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;

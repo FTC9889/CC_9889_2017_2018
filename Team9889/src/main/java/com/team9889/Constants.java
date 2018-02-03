@@ -19,20 +19,27 @@ public class Constants {
     public final static String kLeftDriveMasterId = "left";
     public final static String kRightDriveMasterId = "right";
 
-    //DcMotor Encoders
-    private final static float PPR = 28;
-    private final static double FinalGearReduction = 40 / 1.5;
-    private final static float WheelDiameter=4;
-    private final static double EncoderCounts= PPR * FinalGearReduction;
+    // Robot Specs
+    private final static double FinalGearReduction = 1. / 1.;
+    private final static float WheelDiameter = 4;
 
-    public final static double CountsPerInch=EncoderCounts/(WheelDiameter*Math.PI);
+    // NeveRest 40 Encoders
+    private final static float PPR = 28;
+    private final static double EncoderCounts40 = PPR * FinalGearReduction;
+
+    // NeveRest 20 Encoders
+    private final static double OPR = 134.4;
+    private final static double EncoderCounts20 = OPR * FinalGearReduction;
+
+    // Same output always
+    public final static double CountsPerInch = EncoderCounts20 / (WheelDiameter*Math.PI);
 
     public static double ticks2Inches(int ticks){
         return ticks/Constants.CountsPerInch;
     }
 
     public static int inches2Ticks(int in){
-        return in * (int)CountsPerInch;
+        return (int)(in * CountsPerInch);
     }
 
     /*---------------------
@@ -89,4 +96,14 @@ public class Constants {
 
     public final static String kLeftServoIntakeId = "ls";
     public final static String kRightServoIntakeId = "rs";
+
+    /*---------------------
+    |                     |
+    |        Relic        |
+    |                     |
+    ---------------------*/
+
+    public final static String kRelicMotor = "relicMotor";
+    public final static String kLargeServo = "ws";
+    public final static String kSmallServo = "grab";
 }

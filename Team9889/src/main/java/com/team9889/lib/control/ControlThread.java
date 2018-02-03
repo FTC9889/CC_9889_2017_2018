@@ -5,6 +5,6 @@ package com.team9889.lib.control;
  */
 
 public interface ControlThread {
-    public void update();
-    public boolean isAtGoal();
+    void update();
+    boolean isAtGoal();
 }

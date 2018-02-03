@@ -19,8 +19,8 @@ public class TestSetVel extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
 
-        DcMotorEx Right = (DcMotorEx) hardwareMap.get(DcMotorEx.class, Constants.kLeftDriveMasterId);
-        DcMotorEx Left = (DcMotorEx) hardwareMap.get(DcMotorEx.class, Constants.kRightDriveMasterId);
+        DcMotorEx Right = hardwareMap.get(DcMotorEx.class, Constants.kLeftDriveMasterId);
+        DcMotorEx Left = hardwareMap.get(DcMotorEx.class, Constants.kRightDriveMasterId);
 
         while(opModeIsActive() && !isStarted() && Right.getCurrentPosition() != 0){
             Right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

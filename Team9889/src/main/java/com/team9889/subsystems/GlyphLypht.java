@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by Jin on 11/3/2017.
  */
@@ -22,10 +24,10 @@ public class GlyphLypht extends Subsystem{
     private Servo RightFinger, LeftFinger = null;
 
     @Override
-    public void outputToTelemetry(Team9889Linear opMode) {
-        opMode.telemetry.addData("Is in Position?", isAtLocation());
-        opMode.telemetry.addData("Left Lift Pos", LeftLift.getCurrentPosition());
-        opMode.telemetry.addData("Right Lift Pos", RightLift.getCurrentPosition());
+    public void outputToTelemetry(Telemetry telemetry) {
+        telemetry.addData("Is in Position?", isAtLocation());
+        telemetry.addData("Left Lift Pos", LeftLift.getCurrentPosition());
+        telemetry.addData("Right Lift Pos", RightLift.getCurrentPosition());
     }
 
     @Override
@@ -33,7 +35,6 @@ public class GlyphLypht extends Subsystem{
         try{
             this.RightLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftGlyphLift);
             this.LeftLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kRightGlyphLift);
-            this.stop();
         } catch (Exception e){
             return false;
         }
@@ -55,8 +56,8 @@ public class GlyphLypht extends Subsystem{
         }
 
         if(auton) {
-            this.goTo(Mode.Auto);
             this.zeroSensors();
+            this.goTo(Mode.Auto);
         }
         this.stop();
 

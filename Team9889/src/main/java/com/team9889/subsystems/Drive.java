@@ -7,6 +7,7 @@ import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
 import com.team9889.lib.RevIMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 
@@ -38,8 +39,8 @@ public class Drive extends Subsystem {
     @Override //This is KINDA like the hardwareMap, but then again I'm not too sure.
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try{
-            this.rightMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightDriveMasterId);
-            this.leftMaster_ = (OpenDcMotor) team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kLeftDriveMasterId);
+            this.rightMaster_ = team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kRightDriveMasterId);
+            this.leftMaster_ = team9889Linear.hardwareMap.get(OpenDcMotor.class, Constants.kLeftDriveMasterId);
             this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;
@@ -66,14 +67,14 @@ public class Drive extends Subsystem {
     }
 
     @Override
-    public void outputToTelemetry(Team9889Linear opMode) {
-        opMode.telemetry.addData("Left Position", this.getLeftTicks());
-        opMode.telemetry.addData("Right Position", this.getRightTicks());
-        opMode.telemetry.addData("Left Power", this.leftMaster_.getPower());
-        opMode.telemetry.addData("Right Power", this.rightMaster_.getPower());
-        opMode.telemetry.addData("Left Current", this.leftMaster_.getCurrentDraw().formattedValue);
-        opMode.telemetry.addData("Right Current", this.rightMaster_.getCurrentDraw().formattedValue);
-        opMode.telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
+    public void outputToTelemetry(Telemetry telemetry) {
+        telemetry.addData("Left Position", this.getLeftTicks());
+        telemetry.addData("Right Position", this.getRightTicks());
+        telemetry.addData("Left Power", this.leftMaster_.getPower());
+        telemetry.addData("Right Power", this.rightMaster_.getPower());
+        telemetry.addData("Left Current", this.leftMaster_.getCurrentDraw().formattedValue);
+        telemetry.addData("Right Current", this.rightMaster_.getCurrentDraw().formattedValue);
+        telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
     }
 
     @Override

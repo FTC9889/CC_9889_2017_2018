@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by joshua9889 on 10/29/2017.
  */
@@ -13,9 +15,9 @@ public class Jewel extends Subsystem {
     private Servo arm, wrist;
 
     @Override
-    public void outputToTelemetry(Team9889Linear opMode) {
-        opMode.InternalopMode.telemetry.addData("Jewel Arm Pos", this.arm.getPosition());
-        opMode.InternalopMode.telemetry.addData("Jewel Wrist Pos", this.wrist.getPosition());
+    public void outputToTelemetry(Telemetry telemetry) {
+        telemetry.addData("Jewel Arm Pos", this.arm.getPosition());
+        telemetry.addData("Jewel Wrist Pos", this.wrist.getPosition());
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.team9889.subsystems;
 
 import com.team9889.Team9889Linear;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * Created by joshua9889 on 4/10/2017.
  *
@@ -14,7 +16,7 @@ import com.team9889.Team9889Linear;
  * at the start of the match.
  */
 public abstract class Subsystem {
-    public abstract void outputToTelemetry(Team9889Linear opMode);
+    public abstract void outputToTelemetry(Telemetry telemetry);
 
     public abstract boolean init(Team9889Linear team9889Linear, boolean auton);
 

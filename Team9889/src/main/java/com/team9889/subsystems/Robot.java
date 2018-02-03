@@ -32,7 +32,7 @@ public class Robot {
      */
     public void outputToTelemetry(Team9889Linear opMode) {
         for (Subsystem subsystem:subsystems)
-            subsystem.outputToTelemetry(opMode);
+            subsystem.outputToTelemetry(opMode.telemetry);
     }
 
     /**
@@ -87,11 +87,7 @@ public class Robot {
      * @return mDrive
      */
     public Drive getDrive(){
-        try {
-            return mDrive;
-        } catch (Exception e){
-            return null;
-        }
+        return mDrive;
     }
 
     /**
@@ -99,11 +95,7 @@ public class Robot {
      * @return mJewel
      */
     public Jewel getJewel() {
-        try {
-            return mJewel;
-        } catch (Exception e){
-            return null;
-        }
+        return mJewel;
     }
 
     /**
@@ -111,11 +103,7 @@ public class Robot {
      * @return mLift
      */
     public GlyphLypht getLift() {
-        try {
-            return mLift;
-        } catch (Exception e){
-            return null;
-        }
+        return mLift;
     }
 
     /**
@@ -123,10 +111,6 @@ public class Robot {
      * @return mIntake
      */
     public Intake getIntake() {
-        try {
-            return mIntake;
-        } catch (Exception e){
-            return null;
-        }
+        return mIntake;
     }
 }
