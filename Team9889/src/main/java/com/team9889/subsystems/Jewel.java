@@ -54,6 +54,17 @@ public class Jewel extends Subsystem {
     public void retract() {
         try {
             this.arm.setPosition(Constants.RetractedJewelArm);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+
+                    }
+                    wrist.setPosition(Constants.CenterJewelWrist);
+                }
+            }).start();
             this.wrist.setPosition(Constants.CenterJewelWrist);
         } catch (Exception e) {}
     }
@@ -61,7 +72,17 @@ public class Jewel extends Subsystem {
     public void deploy() {
         try {
             this.arm.setPosition(Constants.DeployedJewelArm);
-            this.wrist.setPosition(Constants.CenterJewelWrist);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+
+                    }
+                    wrist.setPosition(Constants.CenterJewelWrist);
+                }
+            }).start();
         } catch (Exception e){}
     }
 
