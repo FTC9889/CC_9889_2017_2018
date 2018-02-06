@@ -54,7 +54,7 @@ public class Teleop extends Team9889Linear {
 
                 // Outtake one glyph and deploy single
                 // glyph to level 2
-                if(gamepad1.y){
+                if(driver_station.outtakeAndLevel2()){
                     Robot.getIntake().outtake();
                     sleep(700);
                     Robot.getLift().setServoPosition(0.4);
@@ -126,7 +126,7 @@ public class Teleop extends Team9889Linear {
                     currentMode = GlyphLypht.Mode.Intake;
                 }
                 // Over-the-back scoring
-                else if(gamepad1.dpad_up) {
+                else if(driver_station.overTheBack()) {
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
                         Robot.getLift().clamp();
@@ -177,13 +177,13 @@ public class Teleop extends Team9889Linear {
         public void run(){
             while(opModeIsActive() && !isStopRequested()){
                 // Control the fingers
-                if(driver_station.outtake()){
+                if(driver_station.release()){
                     Robot.getLift().release();
                 }
 
                 // A quick preset to make it easier
                 // to get a glyph in.
-                if(gamepad2.dpad_down){
+                if(driver_station.swivel()){
                     Robot.getIntake().leftRetract();
                     sleep(500);
                     Robot.getIntake().rightRetract();
@@ -192,16 +192,14 @@ public class Teleop extends Team9889Linear {
                 }
 
                 // Control the intake
-                if(gamepad2.left_bumper)
+                if(driver_station.retract())
                     Robot.getIntake().retract();
-                else if(gamepad2.b)
+                else if(driver_station.leftRetract())
                     Robot.getIntake().leftRetract();
-                else if(gamepad2.x)
+                else if(driver_station.rightRetract())
                     Robot.getIntake().rightRetract();
 
-                if(gamepad2.a){
-                    Robot.getIntake().outtake();
-                } else if(gamepad2.y){
+                if(driver_station.outtake()){
                     Robot.getIntake().outtake();
                     Robot.getIntake().clearArm();
                 }

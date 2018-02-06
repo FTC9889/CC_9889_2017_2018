@@ -9,7 +9,7 @@ public class Driver_Station{
 
     public Driver_Station(){}
 
-    public Team9889Linear team9889Linear;
+    private Team9889Linear team9889Linear;
 
     public void init(Team9889Linear opMode){
         this.team9889Linear = opMode;
@@ -19,20 +19,47 @@ public class Driver_Station{
         return this.team9889Linear.gamepad1.left_trigger > 0.3;
     }
 
+    boolean outtakeAndLevel2(){
+        return this.team9889Linear.gamepad1.y;
+    }
 
-    public boolean level2() {
+    boolean level2() {
         return this.team9889Linear.gamepad1.b;
     }
 
-    public boolean outtake() {
-        return this.team9889Linear.gamepad1.right_bumper;
-    }
-
-    public boolean level4() {
+    boolean level4() {
         return this.team9889Linear.gamepad1.x;
     }
 
-    public boolean intake() {
+    boolean overTheBack(){
+        return this.team9889Linear.gamepad1.dpad_up;
+    }
+
+    boolean release() {
+        return this.team9889Linear.gamepad1.right_bumper;
+    }
+
+    boolean intake() {
         return this.team9889Linear.gamepad1.a;
+    }
+
+    boolean swivel(){
+        return this.team9889Linear.gamepad2.right_trigger>0.3;
+    }
+
+    boolean leftRetract(){
+        return this.team9889Linear.gamepad2.left_bumper;
+    }
+
+    boolean rightRetract(){
+        return this.team9889Linear.gamepad2.b;
+    }
+
+    boolean retract(){
+        return this.team9889Linear.gamepad2.right_bumper;
+    }
+
+    boolean outtake(){
+        return this.team9889Linear.gamepad2.y;
     }
 }
