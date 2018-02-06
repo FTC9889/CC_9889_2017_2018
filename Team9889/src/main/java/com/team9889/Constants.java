@@ -7,7 +7,11 @@ package com.team9889;
 
 public class Constants {
     //VuMark Licence Key
-    public final static String kVuforiaLicenceKey = "AUEjQhP/////AAAAGV8qq1GGcE03gQHKWYPRZBNIZYZq8DoUn9lOpeWPY8PZKG1B5UtrsqkqPqh8Vcuv+HuUuobUNZE35fhYNPqxRIWqtoKbUmkZZCspmu0Aw685D5dxk87dT38/oYxzdKFs3EZaD8hvprmWj2Oww4+GtxS+fiImc23ZlkU20esE1MhwvX0xJ8tjoPS9pdTVSt1QtoYp3WxSxtZlKd0B0UMCxzj0KxN4JZRlTmF2W3dLU2G9SJ3hQO8jcC+Nuvbfk809C6LSWiijZ9L7IZNcQQiFKDa5yJP+ayX+Y1cpwcV19yqlPQTH7CQqcvnZDfwQZXmCpDhcQpW9h+bCXaerRH/uWNZMskyO0AXeFa1oCgB3EGPB";
+    public final static String kVuforiaLicenceKey = "AUEjQhP/////AAAAGV8qq1GGcE03gQHKWYPRZBNIZYZq8Do" +
+            "Un9lOpeWPY8PZKG1B5UtrsqkqPqh8Vcuv+HuUuobUNZE35fhYNPqxRIWqtoKbUmkZZCspmu0Aw685D5dxk87dT3" +
+            "8/oYxzdKFs3EZaD8hvprmWj2Oww4+GtxS+fiImc23ZlkU20esE1MhwvX0xJ8tjoPS9pdTVSt1QtoYp3WxSxtZlK" +
+            "d0B0UMCxzj0KxN4JZRlTmF2W3dLU2G9SJ3hQO8jcC+Nuvbfk809C6LSWiijZ9L7IZNcQQiFKDa5yJP+ayX+Y1cp" +
+            "wcV19yqlPQTH7CQqcvnZDfwQZXmCpDhcQpW9h+bCXaerRH/uWNZMskyO0AXeFa1oCgB3EGPB";
 
     /*---------------------
     |                     |
@@ -20,16 +24,16 @@ public class Constants {
     public final static String kRightDriveMasterId = "right";
 
     // Robot Specs
-    private final static double FinalGearReduction = 1. / 1.;
-    private final static float WheelDiameter = 4;
+    private final static double FinalGearReduction = 19.2 / 1.;
+    private final static double WheelDiameter = 4.0;
 
     // NeveRest 40 Encoders
-    private final static float PPR = 28;
-    private final static double EncoderCounts40 = PPR * FinalGearReduction;
+    private final static double PPR40 = 28;
+    private final static double EncoderCounts40 = PPR40 * FinalGearReduction;
 
-    // NeveRest 20 Encoders
-    private final static double OPR = 134.4;
-    private final static double EncoderCounts20 = OPR * FinalGearReduction;
+    // NeveRest Orbitals 20 Encoders
+    private final static double PPR20 = 134.4;
+    private final static double EncoderCounts20 = PPR20 * FinalGearReduction;
 
     // Same output always
     public final static double CountsPerInch = EncoderCounts20 / (WheelDiameter*Math.PI);
@@ -99,11 +103,11 @@ public class Constants {
 
     /*---------------------
     |                     |
-    |        Relic        |
+    |      Relic Arm!     |
     |                     |
     ---------------------*/
 
     public final static String kRelicMotor = "relicMotor";
-    public final static String kLargeServo = "ws";
-    public final static String kSmallServo = "grab";
+    public final static String kVexMotor = "vex";
+    public final static String kFinger = "finger";
 }
