@@ -269,14 +269,11 @@ public class FtcRobotControllerActivity extends Activity
     RobotLog.vv(TAG, "onCreate()");
 
     // Test if the app saves strings after fresh app install.
-    final SharedPreferences globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        RobotLog.a("Alliance: " + String.valueOf(globalPrefs.getString("AllianceColor", "Nope")));
-        RobotLog.a("Front or Back", String.valueOf(globalPrefs.getString("FrontBack", "NOT Today")));
-      }
-    }).start();
+    SharedPreferences globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    RobotLog.a("Alliance: " + String.valueOf(globalPrefs.getString("AllianceColor", "Nope")));
+    RobotLog.a("Front or Back" + String.valueOf(globalPrefs.getString("FrontBack", "NOT Today")));
+
 
 
     /*

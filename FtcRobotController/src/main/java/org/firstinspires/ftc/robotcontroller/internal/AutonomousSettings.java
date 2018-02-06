@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.qualcomm.ftcrobotcontroller.R;
+import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
  * Created by joshua9889 on 11/12/2017.
  */
 
-public class AutonomousSettings extends Activity implements AdapterView.OnItemSelectedListener{
+public class AutonomousSettings extends Activity{
     public AutonomousSettings(){}
 
     private SharedPreferences globalPrefs;
@@ -132,17 +133,20 @@ public class AutonomousSettings extends Activity implements AdapterView.OnItemSe
         update();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {}
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
-
     public void update(){
-        globalPrefs.edit().putString("AllianceColor", allianceColor).apply();
-        globalPrefs.edit().putString("FrontBack", frontBack).apply();
-        globalPrefs.edit().putBoolean("PickupAllianceGlyph", PickupPartners.isChecked()).apply();
-        globalPrefs.edit().putBoolean("PickupPitGlyph", GlyphPit.isChecked()).apply();
+        SharedPreferences.Editor editor = globalPrefs.edit();
+
+        editor.putString("AllianceColor", allianceColor);
+        editor.putString("FrontBack", frontBack);
+        editor.putBoolean("PickupAllianceGlyph", PickupPartners.isChecked());
+        editor.putBoolean("PickupPitGlyph", GlyphPit.isChecked());
+        editor.commit();
+
+        // Test if the app saves strings after fresh app install.
+        SharedPreferences globalPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        RobotLog.a("Alliance: " + String.valueOf(globalPrefs.getString("AllianceColor", "Nope")));
+        RobotLog.a("Front or Back: " + String.valueOf(globalPrefs.getString("FrontBack", "NOT Today")));
     }
 
     public void exit(){
