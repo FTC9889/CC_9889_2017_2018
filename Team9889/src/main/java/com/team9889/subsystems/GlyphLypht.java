@@ -1,6 +1,7 @@
 package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
@@ -35,6 +36,9 @@ public class GlyphLypht extends Subsystem{
         try{
             this.RightLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kLeftGlyphLift);
             this.LeftLift = team9889Linear.hardwareMap.dcMotor.get(Constants.kRightGlyphLift);
+            this.LeftLift.setDirection(DcMotorSimple.Direction.REVERSE);
+            this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } catch (Exception e){
             return false;
         }
@@ -72,8 +76,12 @@ public class GlyphLypht extends Subsystem{
 
     @Override
     public void zeroSensors() {
-        this.RightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.LeftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // Make sure that the encoders are reset
+        while(RightLift.getCurrentPosition()!=0 &&
+                LeftLift.getCurrentPosition() != 0) {
+            this.RightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.LeftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
         this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -96,14 +104,11 @@ public class GlyphLypht extends Subsystem{
     }
 
     public void setLiftPosition(int leftPosition, int rightPosition, double power){
-        this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         RightLift.setTargetPosition(rightPosition);
-        LeftLift.setTargetPosition(-leftPosition);
+        LeftLift.setTargetPosition(leftPosition);
 
         this.RightLift.setPower(power);
-        this.LeftLift.setPower(-power);
+        this.LeftLift.setPower(power);
     }
 
     public void setServoPosition(double position){
