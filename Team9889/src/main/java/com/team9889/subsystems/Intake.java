@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
+import com.team9889.test.Autonomus.mgAutofar;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
@@ -15,6 +16,8 @@ import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 public class Intake extends Subsystem{
     private OpenDcMotor rightIntake, leftIntake = null;
     private Servo armRight, armLeft = null;
+
+    private boolean currentLimit = true;
 
     @Override
     public void outputToTelemetry(Telemetry telemetry) {}

@@ -148,7 +148,7 @@ public class GlyphLypht extends Subsystem{
             case OvertheBack:
                 clamp();
                 setServoPosition(0.4);
-                setLiftPosition(Constants.GLback, Constants.maxSpeed);
+                setLiftPosition(Constants.GLback, Constants.maxSpeed/2);
                 break;
             case Auto:
                 clamp();

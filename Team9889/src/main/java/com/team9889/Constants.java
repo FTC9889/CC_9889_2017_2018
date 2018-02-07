@@ -36,7 +36,7 @@ public class Constants {
     private final static double EncoderCounts20 = PPR20 * FinalGearReduction;
 
     // Same output always
-    public final static double CountsPerInch = EncoderCounts20 / (WheelDiameter*Math.PI);
+    public final static double CountsPerInch = 537.6 / (WheelDiameter*Math.PI);
 
     public static double ticks2Inches(int ticks){
         return ticks/Constants.CountsPerInch;

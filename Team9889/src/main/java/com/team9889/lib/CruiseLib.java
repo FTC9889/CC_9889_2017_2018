@@ -43,6 +43,20 @@ public class CruiseLib {
         }
     }
 
+    public static double limitValue(double val, double negMin, double negMax,
+                                    double posMin, double posMax){
+        if(val<negMin)
+            return negMin;
+        else if(val>negMax && val<0)
+            return negMax;
+        else if(val<posMin && val>0)
+            return posMin;
+        else if(val>posMax)
+            return posMax;
+        else
+            return val;
+    }
+
     public static double squareMaintainSign(double val) {
         double output = val * val;
 

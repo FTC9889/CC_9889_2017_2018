@@ -145,7 +145,7 @@ public class DriveToDistance implements Action {
                 }
             } else {
                 if(Math.abs(error)<1)
-                    mDrive.SpeedTurn(-mSpeed, (fkP*error)+(fkI*integral)+(fkD+derivative));
+                    mDrive.SpeedTurn(-mSpeed, (bkP*error)+(bkI*integral)+(bkD+derivative));
                 else
                     mDrive.SpeedTurn(-mSpeed, 0);
                 error_prior = error;

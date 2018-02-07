@@ -14,6 +14,8 @@ import com.team9889.subsystems.GlyphLypht;
 public class Teleop extends Team9889Linear {
 
     ElapsedTime matchTime = new ElapsedTime();
+    boolean intaking = false;
+    private GlyphLypht.Mode currentMode = GlyphLypht.Mode.Teleop;
 
     public void runOpMode() throws InterruptedException {
         waitForStart(false);
@@ -29,13 +31,12 @@ public class Teleop extends Team9889Linear {
         new Thread(new IntakeRunnable()).start();
 
         // Loop while the match is happening
-        while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0){
+        while (opModeIsActive() && !isStopRequested() && 60-matchTime.seconds()>0){
             // Retract Jewel arm
             Robot.getJewel().stop();
 
             //Push Telemetry to phone
             telemetry.addData("Match Time", 120-matchTime.seconds());
-            updateTelemetry();
 
             idle();
         }
@@ -46,7 +47,6 @@ public class Teleop extends Team9889Linear {
 
     // Control Arm and Wrist
     private class GlyphRunnable implements Runnable {
-        private GlyphLypht.Mode currentMode = GlyphLypht.Mode.Teleop;
 
         @Override
         public void run(){
@@ -156,6 +156,12 @@ public class Teleop extends Team9889Linear {
 
                 double left = speed + turn;
                 double right = speed - turn;
+
+                if(currentMode == GlyphLypht.Mode.OvertheBack){
+                    left /= 2;
+                    right /= 2;
+                }
+
 
                 Robot.getDrive().setLeftRightPower(left, right);
 
