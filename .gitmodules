@@ -1,0 +1,3 @@
+[submodule "RevExtensions"]
+	path = RevExtensions
+	url = https://github.com/OpenFTC/RevExtensions.git
