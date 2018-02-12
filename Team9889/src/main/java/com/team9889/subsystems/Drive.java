@@ -1,5 +1,6 @@
 package com.team9889.subsystems;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.team9889.Constants;
@@ -9,6 +10,7 @@ import com.team9889.lib.RevIMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
 
 /**
@@ -21,6 +23,8 @@ public class Drive extends Subsystem {
     public OpenDcMotor rightMaster_, leftMaster_ = null;
 
     private RevIMU imu1, imu2 = null;
+
+    private ModernRoboticsI2cRangeSensor backPing = null;
 
     private boolean isFinishedRunningToPosition = false;
 
@@ -46,6 +50,10 @@ public class Drive extends Subsystem {
             return false;
         }
 
+        try {
+            this.backPing = team9889Linear.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ping");
+        } catch (Exception e){return false;}
+
         if(auton){
             try {
                 this.imu1 = new RevIMU("imu 1", team9889Linear.hardwareMap);
@@ -55,6 +63,8 @@ public class Drive extends Subsystem {
             try {
                 this.imu2 = new RevIMU("imu", team9889Linear.hardwareMap);
             } catch (Exception e){return false;}
+
+
         }
 
         return true;
@@ -75,6 +85,7 @@ public class Drive extends Subsystem {
         telemetry.addData("Left Current", this.leftMaster_.getCurrentDraw().formattedValue);
         telemetry.addData("Right Current", this.rightMaster_.getCurrentDraw().formattedValue);
         telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
+        telemetry.addData("Ping Distance", this.getPingDistance());
     }
 
     @Override
@@ -93,6 +104,10 @@ public class Drive extends Subsystem {
 
     public double getGyroAngleRadians(){
         return CruiseLib.degreesToRadians(getGyroAngleDegrees());
+    }
+
+    public double getPingDistance(){
+        return backPing.getDistance(DistanceUnit.INCH);
     }
 
     public double getLeftDistanceInches(){

@@ -32,7 +32,7 @@ public class DriveToDistance implements Action {
     private double mSpeed = 5*Math.PI/2;
 
     // Proportional gain
-    private double fkP = 14;
+    private double fkP = 16;
 
     // Integral gain
     private double fkI = 0;

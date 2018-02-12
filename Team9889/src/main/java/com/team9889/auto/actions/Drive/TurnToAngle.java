@@ -15,13 +15,13 @@ public class TurnToAngle implements Action {
     private double error_prior = 0;
 
     // Proportional gain
-    private double kP = 10;
+    private double kP = 9;
 
     // Integral gain
     private double kI = 0.0;
 
     // Derivative gain
-    private double kD = 0.06;
+    private double kD = 0;
 
     private double integral=0;
     private long iteration_time = 2; // Milli
