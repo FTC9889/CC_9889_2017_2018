@@ -32,22 +32,22 @@ public class DriveToDistance implements Action {
     private double mSpeed = 5*Math.PI/2;
 
     // Proportional gain
-    private double fkP = 16;
+    private double fkP = 14;
 
     // Integral gain
     private double fkI = 0;
 
     // Derivative gain
-    private double fkD = 0;
+    private double fkD = 0.001;
 
     // Proportional gain
-    private double bkP = 16;
+    private double bkP = 14;
 
     // Integral gain
     private double bkI = 0;
 
     // Derivative gain
-    private double bkD = 0;
+    private double bkD = 0.001;
 
     private double error_prior = 0;
 

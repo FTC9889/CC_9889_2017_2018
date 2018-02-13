@@ -15,13 +15,13 @@ public class TurnToAngle implements Action {
     private double error_prior = 0;
 
     // Proportional gain
-    private double kP = 9;
+    private double kP = 11;
 
     // Integral gain
     private double kI = 0.0;
 
     // Derivative gain
-    private double kD = 0;
+    private double kD = 0.0;
 
     private double integral=0;
     private long iteration_time = 2; // Milli
@@ -77,7 +77,7 @@ public class TurnToAngle implements Action {
         if(wantedAngle==180||wantedAngle==-180){
             return Math.abs(mDrive.getGyroAngleDegrees())>178;
         } else {
-            return Math.abs(error)<CruiseLib.degreesToRadians(2);
+            return Math.abs(error)<CruiseLib.degreesToRadians(1);
         }
     }
 

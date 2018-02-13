@@ -58,6 +58,10 @@ public class Jewel extends Subsystem {
         } catch (Exception e) {}
     }
 
+    public void out(){
+        this.arm.setPosition((Constants.RetractedJewelArm+Constants.DeployedJewelArm)/2);
+    }
+
     public void deploy() {
         try {
             this.arm.setPosition(Constants.DeployedJewelArm);

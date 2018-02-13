@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class RED_FOWARD {
 
     public RED_FOWARD(AutoModeBase M, RelicRecoveryVuMark column){
-        M.runAction(new DriveToDistance(19, 0, Math.PI));
+        M.runAction(new DriveToDistance(19, 0, Math.PI/2));
 
         // Determine what column to score the glyph in
         switch (column){

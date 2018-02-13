@@ -31,15 +31,16 @@ public class JewelHitColor implements Action {
     public void start() {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
-            jewel.deploy();
+            jewel.out();
             sleep(1000);
+            jewel.deploy();
+            sleep(2000);
             if (opMode.jewel_Color == this.jewelColor)
                 jewel.left();
             else if (opMode.jewel_Color != jewelColor)
                 jewel.right();
             sleep(350);
         }
-        jewel.retract();
 
         // Wait for the arm to be up, then setPos of arm,
         // but do not wait to finish it, just keep running
@@ -47,7 +48,10 @@ public class JewelHitColor implements Action {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                sleep(3000);
+                jewel.out();
+                jewel.left();
+                sleep(500);
+                jewel.stop();
 
                 if (opMode.opModeIsActive() && !opMode.isStopRequested())
                     jewel.stop();

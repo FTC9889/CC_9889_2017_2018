@@ -31,7 +31,7 @@ public class Teleop extends Team9889Linear {
         new Thread(new IntakeRunnable()).start();
 
         // Loop while the match is happening
-        while (opModeIsActive() && !isStopRequested() && 60-matchTime.seconds()>0){
+        while (opModeIsActive() && !isStopRequested() && 120-matchTime.seconds()>0){
             // Retract Jewel arm
             Robot.getJewel().stop();
 

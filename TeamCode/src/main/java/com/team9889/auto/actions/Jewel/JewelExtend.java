@@ -18,16 +18,19 @@ public class JewelExtend implements Action {
 
     @Override
     public void start() {
-        jewel.deploy();
+        jewel.out();
         t.reset();
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        if(t.milliseconds()>500)
+            jewel.deploy();
+    }
 
     @Override
     public boolean isFinished() {
-        return t.milliseconds()>500;
+        return t.milliseconds()>1500;
     }
 
     @Override
