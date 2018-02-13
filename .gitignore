@@ -24,4 +24,5 @@ Thumbs.db
 .gradle
 build/
 
-!/doc/apk/FtcDriverStation-release.apk
+*ASUS_PC_01*
+

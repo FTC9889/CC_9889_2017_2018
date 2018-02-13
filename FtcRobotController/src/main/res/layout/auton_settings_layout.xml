@@ -23,7 +23,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@mipmap/above_view_of_field"
+        android:src="@drawable/above_view_of_field"
         android:layout_below="@+id/textView14"
         android:layout_centerHorizontal="true" />
 
@@ -31,28 +31,28 @@
         android:id="@+id/blueFrontSetting"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:text=""
-        android:textColorHint="?android:attr/textColorHint"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/redFrontSetting"
 
-        android:layout_alignBaseline="@+id/redFrontSetting"
-        android:layout_alignBottom="@+id/redFrontSetting"
-        android:layout_alignStart="@+id/textView14" />
+        android:layout_marginStart="29dp"
+        android:text=""
+        android:textColorHint="?android:attr/textColorHint" />
 
     <Button
         android:id="@+id/redFrontSetting"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_marginTop="71dp"
-        android:layout_below="@+id/textView14"
-        android:layout_toEndOf="@+id/saveAndExit" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="27dp"
+        android:layout_marginTop="109dp" />
 
     <Button
         android:id="@+id/redBackSetting"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_alignBaseline="@+id/blueBackSetting"
-        android:layout_alignBottom="@+id/blueBackSetting"
-        android:layout_alignStart="@+id/redFrontSetting" />
+        android:layout_alignStart="@+id/redFrontSetting"
+        android:layout_alignTop="@+id/blueBackSetting" />
 
     <Button
         android:id="@+id/blueBackSetting"
