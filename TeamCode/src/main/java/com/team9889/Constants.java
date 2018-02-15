@@ -108,6 +108,6 @@ public class Constants {
     ---------------------*/
 
     public final static String kRelicMotor = "relicMotor";
-    public final static String kVexMotor = "vex";
+    public final static String kElbowServo = "elbow";
     public final static String kFinger = "finger";
 }

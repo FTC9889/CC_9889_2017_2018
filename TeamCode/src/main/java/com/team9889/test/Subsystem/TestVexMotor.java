@@ -32,7 +32,7 @@ public class TestVexMotor extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Servo servo = hardwareMap.get(Servo.class, Constants.kVexMotor);
+        ///Servo servo = hardwareMap.get(Servo.class, Constants.kVexMotor);
         Servo servo1 = hardwareMap.get(Servo.class, Constants.kFinger);
         DcMotor relicMotor = hardwareMap.get(DcMotor.class, Constants.kRelicMotor);
         relicMotor.setPower(0.0);
@@ -111,8 +111,8 @@ public class TestVexMotor extends LinearOpMode {
 
 
 
-            servo.setPosition(pos);
-            telemetry.addData("pos", servo.getPosition());
+            //servo.setPosition(pos);
+            //telemetry.addData("pos", servo.getPosition());
             //relicMotor.setPower(gamepad1.right_stick_y);
             //telemetry.addData("Ticks", relicMotor.getCurrentPosition());
             //telemetry.addData("Draw",relicMotor.getCurrentDraw().doubleValue);
