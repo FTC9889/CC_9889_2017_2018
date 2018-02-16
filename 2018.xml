@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<Robot type="FirstInspires-FTC">
+    <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ17JGTF" parentModuleAddress="1">
+        <LynxModule name="Expansion Hub 1" port="1">
+            <NeveRest40Gearmotor name="right" port="0" />
+            <NeveRest40Gearmotor name="left" port="1" />
+            <TetrixMotor name="relicMotor" port="3" />
+            <Servo name="id1" port="0" />
+            <Servo name="id2" port="1" />
+            <Servo name="jewel_arm" port="2" />
+            <Servo name="ls" port="4" />
+            <Servo name="rs" port="5" />
+            <LynxEmbeddedIMU name="imu 1" port="0" bus="0" />
+        </LynxModule>
+        <LynxModule name="Expansion Hub 2" port="2">
+            <TetrixMotor name="li" port="0" />
+            <TetrixMotor name="ri" port="1" />
+            <NeveRest40Gearmotor name="llift" port="2" />
+            <NeveRest40Gearmotor name="rlift" port="3" />
+            <Servo name="id3" port="0" />
+            <Servo name="id4" port="1" />
+            <Servo name="elbow" port="2" />
+            <Servo name="finger" port="3" />
+            <Servo name="jewel_wrist" port="4" />
+            <LynxEmbeddedIMU name="imu" port="0" bus="0" />
+            <ModernRoboticsI2cRangeSensor name="ping" port="0" bus="3" />
+        </LynxModule>
+    </LynxUsbDevice>
+</Robot>

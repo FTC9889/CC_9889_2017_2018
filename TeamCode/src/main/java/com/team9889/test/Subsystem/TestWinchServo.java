@@ -1,5 +1,6 @@
 package com.team9889.test.Subsystem;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,6 +13,7 @@ import com.team9889.Constants;
  */
 
 @TeleOp
+@Disabled
 public class TestWinchServo extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,11 +24,15 @@ public class TestWinchServo extends LinearOpMode {
         double oneRotation = 1.0/7.5;
         double oneDegree = oneRotation/360;
 
+        winch.setPower(0.1);
+        sleep(1000);
+        winch.setPower(0.0);
 
         winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        winch.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         winch.setPower(0);
+        winch.setTargetPosition(0);
 
         elbow.setDirection(Servo.Direction.REVERSE);
         elbow.setPosition(oneDegree*280);
@@ -47,7 +53,17 @@ public class TestWinchServo extends LinearOpMode {
             else
                 finger.setPosition(0);
 
-            winch.setPower(gamepad1.right_stick_y/3);
+            if(gamepad1.a){
+                winch.setPower(1);
+                winch.setTargetPosition(-2697);
+            } else if(gamepad1.b){
+                winch.setPower(1);
+                winch.setTargetPosition(-8502);
+            } else if(gamepad1.x){
+                winch.setPower(1);
+                winch.setTargetPosition(-874);
+            }
+
 
             telemetry.addData("winch pos", winch.getCurrentPosition());
             //elbow.setPosition(Math.abs(gamepad1.left_trigger-1));
