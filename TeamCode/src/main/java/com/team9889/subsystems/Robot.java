@@ -14,18 +14,21 @@ import java.util.List;
 
 public class Robot {
 
+    // Robot Object
     private static Robot mInstance  = new Robot();
     public static Robot getInstance(){
         return mInstance;
     }
 
+    // Our Robot's Subsystems
     private Drive mDrive = new Drive(); //Drivetrain
     private Jewel mJewel = new Jewel(); //Jewel Mech
     private GlyphLypht mLift = new GlyphLypht(); // Glyph Lift
     private Intake mIntake = new Intake(); // Intake for glyph
+    private Relic mRelic = new Relic();
 
     private List<Subsystem> subsystems = Arrays.asList(
-            mDrive, mJewel, mLift, mIntake);
+            mDrive, mJewel, mLift, mIntake, mRelic);
 
     /**
      * @param opMode Current Team9889Linear
@@ -41,8 +44,12 @@ public class Robot {
      * @param autonomous If the OpMode is for autonomous mode or not.
      */
     public void init(Team9889Linear team9889Linear, boolean autonomous) {
+        if (!autonomous)
+            team9889Linear.telemetry.setMsTransmissionInterval(1000);
+
         boolean error = false;
 
+        // Init all subsystems
         for (Subsystem subsystem:subsystems){
             if(!subsystem.init(team9889Linear, autonomous)){
                 RobotLog.a("Error at:" + subsystem.toString());
@@ -107,10 +114,16 @@ public class Robot {
     }
 
     /**
-     * Get Glyph Lift object
+     * Get Glyph Intake object
      * @return mIntake
      */
     public Intake getIntake() {
         return mIntake;
     }
+
+    /**
+     * Get Relic Grabber object
+     * @return mRelic
+     */
+    public Relic getRelic(){return mRelic;}
 }
