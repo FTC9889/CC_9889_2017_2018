@@ -2,8 +2,8 @@
 <Robot type="FirstInspires-FTC">
     <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ17JGTF" parentModuleAddress="1">
         <LynxModule name="Expansion Hub 1" port="1">
-            <NeveRest40Gearmotor name="right" port="0" />
-            <NeveRest40Gearmotor name="left" port="1" />
+            <NeveRest20Gearmotor name="right" port="0" />
+            <NeveRest20Gearmotor name="left" port="1" />
             <TetrixMotor name="relicMotor" port="3" />
             <Servo name="id1" port="0" />
             <Servo name="id2" port="1" />
