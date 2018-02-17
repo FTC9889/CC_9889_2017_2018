@@ -68,7 +68,6 @@ public class Relic extends Subsystem {
         if(auton){
 			this.zeroSensors();
             this.openFinger();
-            this.stow();
             this.winchGoTo(RelicState.STOWED);
         }
 

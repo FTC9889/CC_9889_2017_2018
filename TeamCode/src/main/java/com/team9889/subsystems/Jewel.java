@@ -81,6 +81,18 @@ public class Jewel extends Subsystem {
         } catch (Exception e){}
     }
 
+    public void leftHit(){
+        try {
+            this.wrist.setPosition((Constants.CenterJewelWrist+Constants.LeftJewelWrist)/2);
+        } catch (Exception e){}
+    }
+
+    public void rightHit(){
+        try {
+            this.wrist.setPosition((Constants.CenterJewelWrist+Constants.RightJewelWrist)/2);
+        } catch (Exception e){}
+    }
+
     public void outtake(){
         try {
             this.wrist.setPosition(Constants.CenterJewelWrist/2);

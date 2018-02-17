@@ -13,6 +13,7 @@ import com.team9889.subsystems.Drive;
 
 @Autonomous(name = "testDrive")
 @Disabled
+@Deprecated
 public class TestDriveOpMode extends AutoModeBase {
 
     @Override

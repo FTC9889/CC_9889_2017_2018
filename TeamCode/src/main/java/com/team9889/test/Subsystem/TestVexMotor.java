@@ -15,6 +15,7 @@ import com.team9889.Constants;
 
 @TeleOp
 @Disabled
+@Deprecated
 public class TestVexMotor extends LinearOpMode {
 
     double firstPos = 0.51309;

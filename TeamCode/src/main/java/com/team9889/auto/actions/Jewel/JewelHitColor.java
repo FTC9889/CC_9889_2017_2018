@@ -1,5 +1,6 @@
 package com.team9889.auto.actions.Jewel;
 
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
 import com.team9889.auto.actions.Action;
 import com.team9889.subsystems.Jewel;
@@ -31,14 +32,12 @@ public class JewelHitColor implements Action {
     public void start() {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
-            jewel.out();
-            sleep(1000);
             jewel.deploy();
-            sleep(2000);
+            sleep(1000);
             if (opMode.jewel_Color == this.jewelColor)
-                jewel.left();
+                jewel.leftHit();
             else if (opMode.jewel_Color != jewelColor)
-                jewel.right();
+                jewel.rightHit();
             sleep(350);
         }
 
@@ -48,9 +47,7 @@ public class JewelHitColor implements Action {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                jewel.out();
-                jewel.left();
-                sleep(500);
+                sleep(1000);
                 jewel.stop();
 
                 if (opMode.opModeIsActive() && !opMode.isStopRequested())
@@ -58,6 +55,8 @@ public class JewelHitColor implements Action {
 
             }
         }).start();
+
+        RobotLog.a("Finished Hitting Jewel");
     }
 
     @Override

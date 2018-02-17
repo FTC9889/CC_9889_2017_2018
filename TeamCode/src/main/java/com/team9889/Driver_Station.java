@@ -44,7 +44,7 @@ public class Driver_Station{
     }
 
     boolean swivel(){
-        return this.team9889Linear.gamepad2.right_trigger>0.3;
+        return this.team9889Linear.gamepad1.dpad_down;
     }
 
     boolean leftRetract(){

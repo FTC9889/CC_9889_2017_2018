@@ -73,7 +73,7 @@ public abstract class Team9889Linear extends LinearOpMode {
             getAutonomousPrefs();
 
             // Setup Vuforia
-            vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT);
+            vuMark.setup(VuforiaLocalizer.CameraDirection.FRONT, false);
             ElapsedTime t = new ElapsedTime();
 
             while(isInInitLoop()) {

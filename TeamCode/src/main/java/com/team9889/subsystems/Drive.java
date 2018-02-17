@@ -45,7 +45,7 @@ public class Drive extends Subsystem {
         try{
             this.rightMaster_ = team9889Linear.hardwareMap.get(DcMotorEx.class, Constants.kRightDriveMasterId);
             this.leftMaster_ = team9889Linear.hardwareMap.get(DcMotorEx.class, Constants.kLeftDriveMasterId);
-            this.leftMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
+            this.rightMaster_.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e){
             return false;
         }
@@ -95,7 +95,7 @@ public class Drive extends Subsystem {
 
     public double getGyroAngleDegrees() {
         try {
-            return (imu1.getHeading()+imu2.getHeading())/2;
+            return (imu1.getHeading());//+imu2.getHeading())/2;
         } catch (Exception e){
             return 0;
         }
@@ -163,8 +163,8 @@ public class Drive extends Subsystem {
      * @param right Wanted RIght Velocity, in Radians per second
      */
     public void setVelocityTarget(double left, double right) {
-        this.leftMaster_.setVelocity(left, AngleUnit.RADIANS);
-        this.rightMaster_.setVelocity(right, AngleUnit.RADIANS);
+        this.leftMaster_.setVelocity(2*left, AngleUnit.RADIANS);
+        this.rightMaster_.setVelocity(2*right, AngleUnit.RADIANS);
     }
 
     public void setLeftRightPath(int left_pos, int right_pos, double left_power, double right_power){

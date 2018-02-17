@@ -14,6 +14,7 @@ import com.team9889.Constants;
  */
 @TeleOp
 @Disabled
+@Deprecated
 public class TestArm extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

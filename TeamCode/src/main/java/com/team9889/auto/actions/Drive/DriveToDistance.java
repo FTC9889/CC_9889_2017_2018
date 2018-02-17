@@ -1,5 +1,6 @@
 package com.team9889.auto.actions.Drive;
 
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.auto.actions.Action;
 import com.team9889.lib.CruiseLib;
 import com.team9889.subsystems.Drive;
@@ -32,28 +33,28 @@ public class DriveToDistance implements Action {
     private double mSpeed = 5*Math.PI/2;
 
     // Proportional gain
-    private double fkP = 14;
+    private double fkP = 19;
 
     // Integral gain
-    private double fkI = 0;
+    private double fkI = 0.02;
 
     // Derivative gain
-    private double fkD = 0.001;
+    private double fkD = 0.3;
 
     // Proportional gain
-    private double bkP = 14;
+    private double bkP = 19;
 
     // Integral gain
-    private double bkI = 0;
+    private double bkI = 0.02;
 
     // Derivative gain
-    private double bkD = 0.001;
+    private double bkD = 0.25;
 
     private double error_prior = 0;
 
     private double integral=0;
 
-    private long iteration_time = 2; // Milli
+    private long iteration_time = 30; // Milli
 
     // Is action finished?
     private boolean isFinished = false;
@@ -83,6 +84,7 @@ public class DriveToDistance implements Action {
 
     @Override
     public void start() {
+        RobotLog.a("DriveToDistance");
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
 
@@ -97,7 +99,6 @@ public class DriveToDistance implements Action {
         double error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(mWantedAngle);
 
         integral = integral + (error*iteration_time);
-        //integral = CruiseLib.limitValue(integral, 0.004, -0.004);
 
         double derivative = (error - error_prior)/iteration_time;
 
@@ -120,10 +121,7 @@ public class DriveToDistance implements Action {
                     mDrive.setVelocityTarget(mSpeed/1.5, mSpeed);
                 }
             } else {
-                if(Math.abs(error)<1)
-                    mDrive.SpeedTurn(mSpeed, (fkP*error)+(fkI*integral)+(fkD+derivative));
-                else
-                    mDrive.SpeedTurn(mSpeed, 0);
+                mDrive.SpeedTurn(mSpeed, (fkP*error)+(fkI*integral)+(fkD+derivative));
 
                 error_prior = error;
                 try {Thread.sleep(iteration_time);} catch (InterruptedException e) {}
@@ -144,14 +142,15 @@ public class DriveToDistance implements Action {
                     mDrive.setVelocityTarget(-mSpeed, -mSpeed/2);
                 }
             } else {
-                if(Math.abs(error)<1)
-                    mDrive.SpeedTurn(-mSpeed, (bkP*error)+(bkI*integral)+(bkD+derivative));
-                else
-                    mDrive.SpeedTurn(-mSpeed, 0);
+                mDrive.SpeedTurn(-mSpeed, (bkP*error)+(bkI*integral)+(bkD+derivative));
+
                 error_prior = error;
                 try {Thread.sleep(iteration_time);} catch (InterruptedException e) {}
             }
         }
+
+        RobotLog.a("E:"+String.valueOf(CruiseLib.radianToDegrees(error))+"| Left: " +String .valueOf(mDrive.getLeftVelocity())+ "| Right: " +String.valueOf(mDrive.getRightVelocity()));
+
     }
 
     @Override

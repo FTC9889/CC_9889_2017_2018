@@ -3,8 +3,10 @@ package com.team9889.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
+import com.team9889.lib.RevColorDistance;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -16,10 +18,13 @@ public class Intake extends Subsystem{
     private DcMotor rightIntake, leftIntake = null;
     private Servo armRight, armLeft = null;
 
-    private boolean currentLimit = true;
+    // New Sensor
+    private RevColorDistance intakeDistance = null;
 
     @Override
-    public void outputToTelemetry(Telemetry telemetry) {}
+    public void outputToTelemetry(Telemetry telemetry) {
+        telemetry.addData("Rev Distance", intakeDistance.getCm());
+    }
 
     @Override
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
@@ -38,6 +43,10 @@ public class Intake extends Subsystem{
         } catch (Exception e){
             return false;
         }
+
+        try {
+            intakeDistance = new RevColorDistance("revColor1", team9889Linear.hardwareMap);
+        } catch (Exception e){}
 
         if(auton)
             this.stop();
@@ -109,6 +118,24 @@ public class Intake extends Subsystem{
         this.armRight.setPosition(0.6);
         this.rightIntake.setPower(-1);
         this.leftIntake.setPower(0.5);
+    }
+
+    private ElapsedTime t = new ElapsedTime();
+
+    public void intakeWithATwist(){
+        if(intakeDistance.getCm() < 40 && intakeDistance.getCm()>6){
+            if(t.milliseconds()<400) {
+                rightRetract();
+            } else if(t.milliseconds() > 400){
+                leftRetract();
+            } else if(t.milliseconds() > 800){
+                intake();
+            } else if(t.milliseconds()>1000){
+                t.reset();
+            }
+        } else {
+            t.reset();
+        }
     }
 
 }

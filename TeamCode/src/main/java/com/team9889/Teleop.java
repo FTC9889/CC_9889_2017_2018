@@ -55,6 +55,7 @@ public class Teleop extends Team9889Linear {
                 // Outtake one glyph and deploy single
                 // glyph to level 2
                 if(driver_station.outtakeAndLevel2()){
+                    intaking=false;
                     Robot.getIntake().outtake();
                     sleep(700);
                     Robot.getLift().setServoPosition(0.4);
@@ -75,6 +76,7 @@ public class Teleop extends Team9889Linear {
 
                 // Go to level 2
                 if (driver_station.level2()) {
+                    intaking=false;
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
                         Robot.getLift().clamp();
@@ -96,6 +98,7 @@ public class Teleop extends Team9889Linear {
                 }
                 // Go to top level
                 else if (driver_station.level4()) {
+                    intaking=false;
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
                         Robot.getLift().clamp();
@@ -121,12 +124,14 @@ public class Teleop extends Team9889Linear {
                 // Go to Intaking
                 else if (driver_station.intake()) {
                     Robot.getIntake().intake();
+                    intaking = true;
 
                     Robot.getLift().goTo(GlyphLypht.Mode.Intake);
                     currentMode = GlyphLypht.Mode.Intake;
                 }
                 // Over-the-back scoring
                 else if(driver_station.overTheBack()) {
+                    intaking=false;
                     if(currentMode == GlyphLypht.Mode.Intake){
                         Robot.getLift().setServoPosition(0.4);
                         Robot.getLift().clamp();
@@ -195,17 +200,24 @@ public class Teleop extends Team9889Linear {
                     Robot.getIntake().rightRetract();
                     sleep(500);
                     Robot.getIntake().intake();
+                } else if(intaking){
+                    //Robot.getIntake().intakeWithATwist();
                 }
 
                 // Control the intake
-                if(driver_station.retract())
+                if(driver_station.retract()){
                     Robot.getIntake().retract();
-                else if(driver_station.leftRetract())
+                    intaking=false;
+                } else if(driver_station.leftRetract()) {
                     Robot.getIntake().leftRetract();
-                else if(driver_station.rightRetract())
+                    intaking=false;
+                } else if(driver_station.rightRetract()) {
                     Robot.getIntake().rightRetract();
+                    intaking=false;
+                }
 
                 if(driver_station.outtake()){
+                    intaking=false;
                     Robot.getIntake().outtake();
                     Robot.getIntake().clearArm();
                 }

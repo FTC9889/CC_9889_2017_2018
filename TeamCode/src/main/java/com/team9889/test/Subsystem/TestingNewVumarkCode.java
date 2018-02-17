@@ -21,6 +21,7 @@ import static com.team9889.lib.VuMark.red;
  */
 @TeleOp
 @Disabled
+@Deprecated
 public class TestingNewVumarkCode extends Team9889Linear {
 
     private VuMark vuMark = new VuMark(Constants.kVuforiaLicenceKey);
