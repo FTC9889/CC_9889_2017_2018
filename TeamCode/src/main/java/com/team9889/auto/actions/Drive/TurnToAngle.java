@@ -46,7 +46,7 @@ public class TurnToAngle implements Action {
 
     @Override
     public void start() {
-        RobotLog.a("TurnToAngle");
+        RobotLog.a("Start TurnToAngle");
         mDrive.DriveControlState(Drive.DriveControlStates.SPEED);
         mDrive.DriveZeroPowerState(Drive.DriveZeroPowerStates.BRAKE);
     }
@@ -116,6 +116,7 @@ public class TurnToAngle implements Action {
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {}
+        RobotLog.a("End of TurnToAngle");
     }
 
 }
