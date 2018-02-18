@@ -63,6 +63,8 @@ public abstract class Team9889Linear extends LinearOpMode {
         // Will it throw a null pointer exception???
         Robot.init(this, autonomous);
 
+        telemetry.setMsTransmissionInterval(autonomous ? 50:1000);
+
         // Start of Auto Code for Camera and the like
         if(autonomous && runCamera){
             //Auto Transitioning

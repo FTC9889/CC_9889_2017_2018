@@ -18,12 +18,8 @@ public class Intake extends Subsystem{
     private DcMotor rightIntake, leftIntake = null;
     private Servo armRight, armLeft = null;
 
-    // New Sensor
-    private RevColorDistance intakeDistance = null;
-
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
-        telemetry.addData("Rev Distance", intakeDistance.getCm());
     }
 
     @Override
@@ -43,10 +39,6 @@ public class Intake extends Subsystem{
         } catch (Exception e){
             return false;
         }
-
-        try {
-            intakeDistance = new RevColorDistance("revColor1", team9889Linear.hardwareMap);
-        } catch (Exception e){}
 
         if(auton)
             this.stop();
@@ -120,22 +112,5 @@ public class Intake extends Subsystem{
         this.leftIntake.setPower(0.5);
     }
 
-    private ElapsedTime t = new ElapsedTime();
-
-    public void intakeWithATwist(){
-        if(intakeDistance.getCm() < 40 && intakeDistance.getCm()>6){
-            if(t.milliseconds()<400) {
-                rightRetract();
-            } else if(t.milliseconds() > 400){
-                leftRetract();
-            } else if(t.milliseconds() > 800){
-                intake();
-            } else if(t.milliseconds()>1000){
-                t.reset();
-            }
-        } else {
-            t.reset();
-        }
-    }
 
 }

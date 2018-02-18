@@ -50,10 +50,6 @@ public class Drive extends Subsystem {
             return false;
         }
 
-        try {
-            this.backPing = team9889Linear.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ping");
-        } catch (Exception e){return false;}
-
         if(auton){
             try {
                 this.imu1 = new RevIMU("imu 1", team9889Linear.hardwareMap);
@@ -64,7 +60,9 @@ public class Drive extends Subsystem {
                 this.imu2 = new RevIMU("imu", team9889Linear.hardwareMap);
             } catch (Exception e){return false;}
 
-
+            try {
+                this.backPing = team9889Linear.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "ping");
+            } catch (Exception e){return false;}
         }
 
         return true;
@@ -85,7 +83,7 @@ public class Drive extends Subsystem {
         //telemetry.addData("Left Current", this.leftMaster_.getCurrentDraw().formattedValue);
         //telemetry.addData("Right Current", this.rightMaster_.getCurrentDraw().formattedValue);
         telemetry.addData("Gyro Angle", this.getGyroAngleDegrees());
-        telemetry.addData("Ping Distance", this.getPingDistance());
+        //telemetry.addData("Ping Distance", this.getPingDistance());
     }
 
     @Override

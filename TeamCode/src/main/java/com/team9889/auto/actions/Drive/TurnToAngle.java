@@ -13,11 +13,15 @@ import com.team9889.subsystems.Robot;
 public class TurnToAngle implements Action {
 
     private double wantedAngle;
+
+    private boolean pid;
+
+    // PID STUFF
     private double error = 3;
     private double error_prior = 0;
 
     // Proportional gain
-    private double kP =6;
+    private double kP =6.1;
 
     // Integral gain
     private double kI = 0;
@@ -32,6 +36,10 @@ public class TurnToAngle implements Action {
 
     private double leftPow, rightPow;
 
+
+    // BANG-BANG STUFF
+    private int timesRun = 0;
+
     private Drive mDrive = Robot.getInstance().getDrive();
 
     /**
@@ -41,8 +49,15 @@ public class TurnToAngle implements Action {
      *              Negative angle is right
      */
     public TurnToAngle(int angle){
-        wantedAngle = angle;
+        this.wantedAngle = angle;
+        this.pid = true;
     }
+
+    public TurnToAngle(int angle, boolean pid){
+        this.wantedAngle = angle;
+        this.pid = pid;
+    }
+
 
     @Override
     public void start() {
@@ -53,59 +68,133 @@ public class TurnToAngle implements Action {
 
     @Override
     public void update() {
-        if(wantedAngle==180||wantedAngle==-180){
-            if(mDrive.getGyroAngleDegrees()>0){
-                mDrive.setVelocityTarget(-Math.PI/3, Math.PI/3);
-            } else if(mDrive.getGyroAngleDegrees()<0){
-                mDrive.setVelocityTarget(Math.PI/3, -Math.PI/3);
+        if(pid){
+            if(wantedAngle==180||wantedAngle==-180){
+                if(mDrive.getGyroAngleDegrees()>0){
+                    mDrive.setVelocityTarget(-Math.PI/3, Math.PI/3);
+                } else if(mDrive.getGyroAngleDegrees()<0){
+                    mDrive.setVelocityTarget(Math.PI/3, -Math.PI/3);
+                } else {
+                    mDrive.setVelocityTarget(0, 0);
+                }
             } else {
-                mDrive.setVelocityTarget(0, 0);
+                error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(wantedAngle);
+                integral = integral + (error*iteration_time);
+                double derivative = (error - error_prior)/iteration_time;
+
+                leftPow = (error * kP) + (integral * kI) + (derivative * kD);
+                rightPow = -leftPow;
+
+                if(Math.abs(leftPow)<0.3){
+                    if(leftPow<0) {
+                        leftPow = -0.3;
+                        rightPow = -leftPow;
+                    } else {
+                        leftPow = 0.3;
+                        rightPow = -leftPow;
+                    }
+                } else if(Math.abs(leftPow)>10){
+                    if(leftPow<0) {
+                        leftPow = -10;
+                        rightPow = -leftPow;
+                    } else {
+                        leftPow = 10;
+                        rightPow = -leftPow;
+                    }
+                }
+
+                mDrive.setVelocityTarget(leftPow, rightPow);
+                error_prior = error;
+
+                try {
+                    Thread.sleep(iteration_time);
+                } catch (Exception e){}
+                RobotLog.a("E:"+String.valueOf(CruiseLib.radianToDegrees(error))+"| Left: " + String.valueOf(mDrive.getLeftVelocity())+ "| Right: " +String .valueOf(mDrive.getRightVelocity()));
             }
         } else {
-            error = mDrive.getGyroAngleRadians() - CruiseLib.degreesToRadians(wantedAngle);
-            integral = integral + (error*iteration_time);
-            double derivative = (error - error_prior)/iteration_time;
+            if (wantedAngle<0){
+                switch (timesRun){
+                    case 0:
+                        // Turn 90 degrees
+                        mDrive.setLeftRightPower(0.6, -0.6);
 
-            leftPow = (error * kP) + (integral * kI) + (derivative * kD);
-            rightPow = -leftPow;
+                        if (mDrive.getGyroAngleDegrees() < wantedAngle)
+                            timesRun++;
+                        break;
+                    case 1:
+                        mDrive.setLeftRightPower(-0.35, 0.35);
 
-            if(Math.abs(leftPow)<0.3){
-                if(leftPow<0) {
-                    leftPow = -0.3;
-                    rightPow = -leftPow;
-                } else {
-                    leftPow = 0.3;
-                    rightPow = -leftPow;
+                        if (mDrive.getGyroAngleDegrees() > wantedAngle)
+                            timesRun++;
+                        break;
                 }
-            } else if(Math.abs(leftPow)>10){
-                if(leftPow<0) {
-                    leftPow = -10;
-                    rightPow = -leftPow;
-                } else {
-                    leftPow = 10;
-                    rightPow = -leftPow;
+            } else if(wantedAngle>0){
+                switch (timesRun) {
+                    case 0:
+                        // Turn 90 degrees
+                        mDrive.setLeftRightPower(-0.6, 0.6);
+
+                        if (mDrive.getGyroAngleDegrees() > wantedAngle)
+                            timesRun++;
+                        break;
+                    case 1:
+                        mDrive.setLeftRightPower(0.35, -0.35);
+
+                        if (mDrive.getGyroAngleDegrees() < wantedAngle)
+                            timesRun++;
+                        break;
+                }
+            } else if(wantedAngle==0 && mDrive.getGyroAngleDegrees()<0){
+                switch (timesRun) {
+                    case 0:
+                        // Turn 90 degrees
+                        mDrive.setLeftRightPower(0.6, -0.6);
+
+                        if (mDrive.getGyroAngleDegrees() < 0)
+                            timesRun++;
+                        break;
+                    case 1:
+                        mDrive.setLeftRightPower(-0.35, 0.35);
+
+                        if (mDrive.getGyroAngleDegrees() > 0)
+                            timesRun++;
+                        break;
+                }
+            } else if(wantedAngle==0 && mDrive.getGyroAngleDegrees()>0){
+                switch (timesRun) {
+                    case 0:
+                        // Turn 90 degrees
+                        mDrive.setLeftRightPower(-0.6, 0.6);
+
+                        if (mDrive.getGyroAngleDegrees() < 0)
+                            timesRun++;
+                        break;
+                    case 1:
+                        mDrive.setLeftRightPower(0.35, -0.35);
+
+                        if (mDrive.getGyroAngleDegrees() > 0)
+                            timesRun++;
+                        break;
                 }
             }
 
-            mDrive.setVelocityTarget(leftPow, rightPow);
-            error_prior = error;
-
-            try {
-                Thread.sleep(iteration_time);
-            } catch (Exception e){}
-            RobotLog.a("E:"+String.valueOf(CruiseLib.radianToDegrees(error))+"| Left: " + String.valueOf(mDrive.getLeftVelocity())+ "| Right: " +String .valueOf(mDrive.getRightVelocity()));
         }
     }
 
     @Override
     public boolean isFinished() {
-        if(wantedAngle==180||wantedAngle==-180){
-            return Math.abs(mDrive.getGyroAngleDegrees())>178;
+        if(pid){
+            if(wantedAngle==180||wantedAngle==-180){
+                return Math.abs(mDrive.getGyroAngleDegrees())>178;
+            } else {
+                if(Math.abs(error)<CruiseLib.degreesToRadians(2))
+                    count++;
+                return count>1;
+            }
         } else {
-            if(Math.abs(error)<CruiseLib.degreesToRadians(1))
-                count++;
-            return count>2;
+            return timesRun>1;
         }
+
     }
 
     @Override

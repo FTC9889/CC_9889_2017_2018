@@ -33,7 +33,7 @@ public class JewelHitColor implements Action {
         //TODO: Need to add activity for autonomous settings.
         if (opMode.jewel_Color != null){
             jewel.deploy();
-            sleep(1000);
+            sleep(700);
             if (opMode.jewel_Color == this.jewelColor)
                 jewel.leftHit();
             else if (opMode.jewel_Color != jewelColor)

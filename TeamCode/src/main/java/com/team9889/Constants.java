@@ -56,7 +56,7 @@ public class Constants {
     public final static String kJewelArmId = "jewel_arm";
     public final static String kJewelWristId = "jewel_wrist";
 
-    public final static double RetractedJewelArm = 0.73;
+    public final static double RetractedJewelArm = 0.72;
     public final static double DeployedJewelArm = 0.16;
 
     public final static double CenterJewelWrist = 0.52;

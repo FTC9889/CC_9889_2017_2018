@@ -14,6 +14,8 @@ import com.team9889.auto.actions.Glyph.GlyphRetractArm;
 import com.team9889.auto.actions.Glyph.GlyphStorePreload;
 import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
 import com.team9889.auto.actions.Intake.IntakeDeployWideIntake;
+import com.team9889.auto.actions.Intake.IntakePull;
+import com.team9889.auto.actions.Intake.IntakeSwivel;
 import com.team9889.auto.actions.Jewel.JewelHitColor;
 
 /**
@@ -30,32 +32,40 @@ public class mgAutofar extends AutoModeBase {
         waitForStart(true);
 
 //        runAction(new JewelHitColor(JewelColor.Red, this));
-        runAction(new DriveToDistance(18, 0));
+        runAction(new DriveToDistance(20, 0, Math.PI));
         runAction(new GlyphStorePreload());
-        ThreadAction(new IntakeDeployAndCollect());
-        runAction(new TurnToAngle(75));
-        runAction(new DriveToDistance(15, 75, 4*Math.PI));
-        sleep(1000);
-        runAction(new DriveToDistance(-33, 75));
-        runAction(new TurnLeftMotor(90));
+        ThreadAction(new IntakeDeployWideIntake());
+        runAction(new TurnToAngle(60));
+        runAction(new DriveToDistance(15, 60, 4*Math.PI));
+        runAction(new IntakeDeployAndCollect());
+        sleep(500);
+        ThreadAction(new IntakePull());
+        runAction(new DriveToDistance(-15, 60));
+        Robot.getLift().clamp();
+        runAction(new TurnToAngle(70));
 
-        Robot.getDrive().setLeftRightPower(-0.2, -0.2);
-        while (Robot.getDrive().getPingDistance()>10)
+
+        Robot.getDrive().setLeftRightPower(-2*Math.PI, -2*Math.PI);
+        while (Robot.getDrive().getPingDistance()>10 && opModeIsActive())
             idle();
         Robot.getDrive().setLeftRightPower(0,0);
+        sleep(100);
 
-        Robot.getDrive().setLeftRightPower(0.1, -0.1);
-        while (Robot.getDrive().getPingDistance()<10)
+        Robot.getDrive().setVelocityTarget(Math.PI/2, Math.PI/2);
+        while (Robot.getDrive().getPingDistance()<5 &&opModeIsActive())
             idle();
         Robot.getDrive().setLeftRightPower(0,0);
 
         runAction(new GlyphDeployOverTheBack());
         sleep(2000);
         runAction(new GlyphRelease());
-        runAction(new DriveToDistance(5, 90, Math.PI));
+        runAction(new DriveToDistance(5, 70, Math.PI));
 
-        runAction(new GlyphDeployToIntake());
-        sleep(2000);
+        ThreadAction(new GlyphDeployToIntake());
+        runAction(new DriveToDistance(25, 70, 5*Math.PI));
+        ThreadAction(new GlyphDeployOverTheBack());
+        runAction(new DriveToDistance(-25, 70, 6*Math.PI));
+        runAction(new GlyphRelease());
 
     }
 }

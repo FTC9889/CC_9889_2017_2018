@@ -35,11 +35,11 @@ public class GlyphStorePreload implements Action {
             mLift.release();
         } else if (t.milliseconds()<1900){
             mIntake.leftRetract();
-        } //else if (t.milliseconds()<2200){
-            //mIntake.rightRetract();
-        //} else if(t.milliseconds()<2500){
-           // mIntake.leftRetract();
-       // }
+        } else if (t.milliseconds()<2200){
+            mIntake.rightRetract();
+        } else if(t.milliseconds()<2500){
+            mIntake.leftRetract();
+        }
     }
 
     @Override

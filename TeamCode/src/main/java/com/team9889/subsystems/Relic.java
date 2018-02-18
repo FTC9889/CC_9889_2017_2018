@@ -2,7 +2,9 @@ package com.team9889.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
@@ -25,12 +27,13 @@ public class Relic extends Subsystem {
     private double oneRotation = 1.0/7.5;
     private double oneDegree = oneRotation/360;
 
+    private int modifier = 0;
 
     /**
      * Used to keep track of what the Relic arm is doing.
      */
     public enum RelicState{
-        STOWED, RETRACTED, DEPLOYTOINTAKE, FIRSTZONE, SECONDZONE, THRIRDZONE
+        STOWED, RETRACTED, DEPLOYTOINTAKE, FIRSTZONE, SECONDZONE, THRIRDZONE, CLOSE
     }
 
     /**
@@ -54,8 +57,7 @@ public class Relic extends Subsystem {
             finger = team9889Linear.hardwareMap.get(Servo.class, Constants.kFinger);
 
             winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            winch.setPower(0);
-            winch.setTargetPosition(0);
+            winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             elbow.setDirection(Servo.Direction.REVERSE);
 
@@ -122,27 +124,35 @@ public class Relic extends Subsystem {
     // TODO: Find the positions for the motor
     private void winchGoTo(RelicState wantedState){
         switch (wantedState){
+            case CLOSE:
+                winch.setTargetPosition(874+modifier);
+                winch.setPower(1);
+                break;
             case RETRACTED:
-                winch.setTargetPosition(-874);
+                winch.setTargetPosition(874+modifier);
+                winch.setPower(1);
                 break;
             case DEPLOYTOINTAKE:
-                winch.setTargetPosition(-2697);
+                winch.setTargetPosition(2697+modifier);
+                winch.setPower(1);
                 break;
             case FIRSTZONE:
-                winch.setTargetPosition(-2697);
+                winch.setTargetPosition(2697+modifier);
+                winch.setPower(1);
                 break;
             case SECONDZONE:
-                winch.setTargetPosition(-5000);
+                winch.setTargetPosition(5000+modifier);
+                winch.setPower(1);
                 break;
             case THRIRDZONE:
-                winch.setTargetPosition(-8502);
+                winch.setTargetPosition(8502+modifier);
+                winch.setPower(1);
                 break;
             default:
-                winch.setTargetPosition(0);
+                winch.setTargetPosition(0+modifier);
+                winch.setPower(1);
                 break;
         }
-
-        winch.setPower(1);
     }
 
     /**
@@ -151,6 +161,11 @@ public class Relic extends Subsystem {
     public void goTo(RelicState wantedState){
         if(wantedState!=currentState){
             switch (wantedState){
+                case CLOSE:
+                    winchGoTo(RelicState.CLOSE);
+                    elbowDeploy();
+                    currentState=wantedState;
+                    break;
                 case STOWED:
                     winchGoTo(RelicState.STOWED);
                     stow();
@@ -158,8 +173,12 @@ public class Relic extends Subsystem {
                     break;
                 case RETRACTED:
                     winchGoTo(RelicState.RETRACTED);
-                    elbowRetract();
-                    currentState=wantedState;
+                    if(Math.abs(winch.getTargetPosition()-winch.getCurrentPosition())<10 && currentState!=RelicState.STOWED){
+                        elbowRetract();
+                        currentState=wantedState;
+                    } else if(currentState==RelicState.STOWED){
+                        elbowRetract();
+                    }
                     break;
                 case DEPLOYTOINTAKE:
                     if(currentState==RelicState.RETRACTED){
@@ -206,11 +225,21 @@ public class Relic extends Subsystem {
                     }
 
                     winchGoTo(RelicState.THRIRDZONE);
-                    elbowDeploy();
+                    if(!winch.isBusy()){
+                        elbowDeploy();
+                    } else {
+                        elbowRetract();
+                    }
                     currentState=wantedState;
                     break;
             }
+        } else {
+            winchGoTo(currentState);
         }
+    }
+
+    public void setModifier(int modifier){
+        this.modifier = modifier;
     }
 
 

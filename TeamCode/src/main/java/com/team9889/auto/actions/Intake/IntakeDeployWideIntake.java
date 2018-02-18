@@ -21,7 +21,7 @@ public class IntakeDeployWideIntake implements Action {
 
     @Override
     public void start() {
-        mIntake.autoIntake();
+        mIntake.twoGlyphSpecial();
         t.reset();
     }
 
