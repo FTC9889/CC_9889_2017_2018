@@ -8,12 +8,6 @@ package com.team9889.auto.paths;
 
 public interface PathContainer {
 
-    double[][] leftRightPositions();
-
-    double[][] leftRightSpeeds();
-
-    double[] gyroAngles();
-
-    double[] timeStamps();
-
+    double[] x();
+    double[] y();
 }

@@ -3,6 +3,7 @@ package com.team9889.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
@@ -84,6 +85,30 @@ public class GlyphLypht extends Subsystem{
         }
         this.RightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.LeftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    @Override
+    public void test(Telemetry telemetry) {
+        release();
+        sleep(3000);
+        clamp();
+        sleep(3000);
+        setServoPosition(0);
+        sleep(3000);
+        setServoPosition(0.5);
+        sleep(3000);
+        setLiftPosition(100, 100, 0.3);
+        sleep(3000);
+        RobotLog.a("Is at Glyph position: "+String.valueOf(isAtLocation()));
+        telemetry.addData("Is at Glyph position?", isAtLocation());
+    }
+
+    private void sleep(long milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clamp(){

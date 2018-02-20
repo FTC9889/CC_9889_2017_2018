@@ -61,7 +61,7 @@ public class Teleop extends Team9889Linear {
 
             //Push Telemetry to phone
             telemetry.addData("Match Time", 120-matchTime.seconds());
-            telemetry.update();
+            updateTelemetry();
             idle();
             sleep(20);
         }
@@ -242,13 +242,12 @@ public class Teleop extends Team9889Linear {
                     else if(gamepad2.right_stick_y>0.2)
                         modifier-=20;
                     Robot.getRelic().setModifier(modifier);
-
-                    if(gamepad2.left_stick_button)
-                        Robot.getRelic().closeFinger();
-                    else if(gamepad2.right_stick_button)
-                        Robot.getRelic().openFinger();
                 }
 
+                if(gamepad2.left_stick_button)
+                    Robot.getRelic().closeFinger();
+                else if(gamepad2.right_stick_button)
+                    Robot.getRelic().openFinger();
                 idle();
             }
         }

@@ -4,6 +4,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 import com.team9889.lib.CruiseLib;
@@ -89,6 +90,54 @@ public class Drive extends Subsystem {
     @Override
     public void zeroSensors() {
         resetEncoders();
+    }
+
+    @Override
+    public void test(Telemetry telemetry) {
+        if(getGyroAngleDegrees()<0.5 && getGyroAngleDegrees()>-0.5){
+            RobotLog.a("Gyro OK");
+            telemetry.addData("Gyro", "OK");
+        } else {
+            RobotLog.a("Gyro Bad");
+            RobotLog.a("Gyro Angle: " + String.valueOf(getGyroAngleDegrees()));
+            telemetry.addData("Gyro", "OK");
+            telemetry.addData("Gyro Angle", String.valueOf(getGyroAngleDegrees()));
+        }
+
+        setLeftRightPower(0.1, 0);
+        sleep(1000);
+        setLeftRightPower(0, 0.1);
+        sleep(1000);
+        setLeftRightPower(0,0);
+        if(getLeftTicks()!=0 && getLeftTicks()!=1) {
+            RobotLog.a("Left Drive OK");
+            telemetry.addData("Left Drive", "OK");
+        } else {
+            RobotLog.a("Left Drive Bad");
+            RobotLog.a("Left Drive Ticks: "+String.valueOf(getLeftTicks()));
+            telemetry.addData("Left Drive", "Bad");
+            telemetry.addData("Left Drive Ticks", String.valueOf(getLeftTicks()));
+        }
+
+        if(getRightTicks()!=0 && getRightTicks()!=1) {
+            RobotLog.a("Right Drive OK");
+            telemetry.addData("Right Drive", "OK");
+        }else {
+            RobotLog.a("Right Drive Bad");
+            RobotLog.a("Right Drive Ticks: "+ String.valueOf(getRightTicks()));
+            telemetry.addData("Right Drive", "Bad");
+            telemetry.addData("Right Drive Ticks", String.valueOf(getRightTicks()));
+        }
+
+        if(getPingDistance()!=0.0){
+            RobotLog.a("Ping OK");
+            telemetry.addData("Ping", "OK");
+        } else {
+            RobotLog.a("Ping Bad");
+            RobotLog.a("Ping Distance: "+ String.valueOf(getPingDistance())+"cm");
+            telemetry.addData("Ping", "Bad");
+            telemetry.addData("Ping Distance: ", String.valueOf(getPingDistance())+"cm");
+        }
     }
 
     public double getGyroAngleDegrees() {
@@ -259,5 +308,13 @@ public class Drive extends Subsystem {
                 rightMaster_.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         } catch (Exception e) {}
+    }
+
+    private void sleep(long milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

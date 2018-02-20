@@ -51,6 +51,30 @@ public class Jewel extends Subsystem {
     @Override
     public void zeroSensors() {}
 
+    @Override
+    public void test(Telemetry telemetry) {
+        deploy();
+        sleep(2000);
+        leftHit();
+        sleep(2000);
+        left();
+        sleep(2000);
+        rightHit();
+        sleep(2000);
+        right();
+        sleep(2000);
+        retract();
+        sleep(2000);
+    }
+
+    private void sleep(long milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void retract() {
         try {
             this.arm.setPosition(Constants.RetractedJewelArm);

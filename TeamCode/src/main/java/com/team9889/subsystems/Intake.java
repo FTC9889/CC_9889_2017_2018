@@ -54,6 +54,25 @@ public class Intake extends Subsystem{
     @Override
     public void zeroSensors() {}
 
+    @Override
+    public void test(Telemetry telemetry) {
+        deploy();
+        sleep(3000);
+        retract();
+        sleep(3000);
+        intake();
+        sleep(3000);
+        stopIntake();
+    }
+
+    private void sleep(long milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void intake(){
         this.rightIntake.setPower(-1);
         this.leftIntake.setPower(-1);
@@ -111,6 +130,4 @@ public class Intake extends Subsystem{
         this.rightIntake.setPower(-1);
         this.leftIntake.setPower(0.5);
     }
-
-
 }

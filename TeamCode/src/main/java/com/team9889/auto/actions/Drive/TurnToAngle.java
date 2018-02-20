@@ -85,12 +85,12 @@ public class TurnToAngle implements Action {
                 leftPow = (error * kP) + (integral * kI) + (derivative * kD);
                 rightPow = -leftPow;
 
-                if(Math.abs(leftPow)<0.3){
+                if(Math.abs(leftPow)<0.4){
                     if(leftPow<0) {
-                        leftPow = -0.3;
+                        leftPow = -0.4;
                         rightPow = -leftPow;
                     } else {
-                        leftPow = 0.3;
+                        leftPow = 0.4;
                         rightPow = -leftPow;
                     }
                 } else if(Math.abs(leftPow)>10){

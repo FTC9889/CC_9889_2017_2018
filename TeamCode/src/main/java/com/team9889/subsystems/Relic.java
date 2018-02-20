@@ -9,6 +9,8 @@ import com.team9889.Constants;
 import com.team9889.Team9889Linear;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.openftc.hardware.rev.motorStuff.OpenDcMotor;
+import org.openftc.hardware.rev.motorStuff.OpenDcMotorImpl;
 
 /**
  * Created by joshua9889 on 2/3/2018.
@@ -19,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Relic extends Subsystem {
 
     // Hardware
-    private DcMotorEx winch = null;
+    private DcMotor winch = null;
     private Servo elbow, finger = null;
 
     // Used to find the position we want with a
@@ -44,6 +46,7 @@ public class Relic extends Subsystem {
     @Override
     public void outputToTelemetry(Telemetry telemetry) {
         telemetry.addData("Current Relic State", currentState);
+//        telemetry.addData("Relic Current Draw", winch.getCurrentDraw().doubleValue);
         telemetry.addData("Winch Position", winch.getCurrentPosition());
         telemetry.addData("Elbow Position", elbow.getPosition());
         telemetry.addData("Finger Position", finger.getPosition());
@@ -52,7 +55,7 @@ public class Relic extends Subsystem {
     @Override
     public boolean init(Team9889Linear team9889Linear, boolean auton) {
         try {
-            winch = team9889Linear.hardwareMap.get(DcMotorEx.class, Constants.kRelicMotor);
+            winch = team9889Linear.hardwareMap.get(DcMotor.class, Constants.kRelicMotor);
             elbow = team9889Linear.hardwareMap.get(Servo.class, Constants.kElbowServo);
             finger = team9889Linear.hardwareMap.get(Servo.class, Constants.kFinger);
 
@@ -64,6 +67,7 @@ public class Relic extends Subsystem {
             finger.setDirection(Servo.Direction.REVERSE);
 
         } catch (Exception e){
+            RobotLog.a("Error: "+ String.valueOf(e));
             return false;
         }
 
@@ -71,6 +75,7 @@ public class Relic extends Subsystem {
 			this.zeroSensors();
             this.openFinger();
             this.winchGoTo(RelicState.STOWED);
+            currentState = RelicState.STOWED;
         }
 
         return true;
@@ -78,6 +83,7 @@ public class Relic extends Subsystem {
 
     @Override
     public void stop() {
+        winch.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         winch.setPower(0.0);
     }
 
@@ -86,6 +92,11 @@ public class Relic extends Subsystem {
         while (winch.getCurrentPosition()!=0)
             winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    @Override
+    public void test(Telemetry telemetry) {
+
     }
 
     /**
@@ -114,7 +125,7 @@ public class Relic extends Subsystem {
     }
 
     private void elbowRetract(){
-        elbow.setPosition(oneDegree*160);
+        elbow.setPosition(oneDegree*145);
     }
 
     /**
@@ -158,6 +169,7 @@ public class Relic extends Subsystem {
     /**
      * @param wantedState Wanted State of the Relic Arm.
      */
+    //TODO: Something doesn't work all the time with this logic... i don't know what it is...
     public void goTo(RelicState wantedState){
         if(wantedState!=currentState){
             switch (wantedState){
@@ -182,7 +194,7 @@ public class Relic extends Subsystem {
                     break;
                 case DEPLOYTOINTAKE:
                     if(currentState==RelicState.RETRACTED){
-                        stow();
+                        elbowDeploy();
                         for (int i=0;i<5000;i++){
                             Thread.yield();
                         }
@@ -225,7 +237,7 @@ public class Relic extends Subsystem {
                     }
 
                     winchGoTo(RelicState.THRIRDZONE);
-                    if(!winch.isBusy()){
+                    if(winch.getCurrentPosition()>8000){
                         elbowDeploy();
                     } else {
                         elbowRetract();
@@ -242,5 +254,20 @@ public class Relic extends Subsystem {
         this.modifier = modifier;
     }
 
+    public void resetEncoder(){
+        elbow.setPosition(oneDegree*90);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        winch.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        winch.setPower(-0.2);
+
+    }
+
+//    public double getCurrent(){
+//        return winch.getCurrentDraw().doubleValue;
+//    }
 
 }

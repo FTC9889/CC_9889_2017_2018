@@ -31,10 +31,31 @@ public class BLUE_FOWARD_TWO_GLYPH {
         M.sleep(400);
 
         M.runAction(new DriveToDistance(-12, -45));
-        M.runAction(new TurnToAngle(95));
-        M.ThreadAction(new GlyphDeployToFirstLevelTwoGlyph());
-        M.runAction(new DriveTimeAction(2000, 2*Math.PI, 95));
-        M.runAction(new GlyphRelease());
-        M.runAction(new DriveToDistance(-5, 95, Math.PI));
+
+        switch (column){
+            case RIGHT:
+                M.runAction(new TurnToAngle(95));
+                M.ThreadAction(new GlyphDeployToFirstLevelTwoGlyph());
+                M.runAction(new DriveTimeAction(2000, 2*Math.PI, 95));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, 95, Math.PI));
+                break;
+            case CENTER:
+                M.runAction(new TurnToAngle(105));
+                M.ThreadAction(new GlyphDeployToFirstLevelTwoGlyph());
+
+                M.runAction(new DriveTimeAction(2000, 2*Math.PI, 95));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, 95, Math.PI));
+                break;
+            case LEFT:
+                M.runAction(new TurnToAngle(110));
+                M.ThreadAction(new GlyphDeployToFirstLevelTwoGlyph());
+                M.runAction(new DriveTimeAction(2000, 2*Math.PI, 95));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, 95, Math.PI));
+
+        }
+
     }
 }

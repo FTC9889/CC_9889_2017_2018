@@ -3,6 +3,8 @@ package com.team9889.subsystems;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.Team9889Linear;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,6 +38,11 @@ public class Robot {
     public void outputToTelemetry(Team9889Linear opMode) {
         for (Subsystem subsystem:subsystems)
             subsystem.outputToTelemetry(opMode.telemetry);
+    }
+
+    public void testAllSubsystems(Telemetry telemetry){
+        for(Subsystem subsystem:subsystems)
+            subsystem.test(telemetry);
     }
 
     /**
