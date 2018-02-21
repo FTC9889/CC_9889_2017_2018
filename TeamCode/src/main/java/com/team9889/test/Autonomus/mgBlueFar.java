@@ -1,6 +1,7 @@
 package com.team9889.test.Autonomus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.Drive.DriveToDistance;
 import com.team9889.auto.actions.Drive.TurnLeftMotor;
@@ -16,6 +17,7 @@ import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
  */
 
 @Autonomous
+@Disabled
 public class mgBlueFar extends AutoModeBase {
     @Override
     public void runOpMode() throws InterruptedException {

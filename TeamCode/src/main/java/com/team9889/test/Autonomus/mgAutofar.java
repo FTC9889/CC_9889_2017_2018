@@ -1,6 +1,7 @@
 package com.team9889.test.Autonomus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.Drive.DriveTimeAction;
@@ -23,6 +24,7 @@ import com.team9889.auto.actions.Jewel.JewelHitColor;
  */
 
 @Autonomous
+@Disabled
 public class mgAutofar extends AutoModeBase {
     public static LinearOpMode mg;
 
@@ -31,7 +33,7 @@ public class mgAutofar extends AutoModeBase {
         mg = this;
         waitForStart(true);
 
-//        runAction(new JewelHitColor(JewelColor.Red, this));
+        runAction(new JewelHitColor(JewelColor.Red, this));
         runAction(new DriveToDistance(20, 0, Math.PI));
         runAction(new GlyphStorePreload());
         ThreadAction(new IntakeDeployWideIntake());

@@ -4,8 +4,10 @@ import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.Drive.DriveTimeAction;
 import com.team9889.auto.actions.Drive.DriveToDistance;
 import com.team9889.auto.actions.Glyph.GlyphDeployToFirstLevel;
+import com.team9889.auto.actions.Glyph.GlyphDeployToFirstLevelTwoGlyph;
 import com.team9889.auto.actions.Glyph.GlyphRelease;
 import com.team9889.auto.actions.Glyph.GlyphRetractArm;
+import com.team9889.auto.actions.Glyph.GlyphStorePreload;
 import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
 import com.team9889.auto.actions.Intake.IntakePull;
 import com.team9889.auto.actions.Intake.IntakeSwivel;
@@ -19,76 +21,39 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class RED_FOWARD_TWO_GLYPH {
     public RED_FOWARD_TWO_GLYPH(AutoModeBase M, RelicRecoveryVuMark column){
-        // Drive off balance stone
-        M.runAction(new DriveToDistance(21, 0));
-
-        // Turn to the cryptobox
-        M.runAction(new TurnToAngle(-90));
-
-        // Deploy Lift
-        M.ThreadAction(new GlyphDeployToFirstLevel());
-
-        // Drive to cryptobox
-        M.runAction(new DriveToDistance(30, -91));
-
-        // Release Glyph
-        M.runAction(new GlyphRelease());
-
-        // Back away from cryptobox
-        M.runAction(new DriveToDistance(-10, -90));
-
-        // Retract Lift and Deploy Intake
-        M.ThreadAction(new GlyphRetractArm());
-        M.ThreadAction(new IntakeDeployAndCollect());
-
-        // Turn to Glyph Pit
-        M.runAction(new TurnToAngle(60));
-
-        // Drive into Glyph Pit
-        M.runAction(new DriveToDistance(28, 60));
-
-        // Wait a little
-        M.sleep(400);
-
-        // Pull any glyphs in
-        M.runAction(new IntakePull());
-        M.sleep(250);
-
-        // Straighten Glyph out
-        M.runAction(new IntakeSwivel());
-
-        // Deploy Intake
+        M.runAction(new DriveToDistance(18, 0, Math.PI));
+        M.runAction(new GlyphStorePreload());
         M.runAction(new IntakeDeployAndCollect());
+        M.runAction(new TurnToAngle(45));
+        M.runAction(new DriveToDistance(12, 45, 5*Math.PI));
+        M.sleep(1000);
 
-        // Drive a little farther forward
-        M.runAction(new DriveToDistance(4, 60));
+        M.runAction(new DriveToDistance(-13, 45, 2*Math.PI));
+        M.Robot.getLift().setServoPosition(0.4);
+        M.Robot.getLift().clamp();
+        M.Robot.getIntake().stopIntake();
+        M.sleep(500);
+        switch (column){
+            case LEFT:
+                M.runAction(new TurnToAngle(-92));
+                M.runAction(new GlyphDeployToFirstLevelTwoGlyph());
+                M.runAction(new DriveTimeAction(2000, 3*Math.PI, -92));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -92, Math.PI));
+                M.runAction(new DriveTimeAction(500, 2*Math.PI, -92));
+                M.runAction(new DriveToDistance(-5, -92, Math.PI));
+                break;
+            case CENTER:
+                M.runAction(new TurnToAngle(-105));
+                M.runAction(new GlyphDeployToFirstLevelTwoGlyph());
+                M.runAction(new DriveTimeAction(3500, Math.PI, -105));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -105, Math.PI));
+                M.runAction(new DriveTimeAction(500, 2*Math.PI, -105));
+                M.runAction(new DriveToDistance(-5, -105, Math.PI));
+                break;
 
-        // Pull any glyphs in
-        M.runAction(new IntakePull());
-        M.sleep(100);
+        }
 
-        // Back away from Glyph Pit
-        M.runAction(new DriveToDistance(-26, 60));
-
-        // Straighten Glyphs out
-        M.ThreadAction(new IntakeSwivel());
-
-        // Turn to Cryptobox
-        M.runAction(new TurnToAngle(-115));
-
-        // Deploy Lift
-        M.ThreadAction(new GlyphDeployToFirstLevel());
-        M.sleep(100);
-
-        // Drive to Crytobox
-        M.runAction(new DriveTimeAction(900, 5*Math.PI, -115));
-
-        // Release Any glyphs into Cryptobox
-        M.runAction(new GlyphRelease());
-
-        // Back up, then ram, and then back up.
-        M.runAction(new DriveToDistance(-2, -115));
-        M.runAction(new DriveTimeAction(300, 4*Math.PI, -115));
-        M.runAction(new DriveToDistance(-3, -115));
     }
 }

@@ -12,6 +12,7 @@ import com.team9889.subsystems.Drive;
 
 @TeleOp
 @Disabled
+@Deprecated
 public class TestProfile extends Team9889Linear {
 
     private ElapsedTime speedTime = new ElapsedTime();

@@ -45,11 +45,12 @@ public abstract class Team9889Linear extends LinearOpMode {
     public JewelColor jewel_Color = null;
     private int redVotes, blueVotes = 0;
 
-    RelicRecoveryVuMark test = RelicRecoveryVuMark.UNKNOWN;
+    private RelicRecoveryVuMark test = RelicRecoveryVuMark.UNKNOWN;
 
     // Match settings
     protected String alliance, frontBack;
     protected boolean getPartnerGlyph, getPitGlyph;
+    public ElapsedTime t = new ElapsedTime();
 
     public void waitForStart(boolean autonomous){
         waitForStart(autonomous, autonomous);
@@ -139,6 +140,8 @@ public abstract class Team9889Linear extends LinearOpMode {
                 jewel_Color = JewelColor.Red;
             else if(blueVotes>redVotes)
                 jewel_Color = JewelColor.Blue;
+
+            t.reset();
 
         }// End of Auto Code for Camera and the like
         else{

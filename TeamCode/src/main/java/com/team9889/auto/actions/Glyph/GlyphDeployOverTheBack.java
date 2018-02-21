@@ -31,7 +31,7 @@ public class GlyphDeployOverTheBack implements Action {
 
     @Override
     public boolean isFinished() {
-        return t.milliseconds()>2000 || !mLift.isAtLocation();
+        return t.milliseconds()>1500;
     }
 
     @Override
