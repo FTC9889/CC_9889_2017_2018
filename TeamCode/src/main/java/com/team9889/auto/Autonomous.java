@@ -20,37 +20,33 @@ public class Autonomous extends AutoModeBase {
     public void runOpMode() {
         waitForStart(true);
 
-        // Jewel thing
-        if(alliance == "Red")
-            runAction(new JewelHitColor(JewelColor.Red, this));
-        else if (alliance == "Blue")
-            runAction(new JewelHitColor(JewelColor.Blue, this));
+        if(opModeIsActive() && !isStopRequested()){
+            // Jewel thing
+            if(alliance == "Red")
+                runAction(new JewelHitColor(JewelColor.Red, this));
+            else if (alliance == "Blue")
+                runAction(new JewelHitColor(JewelColor.Blue, this));
 
-        // Real Code for moving
-        // THEY ALL SCORE GLYPHS!!!
-        if (alliance == "Red" && frontBack == "Back") {
-            if(getPitGlyph)
-                new RED_BACK_TWO_GLYPH(this, WhatColumnToScoreIn());
-            else
-                new RED_BACK(this, WhatColumnToScoreIn());
-        }
-        else if (alliance == "Red" && frontBack == "Front") {
-            if(getPitGlyph)
+            // Real Code for moving
+            // THEY ALL SCORE GLYPHS!!!
+            if (alliance == "Red" && frontBack == "Back") {
+//                if(getPitGlyph)
+//                    new RED_BACK_TWO_GLYPH(this, WhatColumnToScoreIn());
+//                else
+                    new RED_BACK(this, WhatColumnToScoreIn());
+            }
+            else if (alliance == "Red" && frontBack == "Front") {
                 new RED_FOWARD_TWO_GLYPH(this, WhatColumnToScoreIn());
-            else
-                new RED_FOWARD(this, WhatColumnToScoreIn());
-        }
-        else if (alliance == "Blue" && frontBack == "Back") {
-            if(getPitGlyph)
-                new BLUE_BACK_TWO_GLYPH(this, WhatColumnToScoreIn());
-            else
-                new BLUE_BACK(this, WhatColumnToScoreIn());
-        }
-        else if (alliance == "Blue" && frontBack == "Front") {
-            if (getPitGlyph)
+            }
+            else if (alliance == "Blue" && frontBack == "Back") {
+//                if(getPitGlyph)
+//                    new BLUE_BACK_TWO_GLYPH(this, WhatColumnToScoreIn());
+//                else
+                    new BLUE_BACK(this, WhatColumnToScoreIn());
+            }
+            else if (alliance == "Blue" && frontBack == "Front") {
                 new BLUE_FOWARD_TWO_GLYPH(this, WhatColumnToScoreIn());
-            else
-                new BLUE_FOWARD(this, WhatColumnToScoreIn());
+            }
         }
     }
 

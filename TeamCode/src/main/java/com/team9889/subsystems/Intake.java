@@ -88,8 +88,8 @@ public class Intake extends Subsystem{
     public void twoGlyphSpecial(){
         this.rightIntake.setPower(-1);
         this.leftIntake.setPower(-1);
-        this.armLeft.setPosition(0.3);
-        this.armRight.setPosition(0.12);
+        this.armLeft.setPosition(0.12+0.02);
+        this.armRight.setPosition(0.15+0.02);
     }
 
     public void outtake(){

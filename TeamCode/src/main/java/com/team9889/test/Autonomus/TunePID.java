@@ -23,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  */
 
 @Autonomous
+@Disabled
 public class TunePID extends AutoModeBase{
     @Override
     public void runOpMode() {
