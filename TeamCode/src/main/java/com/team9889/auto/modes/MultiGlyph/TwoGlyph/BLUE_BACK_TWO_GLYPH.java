@@ -1,4 +1,4 @@
-package com.team9889.auto.modes.MultiGlyph;
+package com.team9889.auto.modes.MultiGlyph.TwoGlyph;
 
 import com.team9889.auto.AutoModeBase;
 

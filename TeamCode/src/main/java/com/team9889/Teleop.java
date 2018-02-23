@@ -237,10 +237,21 @@ public class Teleop extends Team9889Linear {
                 if(!firstRun) {
                     Robot.getRelic().goTo(wantedState);
 
+                    if (wantedState== Relic.RelicState.THRIRDZONE && Robot.getRelic().isInPosition()){
+                        Robot.getRelic().openFinger();
+                        wantedState= Relic.RelicState.RETRACTED;
+                    }
+
                     if(gamepad2.right_stick_y < -0.2)
                         modifier+=20;
                     else if(gamepad2.right_stick_y>0.2)
                         modifier-=20;
+
+                    if(gamepad2.left_stick_y < -0.2)
+                        modifier+=4;
+                    else if(gamepad2.left_stick_y>0.2)
+                        modifier-=4;
+
                     Robot.getRelic().setModifier(modifier);
                 }
 

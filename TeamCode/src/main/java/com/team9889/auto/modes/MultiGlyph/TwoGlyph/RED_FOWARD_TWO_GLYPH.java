@@ -1,4 +1,4 @@
-package com.team9889.auto.modes.MultiGlyph;
+package com.team9889.auto.modes.MultiGlyph.TwoGlyph;
 
 import com.team9889.auto.AutoModeBase;
 import com.team9889.auto.actions.Drive.DriveTimeAction;
@@ -21,18 +21,26 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class RED_FOWARD_TWO_GLYPH {
     public RED_FOWARD_TWO_GLYPH(AutoModeBase M, RelicRecoveryVuMark column){
+
+        // Drive Off Balance Stone
         M.runAction(new DriveToDistance(18, 0, Math.PI));
+
         M.runAction(new GlyphStorePreload());
+
         M.runAction(new IntakeDeployAndCollect());
+
         M.runAction(new TurnToAngle(45));
+
         M.runAction(new DriveToDistance(12, 45, 5*Math.PI));
         M.sleep(1000);
 
         M.runAction(new DriveToDistance(-13, 45, 2*Math.PI));
+
         M.Robot.getLift().setServoPosition(0.4);
         M.Robot.getLift().clamp();
         M.Robot.getIntake().stopIntake();
         M.sleep(500);
+
         switch (column){
             case LEFT:
                 M.runAction(new TurnToAngle(-92));
@@ -52,7 +60,15 @@ public class RED_FOWARD_TWO_GLYPH {
                 M.runAction(new DriveTimeAction(500, 2*Math.PI, -105));
                 M.runAction(new DriveToDistance(-5, -105, Math.PI));
                 break;
-
+            case RIGHT:
+                M.runAction(new TurnToAngle(-112));
+                M.runAction(new GlyphDeployToFirstLevelTwoGlyph());
+                M.runAction(new DriveTimeAction(3500, Math.PI, -112));
+                M.runAction(new GlyphRelease());
+                M.runAction(new DriveToDistance(-5, -112, Math.PI));
+                M.runAction(new DriveTimeAction(500, 2*Math.PI, -112));
+                M.runAction(new DriveToDistance(-5, -112, Math.PI));
+                break;
         }
 
     }

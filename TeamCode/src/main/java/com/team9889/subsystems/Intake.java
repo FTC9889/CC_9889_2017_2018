@@ -109,7 +109,7 @@ public class Intake extends Subsystem{
 
     public void deploy(){
         this.armLeft.setPosition(0.12+0.08);
-        this.armRight.setPosition(0.16+0.08);
+        this.armRight.setPosition(0.15+0.08);
     }
 
     public void retract(){
