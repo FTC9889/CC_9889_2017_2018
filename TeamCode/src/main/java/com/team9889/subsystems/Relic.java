@@ -127,7 +127,7 @@ public class Relic extends Subsystem {
         elbow.setPosition(oneDegree*30);
     }
 
-    private void elbowRetract(){
+    public void elbowRetract(){
         elbow.setPosition(oneDegree*175);
     }
 

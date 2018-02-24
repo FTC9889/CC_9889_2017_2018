@@ -9,6 +9,7 @@ import com.team9889.auto.actions.Glyph.GlyphRelease;
 import com.team9889.auto.actions.Glyph.GlyphRetractArm;
 import com.team9889.auto.actions.Glyph.GlyphStorePreload;
 import com.team9889.auto.actions.Intake.IntakeDeployAndCollect;
+import com.team9889.auto.actions.Intake.IntakeDeployWideIntake;
 import com.team9889.auto.actions.Intake.IntakePull;
 import com.team9889.auto.actions.Intake.IntakeSwivel;
 import com.team9889.auto.actions.Drive.TurnToAngle;
@@ -27,12 +28,13 @@ public class RED_FOWARD_TWO_GLYPH {
 
         M.runAction(new GlyphStorePreload());
 
-        M.runAction(new IntakeDeployAndCollect());
+        M.runAction(new IntakeDeployWideIntake());
 
         M.runAction(new TurnToAngle(45));
 
         M.runAction(new DriveToDistance(12, 45, 5*Math.PI));
         M.sleep(1000);
+        M.runAction(new IntakeDeployAndCollect());
 
         M.runAction(new DriveToDistance(-13, 45, 2*Math.PI));
 

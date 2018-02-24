@@ -199,15 +199,9 @@ public class Teleop extends Team9889Linear {
                 }
 
                 // Control the intake
-                if(driver_station.retract()){
+                if(driver_station.retract()) {
                     Robot.getIntake().retract();
-                    intaking=false;
-                } else if(driver_station.leftRetract()) {
-                    Robot.getIntake().leftRetract();
-                    intaking=false;
-                } else if(driver_station.rightRetract()) {
-                    Robot.getIntake().rightRetract();
-                    intaking=false;
+                    intaking = false;
                 }
 
                 if(driver_station.outtake()){
@@ -241,6 +235,9 @@ public class Teleop extends Team9889Linear {
                         Robot.getRelic().openFinger();
                         wantedState= Relic.RelicState.RETRACTED;
                     }
+
+                    if(gamepad2.left_bumper)
+                        Robot.getRelic().elbowRetract();
 
                     if(gamepad2.right_stick_y < -0.2)
                         modifier+=20;
