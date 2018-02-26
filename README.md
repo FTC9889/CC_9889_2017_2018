@@ -4,3 +4,4 @@ Code for 2017-2018 FTC Season, Currently under development and in FTC SDK versio
 ## Awards
 - Control Award Finalist at Northern Blast Qualifier
 - Control Award Winner at Pennsylvania State Championship
+- Control Award Finalist at New Jeresy State Championship
