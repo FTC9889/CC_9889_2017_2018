@@ -2,7 +2,6 @@ package com.team9889;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.subsystems.Drive;
 import com.team9889.subsystems.GlyphLypht;
 import com.team9889.subsystems.Relic;
